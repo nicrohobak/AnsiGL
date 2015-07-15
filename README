@@ -1,0 +1,94 @@
+AnsiGL -- A string "graphics" library
+
+
+TODO: Create proper documentation!
+
+
+Things that work:
+
+uchar       - A unicode-aware 'char', effectively
+ustring     - A std::string-like implementation based on uchar instead of
+              char
+achar       - An ANSI-enabled 'uchar'
+astring     - A std::string-like implementation based on achar instead of
+              char or uchar
+
+Point2D     - A simple (x,y) coordinate class
+Area2D      - Effectively identical to point in that its just 2 integers,
+              only these are Width and Height instead of coordinates
+FixedArea2D - An Area2D with a Point2D "fixing" it to a location in space
+
+Point3D     - A simple (x,y,z) coordinate class
+Area3D      - Effectively identical to point in that its just 3 integers,
+              only these are Width, Height and Depth instead of
+              coordinates
+FixedArea3D - An Area3D with a Point3D "fixing" it to a location in space
+
+Pixel       - A specialized achar that serves as the basis for a Surface
+Surface     - The most-basic (meaningful) rendering context of AnsiGL
+
+Content	    - An interface for being placed within a Context
+Context     - A collection of content within a specific space; based upon
+	      Content so rendering contexts can be nested
+
+Image       - A content-based surface
+Window      - A context with a decorated viewport (Note: This is the only
+              "violation" of the 'Things that work' label...  Coming with
+              the next update though...)
+
+
+ansigl_ncurses
+- A separate (optional) extension library to provide better ncurses
+  integration (AnsiGL should probably not ever implement input
+  handling/etc.)
+- Mostly a simple collection of functions for ncurses compatibility
+- The most notable is RenderToNcurses() to render a Surface out to an
+  ncurses WINDOW (usually stdscr).
+- It is recommended to use ncurses with wide character support in order
+  to display unicode
+
+
+- Note: AnsiGL supports more ANSI codes than ncurses (and most terminals).
+        In addition, nearly every terminal tested without ncurses has
+        performed very differently in terms of which ANSI codes are
+        supported.  This is probably why the ncurses team didn't bother,
+        but since they have already been added, there's no real need to
+        remove them since they do function appropriately.
+
+
+Known issues:
+
+- None currently (worth noting here, at least)
+
+
+Things that are planned:
+
+TextWindow  - A Window with alignment/word-wrap/formatting options for text
+InputWindow - A specialized TextWindow for echoing input
+ChatWindow  - A TextWindow with an InputWindow attached under it,
+              essentially
+
+Desktop     - A specialized Window for managing multiple Windows within it
+              Something akin to the Panel library of ncurses
+
+
+Other misc. plans:
+- Animations; probably something like vector< Sprite > with functions to
+  set the current frame, advance frames, etc.  Nearly everything but timing.
+- Some sort of an optionally stand-alone or integrated timing mechanism for
+  animations?
+- More "drawing" functions
+- Menus and other useful "widgets"
+
+
+
+For the time being, until proper documentation can be created, the
+recomendation is to use the header files for guidance.  This file, along
+with the other "standard" GNU documentation and "official" documentation are
+on the todo list.  They will be started soon and standard practice will be
+to update documentation at the time of changes that cause any documents to
+be out of date.
+
+
+
+
