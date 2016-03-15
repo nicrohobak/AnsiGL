@@ -1,6 +1,27 @@
 AnsiGL -- A string "graphics" library
 
 
+AnsiGL is a C++ console text "graphics" API using simply ASCII characters and ANSI escape sequences, and all without the use of any video hardware. It strives to be a simple-to-use text-graphical toolkit have with an intuitive interface for developers, while maintaining a sufficiently high degree of flexibility.
+
+Many comparable APIs tend to either use video hardware, or are simply not as fully-featured as one might hope or expect, at least in the area of visual elements. AnsiGL can serve to bridge that gap easier, and since it "renders" to a std::string (or optionally, an ncurses WINDOW *), integration should be relatively easy with just about any project. Bindings to ncurses are provided to allow for rapid, fully-featured application development with old and familiar friends, along with AnsiGL.
+
+
+
+Features
+
+    * Provides easy-to-use GUI-style features to text-based applications
+
+    * Extremely easy to integrate to any project (ultimately becomes a std::string)
+
+    * 256 color support with ANSI xterm-256color escape codes (can also optionally render to the standard 8 or 16 color ANSI)
+
+    * UTF-8 support, so any glyph can be rendered as long as your terminal will display it (though it is recommended to stay within the ANSI character set for maximum client compatibility)
+
+    * Comes with ncurses support allowing rendering to a WINDOW * (with ncursesw)
+
+
+
+
 TODO: Create proper documentation!
 
 
