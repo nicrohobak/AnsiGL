@@ -1,0 +1,27 @@
+Class: FixedArea
+Overview
+
+A 2-dimensional area with a Point to place this area within some context.
+Relationships
+
+    Inheritance:
+        Parents:
+            Area
+        Children:
+            None
+    Related:
+        Point
+        Window
+
+
+Member Variables
+
+Data Type 	Name 	Details
+Point	 	Pos 	The position of the FixedArea's origin (0,0)
+
+
+Member Functions
+
+(No notable member functions)
+
+

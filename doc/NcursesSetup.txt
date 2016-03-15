@@ -1,0 +1,20 @@
+AnsiGL ncurses Setup
+
+
+Great news! ncurses mode now renders more properly than ever.
+
+But, there are a few "gotchas"...
+
+However, with a little bit of knowledge of where to look, you should be able to find out if your terminal is indeed capable of any/all of these features and probably something about how to enable them if it's possible to do so.
+
+
+    * Your TERM environment variable needs to be set correctly to let ncurses know that you are using a 256 color compatible terminal (setting the string to xterm-256color will usually resolve this...check your terminal documentation for the proper variable though!)
+
+    * Your LOCALE or LANG environment variable needs to be set to a UTF-8 locale (in Debian, LANG is set by default...but LOCALE should work as well) otherwise UTF-8 character sequences will not display properly. ASCII glyphs should work properly in any locale setting, but any non-ASCII may not!
+
+    * The last thing that needs to happen (and you should notice this upon trying to build your project if done improperly), is to link against ncurses with wide character support rather than the standard ncurses libraries. This is done easily by simply installing the ncursesw package and linking with -lncursesw instead of the standard -lncurses.
+
+
+If both of those environment variables are set appropriately (and your terminal supports them!) and your are linking with -lncursesw instead of -lncurses, AnsiGL will render to ncurses in 256 color mode with full UTF-8 support.
+
+

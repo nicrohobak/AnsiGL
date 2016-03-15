@@ -1,0 +1,40 @@
+Class Overview:
+
+
+    Basic:
+        uchar -- A unicode 'char' class
+            achar -- ANSI-enabled uchar
+        String -- A pure-virtual template class to create an std::string-like implementation for any type of "char"
+            ustring -- uchar-based String
+            astring -- achar-based String
+
+    Foundational:
+        Spacial:
+            Point2D -- A 2-dimensional point
+                Area2D -- A 2-dimensional area
+                    FixedArea2D -- A 2-dimensional area fixed to a to a 3-dimensional point in space
+                Point3D -- A 3-dimensional point
+                    Area3D -- A 3-dimensional area
+                    2-dimensional point in space
+                        FixedArea3D -- A 3-dimensional area fixed
+            Note: Typedefs exist for backwards compatibility and ease of use: Point defaults to Point2D, Area to Area2D and FixedArea to FixedArea2D
+        "Physical":
+            Pixel -- The primary building block for all visible objects, most notably for our Surface class
+            Surface -- The primary/basic rendering target used throughout AnsiGL
+
+    Objects:
+        Content -- Anything that we might want to display; pure-virtual base-class for all objects, derived from Surface
+            Context -- Anything that can contain content (this itself is content, so we can have nested viewports, etc.)
+                Window -- A special context that serves as a viewport over a larger logical surface size, with optional borders
+            Image -- An "image" (ANSI/FANSI art, or whatever might constitute an image in text); essentially a Content-based Surface
+                Button -- A simple button class
+                    Scrollbar
+                Animation -- One of those fancy "moving pictures"...
+            Text -- The basic text class
+                InputBox -- An input field for text
+                TextTree -- A text-based tree control
+
+    Object "Add-On" Parts Classes:
+        UIPart -- Allows an object to accept user input (probably replace with an event system, if this is ultimately needed)
+
+

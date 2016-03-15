@@ -1,0 +1,48 @@
+Class: achar
+Overview
+
+An 'achar' is simply a standard 'char' paired with a list of ANSI codes. This is absolutely the most basic element of AnsiGL. Even though no other classes are directly based upon achar, all other AnsiGL classes will be affected by changes to this class.
+Needs
+
+    ANSI handling should be separated into its own class, then reintegrated here as a public member.
+    In the ANSI change, color palettes should be utilized. After learning more about ncurses color handling, there are benefits of their palette use that could be used for gaming effects (like color cycling), but ours will probably automatically load all possible combinations in a master palette instead of making the developer choose, in addition to customizable palettes that could be swapped around. If palettes are created at all, they should also be generic enough so that multiple classes can take advantage of them. This way, Windows could utilize palettes for their borders to have easily player-customizable color schemes, while at the same time Sprites can utilize palettes for color-cycling animations (a D&D style color spray spell could look awesome if it were animated for glyphs as well as palettes, for example)
+
+Relationships
+
+    Inheritance:
+        Parents:
+            None
+        Children:
+            None
+    Related:
+        Nearly everything*
+
+(*Note: While there is no direct inheritance with this class, everything else is essentially based upon this building block.)
+
+
+Member Variables
+
+Data Type 	Name 	Details
+char 	Ch 	The glyph
+list< ENUM_ANSICodes > 	Ansi 	The ANSI codes associated with this character
+
+
+Member Functions
+
+Name		 	Details
+AddAnsi() 		Adds ANSI codes
+AddAnsiFrom() 		Adds ANSI from another achar (appends)
+CopyAnsiFrom() 		Copies ANSI from another achar (overwrites)
+HasAnsi() 		Checks to see if certain ANSI exists in our list
+HasAnsiAny() 		Checks to see if any provided ANSI codes are in our list
+HasAnsiAll() 		Checks to see that all provided ANSI codes are in our list
+HasSameAnsi() 		==
+RemoveAnsi() 		Removes ANSI codes
+RemoveAnsiConflicts() 	Compresses the ANSI codes by eliminating conflicting codes
+ClearAnsi() 		Clears all ANSI codes
+Clear() 		Clears all ANSI and sets Ch to a blank char (a space, ' ')
+RenderAnsi() 		"Renders" only the ANSI codes the terminal expects
+Render() 		"Renders" the character, ANSI and all, to a std::string
+
+
+

@@ -1,0 +1,85 @@
+Encoding Syntax
+Overview
+
+These codes are parsed via an astring conversion function. Any function in AnsiGL that accepts a std::string will (so far, without exception) automatically convert easily-typable codes with ANSI codes via this basic syntax...
+Syntax
+
+A carat ('^', shift+6 on US keyboard layouts) signals the start of an ANSI code sequence. Once started, a single character code can be given (ex: "^r" to change the color to red), a list can be contained withing curly brackets (ex: "^{...}" with any number of ANSI codes inbetween) to pass multiple ANSI codes at once, or another carat ("^^") to print a carat character into the string.
+
+
+AnsiGL ANSI Codes
+Character 	ANSI
+Special Control Codes
+D 		Restore everything to defaults
+
+Normal Foreground Colors
+k 		Foreground color: Black
+r 		Foreground color: Red
+y 		Foreground color: Yellow
+g 		Foreground color: Green
+b 		Foreground color: Blue
+m 		Foreground color: Magenta
+c 		Foreground color: Cyan
+w 		Foreground color: White
+d 		Foreground color: Default
+
+Bold Foreground Colors
+K 		Foreground color: Bold Black
+R 		Foreground color: Bold Red
+Y 		Foreground color: Bold Yellow
+G 		Foreground color: Bold Green
+B 		Foreground color: Bold Blue
+M 		Foreground color: Bold Magenta
+C 		Foreground color: Bold Cyan
+W 		Foreground color: Bold White
+
+Background Colors
+1 		Background color: Black
+2 		Background color: Red
+3 		Background color: Yellow
+4 		Background color: Green
+5 		Background color: Blue
+6 		Background color: Magenta
+7 		Background color: Cyan
+8 		Background color: White
+9 		Background color: Default
+
+Special Formatting
+* 		Bold On
+. 		Bold Off
+/ 		Italics On
+\ 		Italics Off
+_ 		Underscore On
+- 		Underscore Off
+: 		Blink On
+; 		Blink Off
+I 		Invert Colors (foreground and background)
+i 		Un-invert Colors
+
+
+Examples
+
+ANSI Code Sequence 		Result
+
+Single Character Sequences
+^r 				Normal red foreground
+^8 				White background
+^/ 				Italic text
+
+Multiple Character Sequences
+^{g3:}			 	Green foreground, yellow background, blinking text
+^{k8} 				Black foreground, white background
+^{1243567KybM} 			Bold Magenta foreground, cyan background (and lots of ignored codes due to code conflicts, the right-most codes have priority)
+
+Just to show a full example:
+
+^{7k}AnsiGL ^Rr^Yo^Gc^Mk^Ws^B!
+
+Results in:
+
+"AnsiGL rocks!"
+
+Colorized to have: a cyan background, AnsiGL in black text, the 'r' in bold red, the 'o in bold yellow, the 'c' in bold green, the k in bold magenta, the s in bold white, and the exclamation point in bold blue.
+
+
+

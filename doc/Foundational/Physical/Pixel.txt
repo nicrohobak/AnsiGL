@@ -1,0 +1,32 @@
+Class: Pixel
+Overview
+
+A Pixel is simply an extension of achar to provide a little more functionality specific to its role as the foundation of all AnsiGL rendering contexts (with the obvious exception of the "basic types" achar and astring).
+Relationships
+
+    Inheritance:
+        Parents:
+            achar
+        Children:
+            None
+    Related:
+        Scanline (typedef of vector< Pixel > used in the Surface class)
+        Surface
+
+
+Member Variables
+Data Type 		Name 		Details
+list< ENUM_ANSICodes > 	CompleteAnsi 	The complete ANSI codes associated with this character (even if the codes were not set with this character!), as opposed to the "current modifier" that achar::Ansi stores
+bool 			EndAnsi 	Serves as a marker to the owner to reset the current ANSI status to default, and begin anew with the CompleteAnsi
+
+
+Member Functions
+
+Name 			Details
+CopyCompleteAnsiFrom() 	Copies the CompleteAnsi ANSI from another achar (overwrites)
+ClearAnsi() 		Clears all ANSI codes (CompleteAnsi and achar::Ansi, as well as EndAnsi)
+Clear() 		Clears all ANSI (as above) and sets Ch to a blank char (a space, ' ')
+RenderCompleteAnsi() 	"Renders" only the ANSI codes the terminal expects out of CompleteAnsi
+
+
+

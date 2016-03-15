@@ -1,0 +1,28 @@
+Class: Area2D
+
+Overview
+
+A 2-dimensional area.
+Relationships
+
+    Inheritance:
+        Parents:
+            None
+        Children:
+            FixedArea
+    Related:
+        Screen
+        Window
+
+
+Member Variables
+
+Data Type 	Name 	Details
+int 		Width 	The width of the area
+int 		Height 	The height of the area
+
+
+Member Functions
+
+(No notable member functions)
+

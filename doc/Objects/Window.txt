@@ -1,0 +1,91 @@
+Class: Window
+Overview
+
+A Window is a Surface-based lineage designed around containing and presenting information (with titles, borders, scrollbars, etc.). The Sprite-lineage is the tree for ANSI/ASCII-art images and other "meaningful content" usually displayed within a Window.
+Relationships
+
+    Inheritance:
+        Parents:
+            Surface
+        Children:
+            TextWindow
+    Related:
+        WindowBorders
+
+
+Member Variables
+
+Data Type 	Name 	Details
+Point 	Offset 	An offset to add to the origin during rendering (an alternative way to think about it, is the Point on the Window to use as the origin when rendering)
+
+
+Member Functions
+
+Name 				Details
+
+Window Sizing 	
+Size() 				Returns the total size of the window
+Resize() 			Sets the total size of the window (borders and everything; everything is confined within this total area)
+Width() 			Gets/sets the width of the entire window
+Height() 			Gets/sets the height of the entire window
+
+Content Functions 	
+TotalContentSize() 		Returns an Area of the size of the entire logical content area
+VisibleContentSize() 		Returns an Area of the size of the currently visible area (the viewport)
+ContentPos() 			Gets/sets the position of the viewport
+MoveContentPos() 		Adds to the current position of the viewport
+ScrollH() 			Scrolls horizontally by number of lines, negative for left, positive for right
+ScrollV() 			Scrolls vertically by number of lines, negative for left, positive for right
+Title() 			Sets the Window title
+
+Borders 	
+Title Border	 		These functions all operate on the title border
+TitleBorderTop() 		Gets/sets the top border character (or string)
+TitleBorderLeft() 		Gets/sets the left border character (or string)
+TitleBorderRight() 		Gets/sets the right border character (or string)
+TItleBorderBottom() 		Gets/sets the bottom border character (or string)
+TitleBorderTopLeft() 		Gets/sets the top-left corner character
+TitleBorderTopRight() 		Gets/sets the top-right corner character
+TitleBorderBottomLeft() 	Gets/sets the bottom-left corner character
+TitleBorderBottomRight() 	Gets/sets the bottom-right corner character
+ClearTitleBorderTop() 		Clears the top border (corners as well)
+ClearTitleBorderLeft() 		Clears the left border (corners as well)
+ClearTitleBorderRight() 	Clears the right border (corners as well)
+ClearTitleBorderBottom() 	Clears the bottom border (corners as well)
+ClearTitleBorders() 		Clears every border around the title
+Window Border 			These functions all operate on the window border
+WinBorderTop() 			Gets/sets the top border character (or string)
+WinBorderLeft() 		Gets/sets the left border character (or string)
+WinBorderRight() 		Gets/sets the right border character (or string)
+WinBorderBottom() 		Gets/sets the bottom border character (or string)
+WinBorderTopLeft() 		Gets/sets the top-left corner character
+WinBorderTopRight() 		Gets/sets the top-right corner character
+WinBorderBottomLeft() 		Gets/sets the bottom-left corner character
+WinBorderBottomRight() 		Gets/sets the bottom-right corner character
+ClearWinBorderTop() 		Clears the top border (corners as well)
+ClearWinBorderLeft() 		Clears the left border (corners as well)
+ClearWinBorderRight() 		Clears the right border (corners as well)
+ClearWinBorderBottom() 		Clears the bottom border (corners as well)
+ClearWInBorders() 		Clears every border around the title
+
+All Borders 	
+ClearAllBorders() 		Clears both the title and window borders
+
+Margins 	
+LeftMargin() 			Checks/sets if the left margin is visible
+RightMargin() 			Checks/sets if the left margin is visible
+Margins() 			Checks/sets both margins' visibility
+
+Scrollbars 	
+ShowScrollbarTop() 		Checks/sets if a horizontal scrollbar should be placed at the top of the viewport
+ShowScrollbarLeft() 		Checks/sets if a vertical scrollbar should be placed on the left of the viewport
+ShowScrollbarRight() 		Checks/sets if a vertical scrollbar should be placed on the right of the viewport
+ShowScrollbarBottom() 		Checks/sets if a horizontal scrollbar should be placed on the bottom of the viewport
+HScrollbars() 			Sets visibility for both horizontal scrollbars
+VScrollbars() 			Sets visibility both vertical scrollbars
+Scrollbars() 			Sets visibility for all scrollbars
+HScrollbar() 			Sets the horizontal scrollbar character
+VScrollbar() 			Sets the vertical scrollbar character
+
+
+

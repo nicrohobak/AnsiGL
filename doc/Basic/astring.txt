@@ -1,0 +1,29 @@
+Class: astring
+Overview
+
+astring is (ideally) a perfect std::string implementation for achar. astring is an extension of std::vector< achar > to allow for more std::string-like functionality to be added.
+Relationships
+
+    Inheritance:
+        Parents:
+            std::vector< achar >
+        Children:
+            None
+    Related:
+        Nearly everything*
+
+(*Note: Nearly as foundational as achar).
+
+
+Member Variables
+
+    None
+
+
+Member Functions
+
+Name 		Details
+length() 	Returns the length of the string only (std::string::length() and AnsiGL::astring::length() should be equivalent
+Render() 	"Renders" the astring to a properly ANSI encoded std::string
+
+

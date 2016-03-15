@@ -1,0 +1,32 @@
+Class: Point
+Overview
+
+A Point is a simple 2-dimensional point (typically a position on a Surface.)
+Relationships
+
+    Inheritance:
+        Parents:
+            None
+        Children:
+            None
+    Related:
+        Area
+        Surface
+
+
+Member Variables
+
+Data Type 	Name 	Details
+int 		X 	The X component of the Point
+int 		Y 	The Y component of the Point
+
+
+Member Functions
+
+Name 		Details
+operator+ 	Adds points together
+operator- 	Finds the difference between points
+operator+= 	As expected
+operator-= 	As expected
+
+
