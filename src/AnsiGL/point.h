@@ -8,7 +8,7 @@
  */
 
 
-#include <boost/shared_ptr.hpp>
+#include "defines.h"
 
 
 namespace AnsiGL
@@ -20,7 +20,7 @@ namespace AnsiGL
     class Point2D
     {
     public:
-	typedef boost::shared_ptr< Point2D >	Ptr;
+	ANSIGL_POINTERS( Point2D )
 
     protected:
 	tPointType	m_X;
@@ -75,7 +75,7 @@ namespace AnsiGL
     class Point3D : public Point2D
     {
     public:
-	typedef boost::shared_ptr< Point3D >	Ptr;
+	ANSIGL_POINTERS( Point3D )
 
     protected:
 	tPointType	m_Z;

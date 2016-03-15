@@ -19,8 +19,7 @@ namespace AnsiGL
     class Camera : public Content
     {
     public:
-	typedef boost::shared_ptr< Camera >	Ptr;
-	typedef boost::weak_ptr< Camera >	wPtr;
+	ANSIGL_POINTERS( Camera )
 
     protected:
 	Context::wPtr	m_Context;

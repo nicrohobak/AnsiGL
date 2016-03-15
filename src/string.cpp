@@ -70,7 +70,7 @@ namespace AnsiGL
 		for ( CurByte = CurChar; CurByte != right.end(); ++CurByte )
 		{
 		    // If the current byte isn't possibly unicode, then we're done here
-		    if ( !(*CurByte) & (1 << 8))
+		    if ( !((*CurByte) & (1 << 8)) )
 			break;
 
 		    CurGlyph.push_back( *CurByte );
@@ -562,13 +562,14 @@ namespace AnsiGL
 	    return astring();
 
 	const int LENGTH = format.length() * 2;
-	char buf[ LENGTH ];
+	char *buf = new char[ LENGTH ];
 
 	va_list args;
 	va_start( args, format );
 	vsprintf( buf, format.c_str(), args );
 	va_end( args );
 
+	delete [] buf;
 	return ustring( buf );
     }
 
@@ -578,13 +579,14 @@ namespace AnsiGL
 	    return astring();
 
 	const int LENGTH = format.length() * 2;
-	char buf[ LENGTH ];
+	char *buf = new char[ LENGTH ];
 
 	va_list args;
 	va_start( args, format );
 	vsprintf( buf, format.c_str(), args );
 	va_end( args );
 
+	delete [] buf;
 	return ConvertColorCodes( ustring(buf) );
     }
 }

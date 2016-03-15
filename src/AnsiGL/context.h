@@ -23,8 +23,7 @@ namespace AnsiGL
     class ContentMarker : public Point3D
     {
     public:
-	typedef boost::shared_ptr< ContentMarker >	Ptr;
-	typedef boost::weak_ptr< ContentMarker >	wPtr;
+	ANSIGL_POINTERS_AND_LISTS( ContentMarker )
 
     protected:
 	Content::Ptr			m_Content;
@@ -43,22 +42,20 @@ namespace AnsiGL
     class Context : virtual public Content
     {
     protected:
-	typedef std::list< ContentMarker::Ptr >			tContentMarkerList;
-	typedef std::map< tPointType, tContentMarkerList >	tContentList;
+	typedef std::map< tPointType, ContentMarker::List >	tContentList;
 
     public:
-	typedef boost::shared_ptr< Context >			Ptr;
-	typedef boost::weak_ptr< Context >			wPtr;
+	ANSIGL_POINTERS( Context )
 
 	typedef tContentList::iterator				depth_iterator;
 	typedef tContentList::const_iterator			const_depth_iterator;
 	typedef tContentList::reverse_iterator			reverse_depth_iterator;
 	typedef tContentList::const_reverse_iterator		const_reverse_depth_iterator;
 
-	typedef tContentMarkerList::iterator			content_iterator;
-	typedef tContentMarkerList::const_iterator		const_content_iterator;
-	typedef tContentMarkerList::reverse_iterator		reverse_content_iterator;
-	typedef tContentMarkerList::const_reverse_iterator	const_reverse_content_iterator;
+	typedef ContentMarker::List::iterator			content_iterator;
+	typedef ContentMarker::List::const_iterator		const_content_iterator;
+	typedef ContentMarker::List::reverse_iterator		reverse_content_iterator;
+	typedef ContentMarker::List::const_reverse_iterator	const_reverse_content_iterator;
 
    public:
 	Context();

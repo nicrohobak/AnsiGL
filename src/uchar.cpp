@@ -67,7 +67,7 @@ namespace AnsiGL
 	for ( CurByte = right.begin(); CurByte != right.end(); ++CurByte )
 	{
 	    // If the current byte isn't possibly unicode, then we're done here
-	    if ( !(*CurByte) & (1 << 8))
+	    if ( !((*CurByte) & (1 << 8)) )
 		break;
 
 	    m_UTF8.push_back( *CurByte );

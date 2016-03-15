@@ -271,7 +271,7 @@ namespace AnsiGL
 	    return;
 
 	const int PaletteSize = Palette ? (int)Palette->size() : 0;
-	int Map_PrevIndexNewIndex[ PaletteSize ];
+	int *Map_PrevIndexNewIndex = new int[ PaletteSize ];
 
 	if ( Palette )
 	{
@@ -313,6 +313,9 @@ namespace AnsiGL
 		}
 	    }
 	}
+
+	// Cleanup
+	delete [] Map_PrevIndexNewIndex;
     }
 
     //

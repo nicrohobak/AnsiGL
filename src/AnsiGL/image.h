@@ -17,7 +17,7 @@ namespace AnsiGL
     class Image : public Content, public Surface
     {
     public:
-	typedef boost::shared_ptr< Image >	Ptr;
+	ANSIGL_POINTERS( Image )
 
     public:
 	bool		TransparentSpaces;

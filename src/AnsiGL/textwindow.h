@@ -24,8 +24,7 @@ namespace AnsiGL
     class TextWindow : public Window
     {
     public:
-	typedef boost::shared_ptr< TextWindow >	Ptr;
-	typedef boost::weak_ptr< TextWindow >	wPtr;
+	ANSIGL_POINTERS( TextWindow )
 
     protected:
 	std::list< Text::Ptr >	m_Text;				// Lines of text, akin to messages in a chat window

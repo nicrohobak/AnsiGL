@@ -16,7 +16,7 @@ namespace AnsiGL
     class Clone : public Content
     {
     public:
-	typedef boost::shared_ptr< Clone >	Ptr;
+	ANSIGL_POINTERS( Clone )
 
     protected:
 	Content::wPtr		m_Target;

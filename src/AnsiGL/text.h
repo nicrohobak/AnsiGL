@@ -16,7 +16,7 @@ namespace AnsiGL
     class Text : public Content
     {
     public:
-	typedef boost::shared_ptr< Text >	Ptr;
+	ANSIGL_POINTERS( Text )
 
     protected:
 	astring			m_Text;

@@ -78,7 +78,7 @@ namespace AnsiGL
 	    return;
 
 	ContentMarker::Ptr NewMarker = ContentMarker::Ptr( new ContentMarker(content, pos) );
-	Context::Ptr ContainerPtr = boost::dynamic_pointer_cast< Context >( shared_from_this() );
+	Context::Ptr ContainerPtr = std::dynamic_pointer_cast< Context >( shared_from_this() );
 
 	// Make sure the content is updated with our info
 	content->m_Container = ContainerPtr;

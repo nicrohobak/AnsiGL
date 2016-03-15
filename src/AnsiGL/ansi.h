@@ -9,10 +9,11 @@
 
 
 #include <list>
+#include <memory>
 #include <string>
 #include <vector>
 
-#include <boost/shared_ptr.hpp>
+#include "defines.h"
 
 
 namespace AnsiGL
@@ -157,7 +158,7 @@ namespace AnsiGL
     class ANSICodeList
     {
     public:
-	typedef boost::shared_ptr< ANSICodeList >			Ptr;
+	ANSIGL_POINTERS( ANSICodeList )
 
     protected:
 	int	m_CodesL;			// I'm sure there's a more portable way to do this...but babysteps for now
@@ -248,7 +249,7 @@ namespace AnsiGL
     class ANSIColorDef
     {
     public:
-	typedef boost::shared_ptr< ANSIColorDef >	Ptr;
+	ANSIGL_POINTERS( ANSIColorDef )
 
     protected:
 	ANSICodeList		m_ANSI;						// The actual ANSI codes associated with our color
@@ -307,7 +308,7 @@ namespace AnsiGL
     class ANSIColorPalette
     {
     public:
-	typedef boost::shared_ptr< ANSIColorPalette >				Ptr;
+	ANSIGL_POINTERS( ANSIColorPalette )
 
 	typedef std::vector< ANSIColorDef::Ptr >::iterator			iterator;
 	typedef std::vector< ANSIColorDef::Ptr >::const_iterator		const_iterator;

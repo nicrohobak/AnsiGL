@@ -61,7 +61,7 @@ namespace AnsiGL
     class ColorDef
     {
     public:
-	typedef boost::shared_ptr< ColorDef >	Ptr;
+	ANSIGL_POINTERS( ColorDef )
 
     public:
 	ColorComponent		FG;
@@ -94,7 +94,7 @@ namespace AnsiGL
     class ColorPalette
     {
     public:
-	typedef boost::shared_ptr< ColorPalette >			Ptr;
+	ANSIGL_POINTERS( ColorPalette )
 
 	typedef std::list< ColorDef::Ptr >::iterator			iterator;
 	typedef std::list< ColorDef::Ptr >::const_iterator		const_iterator;

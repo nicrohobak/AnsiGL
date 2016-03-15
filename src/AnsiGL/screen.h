@@ -16,7 +16,7 @@ namespace AnsiGL
     class Screen : public Context
     {
     public:
-	typedef boost::shared_ptr< Screen >	Ptr;
+	ANSIGL_POINTERS( Screen )
 
     protected:
 

@@ -16,17 +16,10 @@
 
 namespace AnsiGL
 {
-    //
-    // These defines are generic enough that they should probably go elsewhere...
-    //
-    #define MIN( a, b )		((a) < (b) ? (a) : (b))
-    #define MAX( a, b )		((a) > (b) ? (a) : (b))
-
-
     class Window : public Content
     {
     public:
-	typedef boost::shared_ptr< Window >	Ptr;
+	ANSIGL_POINTERS( Window )
 
     protected:
 	Surface::Ptr		m_RenderBuf;

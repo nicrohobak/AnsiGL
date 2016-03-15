@@ -12,11 +12,10 @@
 
 #include <cctype>
 #include <cstdarg>
+#include <memory>
 #include <string>
 #include <sstream>
 #include <vector>
-
-#include <boost/shared_ptr.hpp>
 
 #include "achar.h"			// For various astring needs
 
@@ -45,7 +44,7 @@ namespace AnsiGL
     class String
     {
     public:
-	typedef boost::shared_ptr< String<tCharType> >				Ptr;
+	ANSIGL_POINTERS( String<tCharType> )
 
 	typedef typename std::vector< tCharType >::iterator			iterator;
 	typedef typename std::vector< tCharType >::reverse_iterator		reverse_iterator;
@@ -486,7 +485,7 @@ namespace AnsiGL
     class ustring : public String< uchar >
     {
     public:
-	typedef boost::shared_ptr< ustring >			Ptr;
+	ANSIGL_POINTERS( ustring )
 
     public:
 	ustring();
@@ -587,7 +586,7 @@ namespace AnsiGL
     class astring : public String< achar >
     {
     public:
-	typedef boost::shared_ptr< astring >			Ptr;
+	ANSIGL_POINTERS( astring )
 
     public:
 	astring();

@@ -27,8 +27,8 @@ libAnsiGL_la_SOURCES =  achar.cpp		\
 #			inputwindow.cpp		
 
 
-libAnsiGL_la_CXXFLAGS = $(INCLUDE_DIRS) -Wall -pg
-#libAnsiGL_la_CXXFLAGS = $(INCLUDE_DIRS) -Wall
+#libAnsiGL_la_CXXFLAGS = $(INCLUDE_DIRS) -std=c++14 -pedantic -Wall -pg
+libAnsiGL_la_CXXFLAGS = $(INCLUDE_DIRS) -std=c++14 -pedantic -Wall
 
 library_includedir = $(includedir)/AnsiGL
 library_include_HEADERS =	AnsiGL/achar.h		\
@@ -40,6 +40,7 @@ library_include_HEADERS =	AnsiGL/achar.h		\
 				AnsiGL/color.h		\
 				AnsiGL/content.h	\
 				AnsiGL/context.h	\
+				AnsiGL/defines.h	\
 				AnsiGL/image.h		\
 				AnsiGL/pixel.h		\
 				AnsiGL/point.h		\

@@ -19,7 +19,7 @@ namespace AnsiGL
     class Animation : public Content
     {
     public:
-	typedef boost::shared_ptr< Animation >	Ptr;
+	ANSIGL_POINTERS( Animation )
 
 	Animation()
 	{

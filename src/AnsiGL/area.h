@@ -22,7 +22,7 @@ namespace AnsiGL
     class Area2D
     {
     public:
-	typedef boost::shared_ptr< Area2D >	Ptr;
+	ANSIGL_POINTERS( Area2D )
 
     protected:
 	tSizeType	m_Width;
@@ -70,7 +70,7 @@ namespace AnsiGL
     class Area3D : public Area2D
     {
     public:
-	typedef boost::shared_ptr< Area2D >	Ptr;
+	ANSIGL_POINTERS( Area3D )
 
     protected:
 	tSizeType	m_Depth;
@@ -105,7 +105,7 @@ namespace AnsiGL
     class FixedArea2D : public Area2D
     {
     public:
-	typedef boost::shared_ptr< FixedArea2D >	Ptr;
+	ANSIGL_POINTERS( FixedArea2D )
 
     protected:
 	Point2D		m_Point;	// The point to which this area is fixed
@@ -146,7 +146,7 @@ namespace AnsiGL
     class FixedArea3D : public Area3D
     {
     public:
-	typedef boost::shared_ptr< FixedArea3D >	Ptr;
+	ANSIGL_POINTERS( FixedArea3D )
 
     protected:
 	Point3D		m_Point;			// The position to which this area is fixed

@@ -8,8 +8,7 @@
  */
 
 
-#include <boost/shared_ptr.hpp>
-#include <boost/enable_shared_from_this.hpp>
+#include <memory>
 
 #include "area.h"
 #include "surface.h"
@@ -20,17 +19,16 @@ namespace AnsiGL
     // Forward declaration so we can have a proper pointer to our context
     class ContentMarker;
     class Context;
-    typedef boost::shared_ptr< ContentMarker >	ContentMarker_Ptr;
-    typedef boost::weak_ptr< ContentMarker >	ContentMarker_wPtr;
-    typedef boost::shared_ptr< Context >	Context_Ptr;
-    typedef boost::weak_ptr< Context >		Context_wPtr;
+    typedef std::shared_ptr< ContentMarker >	ContentMarker_Ptr;
+    typedef std::weak_ptr< ContentMarker >	ContentMarker_wPtr;
+    typedef std::shared_ptr< Context >		Context_Ptr;
+    typedef std::weak_ptr< Context >		Context_wPtr;
 
 
-    class Content : public boost::enable_shared_from_this< Content >
+    class Content : public std::enable_shared_from_this< Content >
     {
     public:
-	typedef boost::shared_ptr< Content >	Ptr;
-	typedef boost::weak_ptr< Content >	wPtr;
+	ANSIGL_POINTERS( Content )
 
     protected:
 	Context_wPtr		m_Container;		// A cached pointer to the context we reside within
@@ -54,9 +52,9 @@ namespace AnsiGL
 	// This function provides a nicer interface to dynamic casting
 	// Ex: DesiredType::Ptr = BaseType->Morph< DesiredType >();
 	template <class tContentType>
-	boost::shared_ptr< tContentType > Morph()
+	std::shared_ptr< tContentType > Morph()
 	{
-	    boost::shared_ptr< tContentType > MorphedContent = boost::dynamic_pointer_cast< tContentType >( shared_from_this() );
+	    std::shared_ptr< tContentType > MorphedContent = std::dynamic_pointer_cast< tContentType >( shared_from_this() );
 	    return MorphedContent;
 	}
 

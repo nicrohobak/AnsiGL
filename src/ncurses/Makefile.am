@@ -5,8 +5,8 @@ lib_LTLIBRARIES = libAnsiGL_ncurses.la
 
 libAnsiGL_ncurses_la_SOURCES =	ncurses.cpp
 
-libAnsiGL_ncurses_la_CXXFLAGS = $(INCLUDE_DIRS) -Wall -pg
-#libAnsiGL_ncurses_la_CXXFLAGS = $(INCLUDE_DIRS) -Wall
+libAnsiGL_ncurses_la_CXXFLAGS = $(INCLUDE_DIRS) -std=c++14 -pedantic -Wall -pg
+#libAnsiGL_ncurses_la_CXXFLAGS = $(INCLUDE_DIRS) -std=c++14 -pedantic -Wall
 
 library_includedir = $(includedir)/AnsiGL/ncurses
 library_include_HEADERS =	$(top_srcdir)/src/AnsiGL/ncurses/ncurses.h

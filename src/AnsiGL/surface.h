@@ -37,7 +37,7 @@ namespace AnsiGL
     class Surface
     {
     public:
-	typedef boost::shared_ptr< Surface >	Ptr;
+	ANSIGL_POINTERS( Surface )
 
    public:
 	ColorPalette::Ptr		Palette;	// The color palette for this surface
