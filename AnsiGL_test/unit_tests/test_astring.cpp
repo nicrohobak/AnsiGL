@@ -5,8 +5,8 @@
  */
 
 
-#include <libansigl/achar.h>
-#include <libansigl/string.h>
+#include <AnsiGL/achar.h>
+#include <AnsiGL/string.h>
 
 #include "unit_test.h"
 
@@ -77,10 +77,7 @@ bool test_astring()
     ANNOUNCE( "", "operator==( const string & ) const" );
     Test = "^rT^yE^cS^mT";
     StrHelper = "TEST";
-    bool opIsEqStr_Result1 = Test != StrHelper;
-    StrHelper = "^rT^yE^cS^mT";
-    Test = "^rT^yE^cS^mT";
-    TEST( opIsEqStr_Result1 && Test == StrHelper );
+    TEST( Test == StrHelper );
 
     ANNOUNCE( "", "push_back( achar ach )" );
     Test.push_back( achar("^w!") );

@@ -133,10 +133,39 @@ namespace AnsiGL
 	return !((*this) == right);
     }
 
+    bool ustring::operator==( const ustring &right ) const
+    {
+	if ( length() != right.length() )
+	    return false;
+
+	for ( auto LeftCh = begin(),
+		   LeftCh_End = end(),
+		   RightCh = right.begin(),
+		   RightCh_End = right.end();
+	      LeftCh != LeftCh_End && RightCh != RightCh_End;
+	      ++LeftCh, ++RightCh )
+	{
+	    if ( *LeftCh != *RightCh )
+		return false;
+	}
+
+	return true;
+    }
+
+    bool ustring::operator!=( const ustring &right ) const
+    {
+	return !((*this) == right);
+    }
+
     bool ustring::operator==( const std::string &right ) const
     {
 	ustring Temp( right );
 	return ((*this) == Temp);
+    }
+
+    bool ustring::operator!=( const std::string &right ) const
+    {
+	return !((*this) == right);
     }
 
 
@@ -209,6 +238,41 @@ namespace AnsiGL
 	return (*this);
     }
 
+    astring &astring::operator+=( const astring &right )
+    {
+	if ( right.empty() )
+	    return (*this);
+
+	for ( auto c = right.begin(), c_end = right.end(); c != c_end; ++c )
+		push_back( *c );
+
+	return (*this);
+    }
+
+    bool astring::operator==( const astring &right ) const
+    {
+	if ( length() != right.length() )
+	    return false;
+
+	for ( auto LeftCh = begin(),
+		   LeftCh_End = end(),
+		   RightCh = right.begin(),
+		   RightCh_End = right.end();
+	      LeftCh != LeftCh_End && RightCh != RightCh_End;
+	      ++LeftCh, ++RightCh )
+	{
+	    if ( *LeftCh != *RightCh )
+		return false;
+	}
+
+	return true;
+    }
+
+    bool astring::operator!=( const astring &right ) const
+    {
+	return !((*this) == right);
+    }
+
     bool astring::operator==( const ustring &right ) const
     {
 	astring Temp( right );
@@ -222,7 +286,26 @@ namespace AnsiGL
 
     bool astring::operator==( const std::string &right ) const
     {
-	return (String<achar>::operator==( right ));
+	if ( length() != right.length() )
+	    return false;
+
+	auto LeftCh = begin(),
+	     LeftCh_End = end();
+	auto RightCh = right.begin(),
+	     RightCh_End = right.end();
+
+	for ( ; LeftCh != LeftCh_End && RightCh != RightCh_End; ++LeftCh, ++RightCh )
+	{
+	    if ( *LeftCh != *RightCh )
+		return false;
+	}
+
+	return true;
+    }
+
+    bool astring::operator!=( const std::string &right ) const
+    {
+	return !((*this) == right);
     }
 
     std::string astring::Render() const

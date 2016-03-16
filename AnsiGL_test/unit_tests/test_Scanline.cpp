@@ -5,7 +5,7 @@
  */
 
 
-#include <libansigl/surface.h>
+#include <AnsiGL/surface.h>
 
 #include "unit_test.h"
 

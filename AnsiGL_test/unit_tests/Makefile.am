@@ -24,8 +24,8 @@ ansigl_unit_tests_SOURCES =	main.cpp			\
 				test_ustring.cpp
 
 
-ansigl_unit_tests_CXXFLAGS = $(INCLUDE_DIRS) -Wall -Wno-unused-variable
-ansigl_unit_tests_LDADD = $(LIB_DIRS) -lansigl
+ansigl_unit_tests_CXXFLAGS = $(INCLUDE_DIRS) -std=c++14 -pedantic -Wall
+ansigl_unit_tests_LDADD = $(LIB_DIRS) -lAnsiGL
 
 
 

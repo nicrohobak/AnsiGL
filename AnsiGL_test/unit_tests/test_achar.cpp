@@ -5,7 +5,7 @@
  */
 
 
-#include <libansigl/achar.h>
+#include <AnsiGL/achar.h>
 
 #include "unit_test.h"
 
@@ -23,7 +23,7 @@ bool test_achar()
 
     ANNOUNCE( "AnsiGL::achar", "operator=( const string & )" );
     Test = "^rTest"; // Should only get a red 'T'
-    TEST( Test.Color.FG.Index() == (ANSI_FG_Red - ANSI_FGColor_Offset) && Test.Glyph().length() == 1 );
+    TEST( Test.Color.FG.Index() == (ANSI_FG_Red - ANSI_FG_Start) && Test.Glyph().length() == 1 );
 
     achar Helper("T");
 
@@ -58,11 +58,11 @@ bool test_achar()
     ANNOUNCE( "", "Render( bool, bool, ENUM_ColorDepth )" );
     Test.Bell = true;
     Expected = "\007\033[0;31mT\033[0m";
-    bool Render_Result1 = !Expected.compare( Test.Render( true, true ) );
+    bool Render_Result1 = !Expected.compare( Test.Render(ColorDepth_Default, true, true) );
     Expected = "\033[0;31mT\033[0m";
-    bool Render_Result2 = !Expected.compare( Test.Render( true, false ) );
+    bool Render_Result2 = !Expected.compare( Test.Render(ColorDepth_Default, true, false) );
     Expected = "T";
-    bool Render_Result3 = !Expected.compare( Test.Render( false, false ) );
+    bool Render_Result3 = !Expected.compare( Test.Render(ColorDepth_Default, false, false) );
     TEST( Render_Result1 && Render_Result2 && Render_Result3 );
 
     cout << "All tests for AnsiGL::achar completed successfully!" << endl;

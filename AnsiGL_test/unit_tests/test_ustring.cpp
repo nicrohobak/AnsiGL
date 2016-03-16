@@ -5,8 +5,8 @@
  */
 
 
-#include <libansigl/string.h>
-#include <libansigl/uchar.h>
+#include <AnsiGL/string.h>
+#include <AnsiGL/uchar.h>
 
 #include "unit_test.h"
 

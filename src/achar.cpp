@@ -481,10 +481,7 @@ namespace AnsiGL
 
     bool achar::operator==( const char &right ) const
     {
-	if ( Glyph().length() == 1 && Glyph().c_str()[0] == right )
-	    return true;
-
-	return false;
+	return (Glyph().c_str()[0] == right);
     }
 
     bool achar::operator!=( const char &right ) const

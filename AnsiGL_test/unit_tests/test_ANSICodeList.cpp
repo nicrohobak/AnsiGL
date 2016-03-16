@@ -5,7 +5,7 @@
  */
 
 
-#include <libansigl/ansi.h>
+#include <AnsiGL/ansi.h>
 
 #include "unit_test.h"
 
@@ -39,16 +39,7 @@ bool test_ANSICodeList()
     HelperList.Add( ANSI_UnderlineOn );
     List.clear();
     List.Add( HelperList );
-    TEST( List.size() == 3 && List.Has( ANSI_BoldOn ) && List.Has( ANSI_ItalicsOn ) && List.Has( ANSI_UnderlineOn ) );
-
-    ANNOUNCE( "", "HasAny( ANSICodeList )" );
-    HelperList.clear();
-    HelperList.Add( ANSI_Default );
-    HelperList.Add( ANSI_BoldOn );
-    HelperList.Add( ANSI_NormalIntensity );
-    bool HasAny_Result1 = List.HasAny( HelperList );
-    HelperList.Remove( ANSI_BoldOn );
-    TEST( HasAny_Result1 && !List.HasAny( HelperList ) );
+    TEST( List.Has( ANSI_BoldOn ) && List.Has( ANSI_ItalicsOn ) && List.Has( ANSI_UnderlineOn ) );
 
     ANNOUNCE( "", "HasAll( ANSICodeList )" );
     bool HasAll_Result1 = !List.HasAll( HelperList );
@@ -59,7 +50,7 @@ bool test_ANSICodeList()
 
     ANNOUNCE( "", "Remove( ANSICodeList )" );
     List.Remove( HelperList );
-    TEST( List.size() == 1 && List.Has( ANSI_ItalicsOn ) );
+    TEST( List.Has( ANSI_ItalicsOn ) );
 
 /*
     // This would be a tedious test to write completely...and it may be obsolete...so it is being held off on for now
@@ -72,9 +63,9 @@ bool test_ANSICodeList()
     HelperList.Add( ANSI_Default );
     HelperList.Add( ANSI_BlinkSlow );
     HelperList.Add( ANSI_NormalIntensity );
-    HelperList.Add( ANSI_BG_256Color );
+    HelperList.Add( ANSI_FG_Cyan );
     string ListExpected("3");
-    string HelperListExpected("0;5;22;48");
+    string HelperListExpected("0;5;22;36");
     TEST( !ListExpected.compare(List.Render()) && !HelperListExpected.compare(HelperList.Render()) );
 
     cout << "All tests for AnsiGL::ANSICodeList completed successfully!" << endl;

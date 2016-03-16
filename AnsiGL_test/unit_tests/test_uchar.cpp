@@ -5,7 +5,7 @@
  */
 
 
-#include <libansigl/uchar.h>
+#include <AnsiGL/uchar.h>
 
 #include "unit_test.h"
 

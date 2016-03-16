@@ -5,7 +5,7 @@
  */
 
 
-#include <libansigl/pixel.h>
+#include <AnsiGL/pixel.h>
 
 #include "unit_test.h"
 

@@ -5,7 +5,7 @@
  */
 
 
-#include <libansigl/area.h>
+#include <AnsiGL/area.h>
 
 #include "unit_test.h"
 

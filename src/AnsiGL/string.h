@@ -567,7 +567,10 @@ namespace AnsiGL
 
 	bool operator==( const astring &right ) const;
 	bool operator!=( const astring &right ) const;
+	bool operator==( const ustring &right ) const;
+	bool operator!=( const ustring &right ) const;
 	bool operator==( const std::string &right ) const;
+	bool operator!=( const std::string &right ) const;
 
     protected:
 	template <typename tDataType>
@@ -601,6 +604,8 @@ namespace AnsiGL
 
 	astring &operator=( const ustring &right );
 	astring &operator+=( const ustring &right );
+
+	astring &operator+=( const astring &right );
 
 	inline astring &operator<<( bool val )
 	{
@@ -667,9 +672,12 @@ namespace AnsiGL
 	    return ((*this) += right );
 	}
 
+	bool operator==( const astring &right ) const;
+	bool operator!=( const astring &right ) const;
 	bool operator==( const ustring &right ) const;
 	bool operator!=( const ustring &right ) const;
 	bool operator==( const std::string &right ) const;
+	bool operator!=( const std::string &right ) const;
 
 	virtual std::string Render() const;
 	virtual std::string str() const;

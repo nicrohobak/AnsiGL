@@ -5,7 +5,7 @@
  */
 
 
-#include <libansigl/ansi.h>
+#include <AnsiGL/ansi.h>
 
 #include "unit_test.h"
 

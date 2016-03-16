@@ -1,5 +1,5 @@
 AC_PREREQ([2.68])
-AC_INIT([AnsiGL_unit_tests], [0.1], [nrobertson454@gmail.com])
+AC_INIT([AnsiGL_unit_tests], [0.1], [nicro.hobak@gmail.com])
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([unit_test.h])
 AC_CONFIG_HEADERS([config.h])

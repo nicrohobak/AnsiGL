@@ -10,7 +10,7 @@
 
 #include <iostream>
 
-#include <libansigl/ansi.h>
+#include <AnsiGL/ansi.h>
 
 
 using namespace std;
