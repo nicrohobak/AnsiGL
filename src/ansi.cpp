@@ -82,103 +82,103 @@ namespace AnsiGL
 
 
 	ANSIColorDef::ANSIColorDef():
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(0),
-		m_G(0),
-		m_B(0),
-		m_Grayscale(0),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(0),
+		_G(0),
+		_B(0),
+		_Grayscale(0),
 		Name(DEFAULT_ANSICOLOR_NAME)
 	{
 	}
 
 	ANSIColorDef::ANSIColorDef( const ANSIColorDef &color ):
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(0),
-		m_G(0),
-		m_B(0),
-		m_Grayscale(0),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(0),
+		_G(0),
+		_B(0),
+		_Grayscale(0),
 		Name(DEFAULT_ANSICOLOR_NAME)
 	{
-		m_Index = color.m_Index;
-		m_SystemColor = color.m_SystemColor;
-		m_R = color.m_R;
-		m_G = color.m_G;
-		m_B = color.m_B;
-		m_Grayscale = color.m_Grayscale;
+		_Index = color._Index;
+		_SystemColor = color._SystemColor;
+		_R = color._R;
+		_G = color._G;
+		_B = color._B;
+		_Grayscale = color._Grayscale;
 		Name = color.Name;
 
-		m_ANSI.Add( color.m_ANSI );
+		_ANSI.Add( color._ANSI );
 	}
 
 	ANSIColorDef::ANSIColorDef( const std::string &name, ENUM_ANSISystemColors color ):
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(0),
-		m_G(0),
-		m_B(0),
-		m_Grayscale(0),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(0),
+		_G(0),
+		_B(0),
+		_Grayscale(0),
 		Name(name)
 	{
 		SystemColor( color );
 	}
 
 	ANSIColorDef::ANSIColorDef( const std::string &name, unsigned char r, unsigned char g, unsigned char b ):
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(r),
-		m_G(g),
-		m_B(b),
-		m_Grayscale(0),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(r),
+		_G(g),
+		_B(b),
+		_Grayscale(0),
 		Name(name)
 	{
 		calculateIndexFromRGB();
 	}
 
 	ANSIColorDef::ANSIColorDef( const std::string &name, unsigned char grayscale ):
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(0),
-		m_G(0),
-		m_B(0),
-		m_Grayscale(grayscale),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(0),
+		_G(0),
+		_B(0),
+		_Grayscale(grayscale),
 		Name(name)
 	{
 		calculateIndexFromGrayscale();
 	}
 
 	ANSIColorDef::ANSIColorDef( ENUM_ANSISystemColors color ):
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(0),
-		m_G(0),
-		m_B(0),
-		m_Grayscale(0),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(0),
+		_G(0),
+		_B(0),
+		_Grayscale(0),
 		Name(DEFAULT_ANSICOLOR_NAME)
 	{
 		SystemColor( color );
 	}
 
 	ANSIColorDef::ANSIColorDef( unsigned char r, unsigned char g, unsigned char b ):
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(r),
-		m_G(g),
-		m_B(b),
-		m_Grayscale(0),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(r),
+		_G(g),
+		_B(b),
+		_Grayscale(0),
 		Name(DEFAULT_ANSICOLOR_NAME)
 	{
 		calculateIndexFromRGB();
 	}
 
 	ANSIColorDef::ANSIColorDef( unsigned char grayscale ):
-		m_Index(-1),
-		m_SystemColor(ANSISysColor_Default),
-		m_R(0),
-		m_G(0),
-		m_B(0),
-		m_Grayscale(grayscale),
+		_Index(-1),
+		_SystemColor(ANSISysColor_Default),
+		_R(0),
+		_G(0),
+		_B(0),
+		_Grayscale(grayscale),
 		Name(DEFAULT_ANSICOLOR_NAME)
 	{
 		calculateIndexFromGrayscale();
@@ -189,7 +189,7 @@ namespace AnsiGL
 		if ( this == &right )
 			return true;
 
-		if ( m_Index == right.m_Index && m_ANSI == right.m_ANSI )
+		if ( _Index == right._Index && _ANSI == right._ANSI )
 			return true;
 
 		return false;
@@ -202,90 +202,90 @@ namespace AnsiGL
 
 	ANSICodeList ANSIColorDef::ANSI() const
 	{
-		return m_ANSI;
+		return _ANSI;
 	}
 
 	unsigned char ANSIColorDef::Index() const
 	{
-		return m_Index;
+		return _Index;
 	}
 
 	ENUM_ANSISystemColors ANSIColorDef::SystemColor() const
 	{
-		return m_SystemColor;
+		return _SystemColor;
 	}
 
 	void ANSIColorDef::SystemColor( ENUM_ANSISystemColors color )
 	{
 		bool Bold = false;
 
-		m_ANSI.clear();
-		m_SystemColor = color;
+		_ANSI.clear();
+		_SystemColor = color;
 
 		switch ( color )
 		{
 		case ANSISysColor_BoldBlack:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_Black:
-			m_ANSI.Add( ANSI_FG_Black );
-			m_Index = 0;
+			_ANSI.Add( ANSI_FG_Black );
+			_Index = 0;
 			break;
 
 		case ANSISysColor_BoldRed:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_Red:
-			m_ANSI.Add( ANSI_FG_Red );
-			m_Index = 1;
+			_ANSI.Add( ANSI_FG_Red );
+			_Index = 1;
 			break;
 
 		case ANSISysColor_BoldGreen:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_Green:
-			m_ANSI.Add( ANSI_FG_Green );
-			m_Index = 2;
+			_ANSI.Add( ANSI_FG_Green );
+			_Index = 2;
 			break;
 
 		case ANSISysColor_BoldYellow:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_Yellow:
-			m_ANSI.Add( ANSI_FG_Yellow );
-			m_Index = 3;
+			_ANSI.Add( ANSI_FG_Yellow );
+			_Index = 3;
 			break;
 
 		case ANSISysColor_BoldBlue:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_Blue:
-			m_ANSI.Add( ANSI_FG_Blue );
-			m_Index = 4;
+			_ANSI.Add( ANSI_FG_Blue );
+			_Index = 4;
 			break;
 
 		case ANSISysColor_BoldMagenta:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_Magenta:
-			m_ANSI.Add( ANSI_FG_Magenta );
-			m_Index = 5;
+			_ANSI.Add( ANSI_FG_Magenta );
+			_Index = 5;
 			break;
 
 		case ANSISysColor_BoldCyan:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_Cyan:
-			m_ANSI.Add( ANSI_FG_Cyan );
-			m_Index = 6;
+			_ANSI.Add( ANSI_FG_Cyan );
+			_Index = 6;
 			break;
 
 		case ANSISysColor_BoldWhite:
 			Bold = true;				// Make note that we're bold so we can set our index, then...
-			m_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
 		case ANSISysColor_White:
-			m_ANSI.Add( ANSI_FG_White );
-			m_Index = 7;
+			_ANSI.Add( ANSI_FG_White );
+			_Index = 7;
 			break;
 
 		default:
@@ -294,76 +294,76 @@ namespace AnsiGL
 
 		// Bold characters are simply 8 above their non-bold counterparts in 256 color mode
 		if ( Bold )
-			m_Index += 8;
+			_Index += 8;
 	}
 
 	void ANSIColorDef::GetRGB( unsigned char *r, unsigned char *g, unsigned char *b ) const
 	{
 		if ( r )
-			*r = m_R;
+			*r = _R;
 
 		if ( g )
-			*g = m_G;
+			*g = _G;
 
 		if ( b )
-			*b = m_B;
+			*b = _B;
 	}
 
 	void ANSIColorDef::SetRGB( unsigned char r, unsigned char g, unsigned char b )
 	{
-		m_R = r;
-		m_G = g;
-		m_B = b;
+		_R = r;
+		_G = g;
+		_B = b;
 
 		calculateIndexFromRGB();
 	}
 
 	unsigned char ANSIColorDef::Grayscale() const
 	{
-		return m_Grayscale;
+		return _Grayscale;
 	}
 
 	void ANSIColorDef::Grayscale( unsigned char gradient )
 	{
-		m_Grayscale = gradient;
+		_Grayscale = gradient;
 
 		calculateIndexFromGrayscale();
 	}
 
 	bool ANSIColorDef::IsSysColor() const
 	{
-		return (m_Index != -1 && m_Index <= 15);
+		return (_Index != -1 && _Index <= 15);
 	}
 
 	bool ANSIColorDef::IsRGB() const
 	{
-		return (m_Index != -1 && m_Index >= 16 && m_Index <= 231);
+		return (_Index != -1 && _Index >= 16 && _Index <= 231);
 	}
 
 	bool ANSIColorDef::IsGrayscale() const
 	{
-		return (m_Index != -1 && m_Index >= 232);
+		return (_Index != -1 && _Index >= 232);
 	}
 
 	void ANSIColorDef::Clear()
 	{
-		m_ANSI.clear();
-		m_Index = -1;
-		m_SystemColor = ANSISysColor_Default;
-		m_R = 0;
-		m_G = 0;
-		m_B = 0;
-		m_Grayscale = 0;
+		_ANSI.clear();
+		_Index = -1;
+		_SystemColor = ANSISysColor_Default;
+		_R = 0;
+		_G = 0;
+		_B = 0;
+		_Grayscale = 0;
 	}
 
 	std::string ANSIColorDef::Render( ENUM_ColorDepth desiredDepth, bool background ) const
 	{
 		std::stringstream RenderedStr("");
 
-		if ( m_Index == -1 )
+		if ( _Index == -1 )
 			return RenderedStr.str();
 
-		if ( desiredDepth == ColorDepth_8Bit && m_Index >= 16 )
+		if ( desiredDepth == ColorDepth_8Bit && _Index >= 16 )
 		{
 			if ( background )
 				RenderedStr << ANSI_BG_256Color << ANSI_CODE_SEPARATOR << "5" << ANSI_CODE_SEPARATOR << (int)Index();
@@ -373,84 +373,84 @@ namespace AnsiGL
 			return RenderedStr.str();
 		}
 
-		RenderedStr << m_ANSI.Render( desiredDepth, background );
+		RenderedStr << _ANSI.Render( desiredDepth, background );
 		return RenderedStr.str();
 	}
 
 	void ANSIColorDef::calculateIndexFromRGB()
 	{
 		// Make sure the values are within bounds
-		if ( m_R > 5 )
-			m_R = 5;
+		if ( _R > 5 )
+			_R = 5;
 
-		if ( m_G > 5 )
-			m_G = 5;
+		if ( _G > 5 )
+			_G = 5;
 
-		if ( m_B > 5 )
-			m_B = 5;
+		if ( _B > 5 )
+			_B = 5;
 
 		// TODO: Improve this...this algorithm probably isn't ideal...
 		// Set the closest system color approximation we can
-		if ( m_R > 3 && m_G > 3 && m_B > 3 )
-			m_SystemColor = ANSISysColor_BoldWhite;
-		else if ( m_G > 3 && m_B > 3 && m_R <= 3 )
-			m_SystemColor = ANSISysColor_BoldCyan;
-		else if ( m_R > 3 && m_B > 3 && m_G <= 3 )
-			m_SystemColor = ANSISysColor_BoldMagenta;
-		else if ( m_R > 3 && m_G > 3 && m_B <= 3 )
-			m_SystemColor = ANSISysColor_BoldYellow;
-		else if ( m_B > 3 && m_R <= 3 && m_G <= 3 )
-			m_SystemColor = ANSISysColor_BoldBlue;
-		else if ( m_G > 3 && m_R <= 3 && m_B <= 3 )
-			m_SystemColor = ANSISysColor_BoldGreen;
-		else if ( m_R > 3 && m_G <= 3 && m_B <= 3 )
-			m_SystemColor = ANSISysColor_BoldRed;
-		else if ( m_R >= 3 && m_G >= 3 && m_B >= 3 )
-			m_SystemColor = ANSISysColor_BoldBlack;
-		else if ( m_R > 0 && m_G > 0 && m_B > 0 )
-			m_SystemColor = ANSISysColor_White;
-		else if ( m_G > 0 && m_B > 0 && m_R == 0 )
-			m_SystemColor = ANSISysColor_Cyan;
-		else if ( m_R > 0 && m_B > 0 && m_G == 0 )
-			m_SystemColor = ANSISysColor_Magenta;
-		else if ( m_R > 0 && m_G > 0 && m_B == 0 )
-			m_SystemColor = ANSISysColor_Yellow;
-		else if ( m_B > 0 && m_R == 0 && m_G == 0 )
-			m_SystemColor = ANSISysColor_Blue;
-		else if ( m_G > 0 && m_R == 0 && m_B == 0 )
-			m_SystemColor = ANSISysColor_Green;
-		else if ( m_R > 0 && m_G == 0 && m_B == 0 )
-			m_SystemColor = ANSISysColor_Red;
+		if ( _R > 3 && _G > 3 && _B > 3 )
+			_SystemColor = ANSISysColor_BoldWhite;
+		else if ( _G > 3 && _B > 3 && _R <= 3 )
+			_SystemColor = ANSISysColor_BoldCyan;
+		else if ( _R > 3 && _B > 3 && _G <= 3 )
+			_SystemColor = ANSISysColor_BoldMagenta;
+		else if ( _R > 3 && _G > 3 && _B <= 3 )
+			_SystemColor = ANSISysColor_BoldYellow;
+		else if ( _B > 3 && _R <= 3 && _G <= 3 )
+			_SystemColor = ANSISysColor_BoldBlue;
+		else if ( _G > 3 && _R <= 3 && _B <= 3 )
+			_SystemColor = ANSISysColor_BoldGreen;
+		else if ( _R > 3 && _G <= 3 && _B <= 3 )
+			_SystemColor = ANSISysColor_BoldRed;
+		else if ( _R >= 3 && _G >= 3 && _B >= 3 )
+			_SystemColor = ANSISysColor_BoldBlack;
+		else if ( _R > 0 && _G > 0 && _B > 0 )
+			_SystemColor = ANSISysColor_White;
+		else if ( _G > 0 && _B > 0 && _R == 0 )
+			_SystemColor = ANSISysColor_Cyan;
+		else if ( _R > 0 && _B > 0 && _G == 0 )
+			_SystemColor = ANSISysColor_Magenta;
+		else if ( _R > 0 && _G > 0 && _B == 0 )
+			_SystemColor = ANSISysColor_Yellow;
+		else if ( _B > 0 && _R == 0 && _G == 0 )
+			_SystemColor = ANSISysColor_Blue;
+		else if ( _G > 0 && _R == 0 && _B == 0 )
+			_SystemColor = ANSISysColor_Green;
+		else if ( _R > 0 && _G == 0 && _B == 0 )
+			_SystemColor = ANSISysColor_Red;
 		else
-			m_SystemColor = ANSISysColor_Black;
+			_SystemColor = ANSISysColor_Black;
 
-		SystemColor( m_SystemColor );				// This will update m_ANSI
+		SystemColor( _SystemColor );				// This will update _ANSI
 
 		// A range of 0-5 gives us a total size of 6, hence the powers of six in the calculation
 		// The +16 comes from an offset in the 256 color palette...the first 16 colors are the standard ANSI colors
-		m_Index = (m_R * 36) + (m_G * 6) + (m_B) + 16;		// And this will properly set the index afterward
+		_Index = (_R * 36) + (_G * 6) + (_B) + 16;		// And this will properly set the index afterward
 
-		// Set m_Grayscale to 0 now, since we're not using it
-		m_Grayscale = 0;
+		// Set _Grayscale to 0 now, since we're not using it
+		_Grayscale = 0;
 	}
 
 	void ANSIColorDef::calculateIndexFromGrayscale()
 	{
 		// Make sure the values are within bounds
-		if ( m_Grayscale > 23 )
-			m_Grayscale = 23;
+		if ( _Grayscale > 23 )
+			_Grayscale = 23;
 
 		// TODO: Improve this too...  (This one probably needs it a little worse than the RGB values too...)
 		// Set the closest system color approximation we can
-		m_SystemColor = ANSISysColor_BoldWhite;	// This is also a bad algorithm for this...
+		_SystemColor = ANSISysColor_BoldWhite;	// This is also a bad algorithm for this...
 
-		SystemColor( m_SystemColor );		// This will update m_ANSI
+		SystemColor( _SystemColor );		// This will update _ANSI
 
 		// The +232 comes from an offset in the 256 color palette to the grayscale area
-		m_Index = m_Grayscale + 232;		// And this will properly set the index afterward
+		_Index = _Grayscale + 232;		// And this will properly set the index afterward
 
 		// Set each RGB value to 0 since we're not using them
-		m_R = m_G = m_B = 0;
+		_R = _G = _B = 0;
 	}
 
 
@@ -532,67 +532,67 @@ namespace AnsiGL
 
 	ANSIColorDef::Ptr &ANSIColorPalette::operator[]( size_t index )
 	{
-		return m_Colors[index];
+		return _Colors[index];
 	}
 
 	const ANSIColorDef::Ptr &ANSIColorPalette::operator[]( size_t index ) const
 	{
-		return m_Colors[index];
+		return _Colors[index];
 	}
 
 	ANSIColorPalette::iterator ANSIColorPalette::begin()
 	{
-		return m_Colors.begin();
+		return _Colors.begin();
 	}
 
 	ANSIColorPalette::iterator ANSIColorPalette::end()
 	{
-		return m_Colors.end();
+		return _Colors.end();
 	}
 
 	ANSIColorPalette::const_iterator ANSIColorPalette::begin() const
 	{
-		return m_Colors.begin();
+		return _Colors.begin();
 	}
 
 	ANSIColorPalette::const_iterator ANSIColorPalette::end() const
 	{
-		return m_Colors.end();
+		return _Colors.end();
 	}
 
 	ANSIColorPalette::reverse_iterator ANSIColorPalette::rbegin()
 	{
-		return m_Colors.rbegin();
+		return _Colors.rbegin();
 	}
 
 	ANSIColorPalette::reverse_iterator ANSIColorPalette::rend()
 	{
-		return m_Colors.rend();
+		return _Colors.rend();
 	}
 
 	ANSIColorPalette::const_reverse_iterator ANSIColorPalette::rbegin() const
 	{
-		return m_Colors.rbegin();
+		return _Colors.rbegin();
 	}
 
 	ANSIColorPalette::const_reverse_iterator ANSIColorPalette::rend() const
 	{
-		return m_Colors.rend();
+		return _Colors.rend();
 	}
 
 	bool ANSIColorPalette::empty() const
 	{
-		return m_Colors.empty();
+		return _Colors.empty();
 	}
 
 	size_t ANSIColorPalette::size() const
 	{
-		return m_Colors.size();
+		return _Colors.size();
 	}
 
 	void ANSIColorPalette::push_back( ANSIColorDef::Ptr color )
 	{
-		m_Colors.push_back( color );
+		_Colors.push_back( color );
 	}
 
 	int ANSIColorPalette::FindIndex( const ANSIColorDef &color ) const

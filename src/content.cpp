@@ -12,7 +12,7 @@
 namespace AnsiGL
 {
 	Content::Content():
-		m_Visible(true)
+		_Visible(true)
 	{
 	}
 
@@ -22,12 +22,12 @@ namespace AnsiGL
 
 	Context::Ptr Content::Container() const
 	{
-		return m_Container.lock();
+		return _Container.lock();
 	}
 
 	const Point3D Content::CurPos() const
 	{
-		ContentMarker::Ptr MyMarker = m_ContentMarker.lock();
+		ContentMarker::Ptr MyMarker = _ContentMarker.lock();
 		Point3D CurrentPos;
 
 		if ( MyMarker )
@@ -57,13 +57,13 @@ namespace AnsiGL
 	// Relative move
 	void Content::Move( const Point3D &pos )
 	{
-		ContentMarker::Ptr MyMarker = m_ContentMarker.lock();
+		ContentMarker::Ptr MyMarker = _ContentMarker.lock();
 
 		if ( MyMarker )
 		{
 			if ( pos.Z() != 0 )
 			{
-				Context::Ptr MyContainer = m_Container.lock();
+				Context::Ptr MyContainer = _Container.lock();
 
 				// Move the content within the container
 				if ( MyContainer )
@@ -92,7 +92,7 @@ namespace AnsiGL
 	// Relative move
 	void Content::Move( const Point2D &pos )
 	{
-		ContentMarker::Ptr MyMarker = m_ContentMarker.lock();
+		ContentMarker::Ptr MyMarker = _ContentMarker.lock();
 
 		if ( MyMarker )
 		{
@@ -106,13 +106,13 @@ namespace AnsiGL
 	// Absolute move
 	void Content::MoveTo( const Point3D &pos )
 	{
-		ContentMarker::Ptr MyMarker = m_ContentMarker.lock();
+		ContentMarker::Ptr MyMarker = _ContentMarker.lock();
 
 		if ( MyMarker )
 		{
 			if ( MyMarker->Z() != pos.Z() )
 			{
-				Context::Ptr MyContainer = m_Container.lock();
+				Context::Ptr MyContainer = _Container.lock();
 
 				// Move the content within the container
 				if ( MyContainer )
@@ -141,7 +141,7 @@ namespace AnsiGL
 	// Absolute move
 	void Content::MoveTo( const Point2D &pos )
 	{
-		ContentMarker::Ptr MyMarker = m_ContentMarker.lock();
+		ContentMarker::Ptr MyMarker = _ContentMarker.lock();
 
 		if ( MyMarker )
 		{
@@ -154,45 +154,45 @@ namespace AnsiGL
 
 	const Area2D &Content::Size() const
 	{
-		return m_Size;
+		return _Size;
 	}
 
 	const tSizeType &Content::Width() const
 	{
-		return m_Size.Width();
+		return _Size.Width();
 	}
 
 	const tSizeType &Content::Height() const
 	{
-		return m_Size.Height();
+		return _Size.Height();
 	}
 
 	void Content::Width( tSizeType width )
 	{
-		m_Size.Width( width );
+		_Size.Width( width );
 		triggerContextRecalc();
 	}
 
 	void Content::Height( tSizeType height )
 	{
-		m_Size.Height( height );
+		_Size.Height( height );
 		triggerContextRecalc();
 	}
 
 	void Content::Resize( const Area2D &size )
 	{
-		m_Size = size;
+		_Size = size;
 		triggerContextRecalc();
 	}
 
 	bool Content::Visible() const
 	{
-		return m_Visible;
+		return _Visible;
 	}
 
 	void Content::Visible( bool visible )
 	{
-		m_Visible = visible;
+		_Visible = visible;
 	}
 
 	void Content::RemoveFromContext()
@@ -205,7 +205,7 @@ namespace AnsiGL
 
 	void Content::triggerContextRecalc() const
 	{
-		Context::Ptr MyParent = m_Container.lock();
+		Context::Ptr MyParent = _Container.lock();
 
 		if ( MyParent )
 			MyParent->RecalculateTotalContentSize();

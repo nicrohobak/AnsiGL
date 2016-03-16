@@ -11,14 +11,14 @@
 namespace AnsiGL
 {
 	Area2D::Area2D():
-		m_Width(0),
-		m_Height(0)
+		_Width(0),
+		_Height(0)
 	{
 	}
 
 	Area2D::Area2D( tSizeType width, tSizeType height ):
-		m_Width(width),
-		m_Height(height)
+		_Width(width),
+		_Height(height)
 	{
 	}
 
@@ -29,22 +29,22 @@ namespace AnsiGL
 	void Area2D::Width( tSizeType width )
 	{
 		if ( width < 0 )
-			m_Width = 0;
+			_Width = 0;
 		else
-			m_Width = width;
+			_Width = width;
 	}
 
 	void Area2D::Height( tSizeType height )
 	{
 		if ( height < 0 )
-			m_Height = 0;
+			_Height = 0;
 		else
-			m_Height = height;
+			_Height = height;
 	}
 
 	bool Area2D::operator==( const Area2D &right ) const
 	{
-		return (m_Width == right.m_Width && m_Height == right.m_Height);
+		return (_Width == right._Width && _Height == right._Height);
 	}
 
 	bool Area2D::operator!=( const Area2D &right ) const
@@ -54,7 +54,7 @@ namespace AnsiGL
 
 	bool Area2D::operator>( const Area2D &right ) const
 	{
-		return ((m_Width * m_Height) > (right.m_Width * right.m_Height));
+		return ((_Width * _Height) > (right._Width * right._Height));
 	}
 
 	bool Area2D::operator<( const Area2D &right ) const
@@ -64,7 +64,7 @@ namespace AnsiGL
 
 	bool Area2D::operator>=( const Area2D &right ) const
 	{
-		return ((m_Width * m_Height) >= (right.m_Width * right.m_Height));
+		return ((_Width * _Height) >= (right._Width * right._Height));
 	}
 
 	bool Area2D::operator<=( const Area2D &right ) const
@@ -74,8 +74,8 @@ namespace AnsiGL
 
 	void Area2D::ResizeTo( const Area2D &size )
 	{
-		Width( size.m_Width );
-		Height( size.m_Height );
+		Width( size._Width );
+		Height( size._Height );
 	}
 
 	void Area2D::ResizeTo( tSizeType width, tSizeType height )
@@ -86,12 +86,12 @@ namespace AnsiGL
 
 
 	Area3D::Area3D():
-		m_Depth(0)
+		_Depth(0)
 	{
 	}
 
 	Area3D::Area3D( tSizeType width, tSizeType height, tSizeType depth ):
-		m_Depth(depth)
+		_Depth(depth)
 	{
 		ResizeTo( width, height, depth );
 	}
@@ -99,14 +99,14 @@ namespace AnsiGL
 	void Area3D::Depth( tSizeType depth )
 	{
 		if ( depth < 0 )
-			m_Depth = 0;
+			_Depth = 0;
 		else
-			m_Depth = depth;
+			_Depth = depth;
 	}
 
 	bool Area3D::operator==( const Area3D &right ) const
 	{
-		return (m_Width == right.m_Width && m_Height == right.m_Height && m_Depth == right.m_Depth);
+		return (_Width == right._Width && _Height == right._Height && _Depth == right._Depth);
 	}
 
 	bool Area3D::operator!=( const Area3D &right ) const
@@ -116,7 +116,7 @@ namespace AnsiGL
 
 	bool Area3D::operator>( const Area3D &right ) const
 	{
-		return ((m_Width * m_Height * m_Depth) > (right.m_Width * right.m_Height * right.m_Depth));
+		return ((_Width * _Height * _Depth) > (right._Width * right._Height * right._Depth));
 	}
 
 	bool Area3D::operator<( const Area3D &right ) const
@@ -126,7 +126,7 @@ namespace AnsiGL
 
 	bool Area3D::operator>=( const Area3D &right ) const
 	{
-		return ((m_Width * m_Height * m_Depth) >= (right.m_Width * right.m_Height * right.m_Depth));
+		return ((_Width * _Height * _Depth) >= (right._Width * right._Height * right._Depth));
 	}
 
 	bool Area3D::operator<=( const Area3D &right ) const
@@ -136,9 +136,9 @@ namespace AnsiGL
 
 	void Area3D::ResizeTo( const Area3D &size )
 	{
-		Width( size.m_Width );
-		Height( size.m_Height );
-		Depth( size.m_Depth );
+		Width( size._Width );
+		Height( size._Height );
+		Depth( size._Depth );
 	}
 
 	void Area3D::ResizeTo( tSizeType width, tSizeType height, tSizeType depth )
@@ -154,25 +154,25 @@ namespace AnsiGL
 	}
 
 	FixedArea2D::FixedArea2D( const Area2D &area, const Point2D &pos ):
-		m_Point(pos)
+		_Point(pos)
 	{
-		m_Width = area.Width();
-		m_Height = area.Height();
+		_Width = area.Width();
+		_Height = area.Height();
 	}
 
 	void FixedArea2D::Point( const Point2D &point )
 	{
-		m_Point = point;
+		_Point = point;
 	}
 
 	void FixedArea2D::X( tPointType x )
 	{
-		m_Point.X( x );
+		_Point.X( x );
 	}
 
 	void FixedArea2D::Y( tPointType y )
 	{
-		m_Point.Y( y );
+		_Point.Y( y );
 	}
 
 
@@ -181,69 +181,69 @@ namespace AnsiGL
 	}
 
 	FixedArea3D::FixedArea3D( const Area3D &area, const Point3D &point ):
-		m_Point(point)
+		_Point(point)
 	{
-		m_Width = area.Width();
-		m_Height = area.Height();
-		m_Depth = area.Depth();
+		_Width = area.Width();
+		_Height = area.Height();
+		_Depth = area.Depth();
 	}
 
 	FixedArea3D::FixedArea3D( const Area3D &area, const Point2D &point ):
-		m_Point(point)
+		_Point(point)
 	{
-		m_Width = area.Width();
-		m_Height = area.Height();
-		m_Depth = area.Depth();
+		_Width = area.Width();
+		_Height = area.Height();
+		_Depth = area.Depth();
 	}
 
 	FixedArea3D::FixedArea3D( const Area2D &area, const Point3D &point ):
-		m_Point(point)
+		_Point(point)
 	{
-		m_Width = area.Width();
-		m_Height = area.Height();
-		m_Depth = 0;
+		_Width = area.Width();
+		_Height = area.Height();
+		_Depth = 0;
 	}
 
 	FixedArea3D::FixedArea3D( const Area2D &area, const Point2D &point ):
-		m_Point(point)
+		_Point(point)
 	{
-		m_Width = area.Width();
-		m_Height = area.Height();
-		m_Depth = 0;
+		_Width = area.Width();
+		_Height = area.Height();
+		_Depth = 0;
 	}
 
 	FixedArea3D::FixedArea3D( const Area3D &area )
 	{
-		m_Width = area.Width();
-		m_Height = area.Height();
-		m_Depth = area.Depth();
+		_Width = area.Width();
+		_Height = area.Height();
+		_Depth = area.Depth();
 	}
 
 	FixedArea3D::FixedArea3D( const Area2D &area )
 	{
-		m_Width = area.Width();
-		m_Height = area.Height();
-		m_Depth = 0;
+		_Width = area.Width();
+		_Height = area.Height();
+		_Depth = 0;
 	}
 
 	void FixedArea3D::Point( const Point3D &point )
 	{
-		m_Point = point;
+		_Point = point;
 	}
 
 	void FixedArea3D::X( tPointType x )
 	{
-		m_Point.X( x );
+		_Point.X( x );
 	}
 
 	void FixedArea3D::Y( tPointType y )
 	{
-		m_Point.Y( y );
+		_Point.Y( y );
 	}
 
 	void FixedArea3D::Z( tPointType z )
 	{
-		m_Point.Z( z );
+		_Point.Z( z );
 	}
 }
 

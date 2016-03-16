@@ -27,17 +27,17 @@ namespace AnsiGL
 
 	const Area2D &Image::Size() const
 	{
-		return Content::m_Size;
+		return Content::_Size;
 	}
 
 	const tSizeType &Image::Width() const
 	{
-		return Content::m_Size.Width();
+		return Content::_Size.Width();
 	}
 
 	const tSizeType &Image::Height() const
 	{
-		return Content::m_Size.Height();
+		return Content::_Size.Height();
 	}
 
 	void Image::Width( tSizeType width )

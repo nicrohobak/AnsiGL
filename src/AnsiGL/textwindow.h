@@ -27,12 +27,12 @@ namespace AnsiGL
 		ANSIGL_POINTERS( TextWindow )
 
 	protected:
-		std::list< Text::Ptr >	m_Text;				// Lines of text, akin to messages in a chat window
+		std::list< Text::Ptr >	_Text;				// Lines of text, akin to messages in a chat window
 
-		unsigned int		m_MaxLines;
-		ENUM_TxtAlign		m_Alignment;
-		bool			m_WordWrap;			// Word wrap to keep within the window
-		bool			m_NewAtBottom;			// If true, new lines are added at the bottom by default
+		unsigned int		_MaxLines;
+		ENUM_TxtAlign		_Alignment;
+		bool			_WordWrap;			// Word wrap to keep within the window
+		bool			_NewAtBottom;			// If true, new lines are added at the bottom by default
 
 	public:
 		bool			ScrollToNew;

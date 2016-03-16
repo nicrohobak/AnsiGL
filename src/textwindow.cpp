@@ -10,31 +10,31 @@
 namespace AnsiGL
 {
 	TextWindow::TextWindow():
-		m_MaxLines(500),
-		m_Alignment(TxtAlign_Default),
-		m_WordWrap(true),
-		m_NewAtBottom(true),
+		_MaxLines(500),
+		_Alignment(TxtAlign_Default),
+		_WordWrap(true),
+		_NewAtBottom(true),
 		ScrollToNew(true)
 	{
 	}
 
 	TextWindow::TextWindow( const astring &windowTitle, const Area2D &windowSize, unsigned int maxLines, ENUM_TxtAlign alignment, bool newAtBottom, const Point3D &viewportPos, bool transparentSpaces ):
 		Window(windowTitle, windowSize, viewportPos, transparentSpaces),
-		m_MaxLines(maxLines),
-		m_Alignment(alignment),
-		m_WordWrap(true),
-		m_NewAtBottom(newAtBottom),
+		_MaxLines(maxLines),
+		_Alignment(alignment),
+		_WordWrap(true),
+		_NewAtBottom(newAtBottom),
 		ScrollToNew(true)
 	{
 	}
 
 	void TextWindow::Width( tSizeType width )
 	{
-		if ( m_WordWrap )
+		if ( _WordWrap )
 		{
 			std::list< Text::Ptr >::iterator CurLine;
 
-			for ( CurLine = m_Text.begin(); CurLine != m_Text.end(); ++CurLine )
+			for ( CurLine = _Text.begin(); CurLine != _Text.end(); ++CurLine )
 			{
 				if ( width >= 2 )
 					(*CurLine)->Width( width - 2 );
@@ -48,50 +48,50 @@ namespace AnsiGL
 
 	unsigned int TextWindow::MaxLines() const
 	{
-		return m_MaxLines;
+		return _MaxLines;
 	}
 
 	void TextWindow::MaxLines( unsigned int numLines )
 	{
-		m_MaxLines = numLines;
+		_MaxLines = numLines;
 
-		if ( m_Text.size() > numLines )
+		if ( _Text.size() > numLines )
 		{
-			if ( m_NewAtBottom )
+			if ( _NewAtBottom )
 			{
-				while ( m_Text.size() > numLines )
-					m_Text.pop_front();
+				while ( _Text.size() > numLines )
+					_Text.pop_front();
 			}
 			else
 			{
-				while ( m_Text.size() > numLines )
-					m_Text.pop_back();
+				while ( _Text.size() > numLines )
+					_Text.pop_back();
 			}
 		}
 	}
 
 	bool TextWindow::WordWrap() const
 	{
-		return m_WordWrap;
+		return _WordWrap;
 	}
 
 	void TextWindow::WordWrap( bool wrap )
 	{
-		m_WordWrap = wrap;
+		_WordWrap = wrap;
 
 		// TODO: Resize everything
 		std::list< Text::Ptr >::iterator CurLine;
 
-		if ( m_WordWrap )
+		if ( _WordWrap )
 		{
 			// Resize to the viewport width to wrap
-			for ( CurLine = m_Text.begin(); CurLine != m_Text.end(); ++CurLine )
-				(*CurLine)->Width( Window::m_Contents->Width() );
+			for ( CurLine = _Text.begin(); CurLine != _Text.end(); ++CurLine )
+				(*CurLine)->Width( Window::_Contents->Width() );
 		}
 		else
 		{
 			// Resize to the width of the string so no word-wrapping happens
-			for ( CurLine = m_Text.begin(); CurLine != m_Text.end(); ++CurLine )
+			for ( CurLine = _Text.begin(); CurLine != _Text.end(); ++CurLine )
 				(*CurLine)->Width( (*CurLine)->Value().length() );
 		}
 
@@ -100,22 +100,22 @@ namespace AnsiGL
 
 	ENUM_TxtAlign TextWindow::Align() const
 	{
-		return m_Alignment;
+		return _Alignment;
 	}
 
 	void TextWindow::Align( ENUM_TxtAlign align )
 	{
-		m_Alignment = align;
+		_Alignment = align;
 
 		std::list< Text::Ptr >::iterator CurLine;
 
-		for ( CurLine = m_Text.begin(); CurLine != m_Text.end(); ++CurLine )
+		for ( CurLine = _Text.begin(); CurLine != _Text.end(); ++CurLine )
 			(*CurLine)->Align( align );
 	}
 
 	void TextWindow::AddLine( const astring &line )
 	{
-		if ( m_NewAtBottom )
+		if ( _NewAtBottom )
 			AddLineAtBottom( line );
 		else
 			AddLineAtTop( line );
@@ -128,13 +128,13 @@ namespace AnsiGL
 
 		Text::Ptr NewLine;
 
-		if ( m_WordWrap )
-			NewLine = Text::Ptr( new Text(line, Window::m_Contents->Width(), m_Alignment) );
+		if ( _WordWrap )
+			NewLine = Text::Ptr( new Text(line, Window::_Contents->Width(), _Alignment) );
 		else
-			NewLine = Text::Ptr( new Text(line, line.length(), m_Alignment) );
+			NewLine = Text::Ptr( new Text(line, line.length(), _Alignment) );
 
-		m_Text.push_front( NewLine );
-		Window::m_Contents->AddContent( NewLine );
+		_Text.push_front( NewLine );
+		Window::_Contents->AddContent( NewLine );
 
 		resetLineSpacing();
 	}
@@ -144,17 +144,17 @@ namespace AnsiGL
 		if ( line.empty() )
 			return;
 
-		Text::Ptr NewLine = Text::Ptr( new Text(line, Window::m_Contents->Width(), m_Alignment) );
+		Text::Ptr NewLine = Text::Ptr( new Text(line, Window::_Contents->Width(), _Alignment) );
 
-		m_Text.push_back( NewLine );
-		Window::m_Contents->AddContent( NewLine );
+		_Text.push_back( NewLine );
+		Window::_Contents->AddContent( NewLine );
 
 		resetLineSpacing();
 	}
 
 	void TextWindow::InsertLine( const astring &line, unsigned int atLineNum )
 	{
-		if ( m_NewAtBottom )
+		if ( _NewAtBottom )
 			InsertLineFromBottom( line, atLineNum );
 		else
 			InsertLineFromTop( line, atLineNum );
@@ -174,7 +174,7 @@ namespace AnsiGL
 
 	void TextWindow::RemoveLine( unsigned int numLines )
 	{
-		if ( m_NewAtBottom )
+		if ( _NewAtBottom )
 			RemoveLineFromTop( numLines, 0 );
 		else
 			RemoveLineFromBottom( numLines, 0 );
@@ -198,7 +198,7 @@ namespace AnsiGL
 		{
 			std::list< Text::Ptr >::iterator CurLine;
 
-			for ( CurLine = m_Text.begin(); CurLine != m_Text.end(); ++CurLine )
+			for ( CurLine = _Text.begin(); CurLine != _Text.end(); ++CurLine )
 			{
 				(*CurLine)->MoveTo( CurPoint );
 				CurPoint.Y( CurPoint.Y() + (*CurLine)->Height() );
@@ -208,7 +208,7 @@ namespace AnsiGL
 		{
 			std::list< Text::Ptr >::reverse_iterator CurLine;
 
-			for ( CurLine = m_Text.rbegin(); CurLine != m_Text.rend(); ++CurLine )
+			for ( CurLine = _Text.rbegin(); CurLine != _Text.rend(); ++CurLine )
 			{
 				(*CurLine)->MoveTo( CurPoint );
 				CurPoint.Y( CurPoint.Y() + (*CurLine)->Height() );
@@ -219,9 +219,9 @@ namespace AnsiGL
 
 		if ( ScrollToNew )
 		{
-			if ( m_NewAtBottom )
+			if ( _NewAtBottom )
 			{
-				CurPoint.Y( CurPoint.Y() - Window::m_Contents->Height() );
+				CurPoint.Y( CurPoint.Y() - Window::_Contents->Height() );
 				MoveViewportTo( CurPoint );
 			}
 			else

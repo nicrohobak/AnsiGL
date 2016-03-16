@@ -159,7 +159,7 @@ namespace AnsiGL
 	class achar : public uchar
 	{
 	protected:
-		ANSICodeList		m_Attributes;		// Except color!
+		ANSICodeList		_Attributes;		// Except color!
 
 	public:
 		ColorDef		Color;
@@ -212,12 +212,12 @@ namespace AnsiGL
 
 		const ANSICodeList Attributes() const			// Give the compiler the option to inline
 		{
-			return m_Attributes;
+			return _Attributes;
 		}
 
 		bool HasAttribute( ENUM_ANSICodes attrib ) const
 		{
-			return m_Attributes.Has(attrib);
+			return _Attributes.Has(attrib);
 		}
 
 		void CopyAttributes( const ANSICodeList &attrib );
@@ -236,7 +236,7 @@ namespace AnsiGL
 		friend class Surface;	// For fast access
 
 	protected:
-		static ANSICodeList::Ptr m_BannedAttributes;
+		static ANSICodeList::Ptr _BannedAttributes;
 
 		void initBannedAttributes();
 	};

@@ -23,7 +23,7 @@ namespace AnsiGL
 
 		Animation()
 		{
-			m_CurFrame = m_Frames.end();
+			_CurFrame = _Frames.end();
 		}
 
 		Image::Ptr CurFrame() const;
@@ -39,12 +39,12 @@ namespace AnsiGL
 		void RemoveFrame( unsigned int frameNum );
 		void Clear()
 		{
-			m_Frames.clear();
+			_Frames.clear();
 		}
 
 		void Reset()
 		{
-			m_CurFrame = m_Frames.begin();
+			_CurFrame = _Frames.begin();
 		}
 		void Advance( unsigned int numFrames = 1 );
 		void Rewind( unsigned int numFrames = 1 );
@@ -60,8 +60,8 @@ namespace AnsiGL
 		typedef std::list< Frame::Ptr >::reverse_iterator	reverse_iterator;
 		typedef std::list< Frame::Ptr >::const_reverse_iterator	const_reverse_iterator;
 
-		std::list< Frame::Ptr >	m_Frames;
-		iterator		m_CurFrame;
+		std::list< Frame::Ptr >	_Frames;
+		iterator		_CurFrame;
 	};
 }
 

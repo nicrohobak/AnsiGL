@@ -80,7 +80,7 @@ namespace AnsiGL
 
 		bool HasPoint( const Point2D &pos ) const	// Returns true if this coordinate is within the bounds of this screen
 		{
-			return (pos.X() >= 0 && pos.X() < m_Size.Width() && pos.Y() >= 0 && pos.Y() < m_Size.Height());
+			return (pos.X() >= 0 && pos.X() < _Size.Width() && pos.Y() >= 0 && pos.Y() < _Size.Height());
 		}
 
 		void AddToPalette( ColorPalette::Ptr palette );	// Adds the contents of another color palette to ours (avoiding duplicate entries)
@@ -125,9 +125,9 @@ namespace AnsiGL
 		virtual void DrawBox( const Area2D &box, const Point2D &pos = Point2D(), const achar &hBorder = achar("-"), const achar &vBorder = achar("|"), const achar &fillCh = achar(" "), bool transparentSpaces = TRANSPARENT_DEFAULT );
 
 	protected:
-		std::vector< Scanline >		m_Pixels;	// NOTE: Direct access is via y,x (m_Pixels[y][x]) rather than x,y!
+		std::vector< Scanline >		_Pixels;	// NOTE: Direct access is via y,x (_Pixels[y][x]) rather than x,y!
 
-		Area2D				m_Size;
+		Area2D				_Size;
 
 	protected:
 		bool pixelHasAnsi( const Point2D &pixel ) const;

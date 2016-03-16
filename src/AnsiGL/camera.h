@@ -22,8 +22,8 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Camera )
 
 	protected:
-		Context::wPtr	m_Context;
-		Point3D		m_Position;
+		Context::wPtr	_Context;
+		Point3D		_Position;
 
 	public:
 		Camera();

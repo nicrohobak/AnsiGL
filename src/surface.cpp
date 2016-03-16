@@ -49,10 +49,10 @@ namespace AnsiGL
 
 	Scanline Surface::GetScanline( int lineNum ) const
 	{
-		if ( lineNum < 0 || lineNum >= m_Size.Height() )
+		if ( lineNum < 0 || lineNum >= _Size.Height() )
 			return Scanline();
 
-		return m_Pixels[lineNum];
+		return _Pixels[lineNum];
 	}
 
 	const achar &Surface::GetPixel( const Point &pixel ) const
@@ -63,7 +63,7 @@ namespace AnsiGL
 		if ( !HasPoint( pixel ) )
 			return ach;
 
-		const Pixel *CurPixel = &m_Pixels[pixel.Y()][pixel.X()];
+		const Pixel *CurPixel = &_Pixels[pixel.Y()][pixel.X()];
 
 		ach.Glyph( CurPixel->Glyph() );
 		ach.CopyAttributes( CurPixel->Attributes() );
@@ -77,7 +77,7 @@ namespace AnsiGL
 
 	const Area &Surface::Size() const
 	{
-		return m_Size;
+		return _Size;
 	}
 
 	void Surface::Resize( Area size )
@@ -88,51 +88,51 @@ namespace AnsiGL
 
 	const tSizeType &Surface::Width() const
 	{
-		return m_Size.Width();
+		return _Size.Width();
 	}
 
 	void Surface::Width( tSizeType width )
 	{
 		if ( width < 0 )
-			m_Size.Width( 0 );
+			_Size.Width( 0 );
 		else
-			m_Size.Width( width );
+			_Size.Width( width );
 
-		if ( m_Pixels.empty() )
+		if ( _Pixels.empty() )
 			return;
 
-		for ( int y = 0; y < m_Size.Height(); ++y )
-			m_Pixels[y].resize( m_Size.Width() );
+		for ( int y = 0; y < _Size.Height(); ++y )
+			_Pixels[y].resize( _Size.Width() );
 	}
 
 	const tSizeType &Surface::Height() const
 	{
-		return m_Size.Height();
+		return _Size.Height();
 	}
 
 	void Surface::Height( tSizeType height )
 	{
 		if ( height < 0 )
-			m_Size.Height( 0 );
+			_Size.Height( 0 );
 		else
-			m_Size.Height( height );
+			_Size.Height( height );
 
-		if ( m_Size.Height() == 0 )
+		if ( _Size.Height() == 0 )
 		{
-			m_Pixels.clear();
+			_Pixels.clear();
 			return;
 		}
 
-		Scanline BlankLine( m_Size.Width() );
-		m_Pixels.resize( m_Size.Height(), BlankLine );
+		Scanline BlankLine( _Size.Width() );
+		_Pixels.resize( _Size.Height(), BlankLine );
 	}
 
 	void Surface::Clear()
 	{
-		for ( tSizeType CurY = 0; CurY < m_Size.Height(); ++CurY )
+		for ( tSizeType CurY = 0; CurY < _Size.Height(); ++CurY )
 		{
-			for ( tSizeType CurX = 0; CurX < m_Size.Width(); ++CurX )
-				m_Pixels[ CurY ][ CurX ].Clear();
+			for ( tSizeType CurX = 0; CurX < _Size.Width(); ++CurX )
+				_Pixels[ CurY ][ CurX ].Clear();
 		}
 	}
 
@@ -189,7 +189,7 @@ namespace AnsiGL
 			}
 			else
 			{
-				for ( int i = 0; i < m_Size.Height(); ++i )
+				for ( int i = 0; i < _Size.Height(); ++i )
 					RenderedStr << std::endl;
 			}
 		}
@@ -198,13 +198,13 @@ namespace AnsiGL
 		int CurColor = -1;
 
 		// Render the screen line by line...
-		for ( ; Cur.Y() < m_Size.Height(); Cur.IncY() )
+		for ( ; Cur.Y() < _Size.Height(); Cur.IncY() )
 		{
 			Cur.X( 0 );		// Make sure to reset our X position as we work through our scanlines
 
-			for ( ; Cur.X() < m_Size.Width(); Cur.IncX() )
+			for ( ; Cur.X() < _Size.Width(); Cur.IncX() )
 			{
-				const Pixel *CurPixel = &m_Pixels[Cur.Y()][Cur.X()];
+				const Pixel *CurPixel = &_Pixels[Cur.Y()][Cur.X()];
 
 				if ( RenderBell && CurPixel->Bell )
 					RenderedStr << '\007';
@@ -241,7 +241,7 @@ namespace AnsiGL
 
 	void Surface::RenderToSurface( Surface::Ptr dest, const Point2D &pos, bool transparentSpaces ) const
 	{
-		RenderAreaToSurface( FixedArea2D(Area2D(m_Size.Width(), m_Size.Height()), Point2D(0, 0)), dest, pos, transparentSpaces );
+		RenderAreaToSurface( FixedArea2D(Area2D(_Size.Width(), _Size.Height()), Point2D(0, 0)), dest, pos, transparentSpaces );
 	}
 
 	void Surface::RenderAreaToSurface( FixedArea2D visibleArea, Surface::Ptr dest, const Point2D &pos, bool transparentSpaces ) const
@@ -250,10 +250,10 @@ namespace AnsiGL
 			return;
 
 		// Check and make sure we have something visible to render
-		if ( visibleArea.X() + visibleArea.Width() < 0 || visibleArea.X() > m_Size.Width() )
+		if ( visibleArea.X() + visibleArea.Width() < 0 || visibleArea.X() > _Size.Width() )
 			return;
 
-		if ( visibleArea.Y() + visibleArea.Height() < 0 || visibleArea.Y() > m_Size.Height() )
+		if ( visibleArea.Y() + visibleArea.Height() < 0 || visibleArea.Y() > _Size.Height() )
 			return;
 
 		// And check and make sure there's a place to put it
@@ -267,7 +267,7 @@ namespace AnsiGL
 		FixedArea2D Destination( Area2D(visibleArea.Width(), visibleArea.Height()), pos );
 
 		// Now that we've got the desired target on our destination surface, make sure it's visible and that we have something to render
-		if ( Destination.Point().X() + Destination.Width() < 0 || Destination.Point().X() > dest->m_Size.Width() )
+		if ( Destination.Point().X() + Destination.Width() < 0 || Destination.Point().X() > dest->_Size.Width() )
 			return;
 
 		const int PaletteSize = Palette ? (int)Palette->size() : 0;
@@ -289,18 +289,18 @@ namespace AnsiGL
 
 		for ( Src.Y( visibleArea.Point().Y() ), Dest.Y( Destination.Point().Y() ); Src.Y() < visibleArea.Point().Y() + visibleArea.Height(); Src.IncY(), Dest.IncY() )
 		{
-			if ( Src.Y() < 0 || Src.Y() >= m_Size.Height() || Dest.Y() < 0 || Dest.Y() >= dest->m_Size.Height() )
+			if ( Src.Y() < 0 || Src.Y() >= _Size.Height() || Dest.Y() < 0 || Dest.Y() >= dest->_Size.Height() )
 				continue;
 
 			for ( Src.X( visibleArea.Point().X() ), Dest.X( Destination.Point().X() ); Src.X() < visibleArea.Point().X() + visibleArea.Width(); Src.IncX(), Dest.IncX() )
 			{
-				if ( Src.X() < 0 || Src.X() >= m_Size.Width() || Dest.X() < 0 || Dest.X() >= dest->m_Size.Width() )
+				if ( Src.X() < 0 || Src.X() >= _Size.Width() || Dest.X() < 0 || Dest.X() >= dest->_Size.Width() )
 					continue;
 
-				const Pixel *CurSrcPixel = &m_Pixels[Src.Y()][Src.X()];
-				Pixel *CurDestPixel = &(dest->m_Pixels[Dest.Y()][Dest.X()]);
+				const Pixel *CurSrcPixel = &_Pixels[Src.Y()][Src.X()];
+				Pixel *CurDestPixel = &(dest->_Pixels[Dest.Y()][Dest.X()]);
 
-				if ( !transparentSpaces || (transparentSpaces && !m_Pixels[Src.Y()][Src.X()].IsSpace()) )
+				if ( !transparentSpaces || (transparentSpaces && !_Pixels[Src.Y()][Src.X()].IsSpace()) )
 				{
 					*CurDestPixel = *CurSrcPixel;
 
@@ -329,15 +329,15 @@ namespace AnsiGL
 		if ( transparentSpaces && ach.IsSpace() )
 			return;
 
-		m_Pixels[pos.Y()][pos.X()].Glyph( ach.Glyph() );
-		m_Pixels[pos.Y()][pos.X()].Bell = ach.Bell;
-		m_Pixels[pos.Y()][pos.X()].Attributes().clear();
+		_Pixels[pos.Y()][pos.X()].Glyph( ach.Glyph() );
+		_Pixels[pos.Y()][pos.X()].Bell = ach.Bell;
+		_Pixels[pos.Y()][pos.X()].Attributes().clear();
 
 		if ( !ach.Attributes().empty() )
-			m_Pixels[pos.Y()][pos.X()].AddAttributes( ach.Attributes() );
+			_Pixels[pos.Y()][pos.X()].AddAttributes( ach.Attributes() );
 
 		// Finds the color of this character in our palette...creating it if necessary (if we're auto-managing the palette)
-		m_Pixels[pos.Y()][pos.X()].PaletteIndex = FindColorIndex( ach.Color );
+		_Pixels[pos.Y()][pos.X()].PaletteIndex = FindColorIndex( ach.Color );
 	}
 
 	void Surface::DrawChar( const std::string &ch, const Point &pos, bool transparentSpaces )
@@ -507,7 +507,7 @@ namespace AnsiGL
 		for ( tSizeType y = MinY; y < MaxY; ++y )
 		{
 			for ( tSizeType x = MinX; x < MaxX; ++x )
-				m_Pixels[y][x].Glyph( glyph );
+				_Pixels[y][x].Glyph( glyph );
 		}
 	}
 
@@ -535,7 +535,7 @@ namespace AnsiGL
 		for ( tSizeType y = MinY; y < MaxY; ++y )
 		{
 			for ( tSizeType x = MinX; x < MaxX; ++x )
-				m_Pixels[y][x].PaletteIndex = NewPaletteIndex;
+				_Pixels[y][x].PaletteIndex = NewPaletteIndex;
 		}
 	}
 
@@ -588,7 +588,7 @@ namespace AnsiGL
 		if ( !HasPoint( pixel ) )
 			return false;
 
-		return (m_Pixels[pixel.Y()][pixel.X()].PaletteIndex != -1 || !m_Pixels[pixel.Y()][pixel.X()].Attributes().empty());
+		return (_Pixels[pixel.Y()][pixel.X()].PaletteIndex != -1 || !_Pixels[pixel.Y()][pixel.X()].Attributes().empty());
 	}
 
 	std::string Surface::pixelRenderAnsi( const Point2D &pixel ) const

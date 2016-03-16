@@ -15,7 +15,7 @@ namespace AnsiGL
 	}
 
 	Clone::Clone( Content::Ptr target ):
-		m_Target( target )
+		_Target( target )
 	{
 	}
 
@@ -25,17 +25,17 @@ namespace AnsiGL
 
 	Content::Ptr Clone::Target() const
 	{
-		return m_Target.lock();
+		return _Target.lock();
 	}
 
 	void Clone::Target( Content::Ptr target )
 	{
-		m_Target = target;
+		_Target = target;
 
 		if ( target )
-			this->m_Size = target->Size();
+			this->_Size = target->Size();
 		else
-			this->m_Size = Area2D(0, 0);
+			this->_Size = Area2D(0, 0);
 	}
 
 	std::string Clone::str()

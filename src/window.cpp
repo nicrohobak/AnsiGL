@@ -14,63 +14,63 @@
 namespace AnsiGL
 {
 	Window::Window():
-		m_Layout( new Context() ),
-		m_Title( new Text() ),
-		m_StatusText( new Text(astring("")) ),
-		m_Contents( new Context() ),
-		m_Borders( new Image() ),
-		m_VerticalScrollbar( new Image() ),
-		m_HorizontalScrollbar( new Image() ),
+		_Layout( new Context() ),
+		_Title( new Text() ),
+		_StatusText( new Text(astring("")) ),
+		_Contents( new Context() ),
+		_Borders( new Image() ),
+		_VerticalScrollbar( new Image() ),
+		_HorizontalScrollbar( new Image() ),
 		TransparentSpaces( TRANSPARENT_DEFAULT )
 	{
-		m_Layout->AddContent( m_Contents, Point3D(0, 0, 3) );
-		m_Layout->AddContent( m_StatusText, Point3D(0, 0, 2) );
-		m_Layout->AddContent( m_Borders, Point3D(0, 0, 1) );
-		m_Layout->AddContent( m_Title, Point3D(0, 0, 0) );
-		m_Layout->AddContent( m_VerticalScrollbar, Point3D(0, 0, 0) );
-		m_Layout->AddContent( m_HorizontalScrollbar, Point3D(0, 0, 0) );
+		_Layout->AddContent( _Contents, Point3D(0, 0, 3) );
+		_Layout->AddContent( _StatusText, Point3D(0, 0, 2) );
+		_Layout->AddContent( _Borders, Point3D(0, 0, 1) );
+		_Layout->AddContent( _Title, Point3D(0, 0, 0) );
+		_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 0) );
+		_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 0) );
 
-		m_VerticalScrollbar->Width( 1 );
-		m_HorizontalScrollbar->Height( 1 );
-		m_VerticalScrollbar->TransparentSpaces = true;
-		m_HorizontalScrollbar->TransparentSpaces = true;
+		_VerticalScrollbar->Width( 1 );
+		_HorizontalScrollbar->Height( 1 );
+		_VerticalScrollbar->TransparentSpaces = true;
+		_HorizontalScrollbar->TransparentSpaces = true;
 
-		m_Borders->TransparentSpaces = true;
-		m_Title->Align( TxtAlign_Center );
-		m_Title->TransparentSpaces = false;
+		_Borders->TransparentSpaces = true;
+		_Title->Align( TxtAlign_Center );
+		_Title->TransparentSpaces = false;
 		Title( astring("Window Title") );
-		m_StatusText->TransparentSpaces = false;
+		_StatusText->TransparentSpaces = false;
 	}
 
 	Window::Window( const astring &windowTitle, const Area2D &windowSize, const Point3D &viewportPos, bool transparentSpaces ):
-		m_Layout( new Context() ),
-		m_Title( new Text() ),
-		m_StatusText( new Text(astring("")) ),
-		m_Contents( new Context() ),
-		m_Borders( new Image() ),
-		m_VerticalScrollbar( new Image() ),
-		m_HorizontalScrollbar( new Image() ),
+		_Layout( new Context() ),
+		_Title( new Text() ),
+		_StatusText( new Text(astring("")) ),
+		_Contents( new Context() ),
+		_Borders( new Image() ),
+		_VerticalScrollbar( new Image() ),
+		_HorizontalScrollbar( new Image() ),
 		TransparentSpaces( transparentSpaces )
 	{
-		m_Layout->AddContent( m_Contents, Point3D(0, 0, 3) );
-		m_Layout->AddContent( m_StatusText, Point3D(0, 0, 2) );
-		m_Layout->AddContent( m_Borders, Point3D(0, 0, 1) );
-		m_Layout->AddContent( m_Title, Point3D(0, 0, 0) );
-		m_Layout->AddContent( m_VerticalScrollbar, Point3D(0, 0, 0) );
-		m_Layout->AddContent( m_HorizontalScrollbar, Point3D(0, 0, 0) );
+		_Layout->AddContent( _Contents, Point3D(0, 0, 3) );
+		_Layout->AddContent( _StatusText, Point3D(0, 0, 2) );
+		_Layout->AddContent( _Borders, Point3D(0, 0, 1) );
+		_Layout->AddContent( _Title, Point3D(0, 0, 0) );
+		_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 0) );
+		_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 0) );
 
-		m_VerticalScrollbar->Width( 1 );
-		m_HorizontalScrollbar->Height( 1 );
-		m_VerticalScrollbar->TransparentSpaces = true;
-		m_HorizontalScrollbar->TransparentSpaces = true;
+		_VerticalScrollbar->Width( 1 );
+		_HorizontalScrollbar->Height( 1 );
+		_VerticalScrollbar->TransparentSpaces = true;
+		_HorizontalScrollbar->TransparentSpaces = true;
 
 		Resize( windowSize );
 
-		m_Borders->TransparentSpaces = true;
-		m_Title->Align( TxtAlign_Center );
-		m_Title->TransparentSpaces = false;
+		_Borders->TransparentSpaces = true;
+		_Title->Align( TxtAlign_Center );
+		_Title->TransparentSpaces = false;
 		Title( windowTitle );
-		m_StatusText->TransparentSpaces = false;
+		_StatusText->TransparentSpaces = false;
 
 		MoveViewportTo( viewportPos );
 	}
@@ -81,25 +81,25 @@ namespace AnsiGL
 
 	const astring &Window::Title() const
 	{
-		return m_Title->Value();
+		return _Title->Value();
 	}
 
 	void Window::Title( const astring &title )
 	{
-		m_Title->Value( title );
-		m_Title->Width( title.length() + 2 );
-		m_Title->Offset.X( (m_Title->Width() + 2) / 2 );	// Offset it so the origin is effectively in the center
+		_Title->Value( title );
+		_Title->Width( title.length() + 2 );
+		_Title->Offset.X( (_Title->Width() + 2) / 2 );	// Offset it so the origin is effectively in the center
 	}
 
 	const astring &Window::StatusText() const
 	{
-		return m_StatusText->Value();
+		return _StatusText->Value();
 	}
 
 	void Window::StatusText( const astring &text )
 	{
-		m_StatusText->Value( text );
-		m_StatusText->Width( text.length() );
+		_StatusText->Value( text );
+		_StatusText->Width( text.length() );
 	}
 
 	const tSizeType &Window::Width() const
@@ -150,13 +150,13 @@ namespace AnsiGL
 
 	const Point3D &Window::CurViewportPos() const
 	{
-		return m_Contents->CurViewportPos();
+		return _Contents->CurViewportPos();
 	}
 
 	void Window::MoveViewportTo( const Point3D &pos )
 	{
-		FixedArea3D TotalContent = m_Contents->TotalContentSize();
-		FixedArea3D NewViewport( m_Contents->Size(), pos );
+		FixedArea3D TotalContent = _Contents->TotalContentSize();
+		FixedArea3D NewViewport( _Contents->Size(), pos );
 
 		if ( (Area2D)TotalContent < (Area2D)NewViewport )
 		{
@@ -182,14 +182,14 @@ namespace AnsiGL
 				NewViewport.Z( TotalContent.Z() + TotalContent.Depth() - NewViewport.Depth() );
 		}
 
-		m_Contents->MoveViewportTo( NewViewport.Point() );
+		_Contents->MoveViewportTo( NewViewport.Point() );
 		updateScrollbarPosition();
 	}
 
 	void Window::MoveViewportTo( const Point2D &pos )
 	{
-		FixedArea3D TotalContent = m_Contents->TotalContentSize();
-		FixedArea3D NewViewport( m_Contents->Size(), pos );
+		FixedArea3D TotalContent = _Contents->TotalContentSize();
+		FixedArea3D NewViewport( _Contents->Size(), pos );
 
 		if ( NewViewport.X() < TotalContent.X() )
 			NewViewport.X( TotalContent.X() );
@@ -201,7 +201,7 @@ namespace AnsiGL
 		if ( NewViewport.Y() + NewViewport.Height() > TotalContent.Y() + TotalContent.Height() )
 			NewViewport.Y( TotalContent.Y() + TotalContent.Height() - NewViewport.Height() );
 
-		m_Contents->MoveViewportTo( NewViewport.Point() );
+		_Contents->MoveViewportTo( NewViewport.Point() );
 		updateScrollbarPosition();
 	}
 
@@ -213,7 +213,7 @@ namespace AnsiGL
 
 	Context::Ptr Window::Contents() const
 	{
-		return m_Contents;
+		return _Contents;
 	}
 
 	void Window::AddContent( Content::Ptr content, const Point3D &pos )
@@ -221,36 +221,36 @@ namespace AnsiGL
 		if ( !content )
 			return;
 
-		m_Contents->AddContent( content, pos );
+		_Contents->AddContent( content, pos );
 		updateWindow();
 	}
 
 	void Window::RemoveContent( Content::Ptr content )
 	{
-		m_Contents->RemoveContent( content );
+		_Contents->RemoveContent( content );
 		updateWindow();
 	}
 
 	void Window::RemoveContentFrom( tPointType depth, Content::Ptr content )
 	{
-		m_Contents->RemoveContentFrom( depth, content );
+		_Contents->RemoveContentFrom( depth, content );
 		updateWindow();
 	}
 
 	void Window::RecalculateTotalContentSize()
 	{
-		m_Contents->RecalculateTotalContentSize();
+		_Contents->RecalculateTotalContentSize();
 		updateScrollbars();
 	}
 
 	std::string Window::str()
 	{
-		return m_Layout->str();
+		return _Layout->str();
 	}
 
 	std::string Window::Render() const
 	{
-		return m_Layout->Render();
+		return _Layout->Render();
 	}
 
 	void Window::RenderToSurface( Surface::Ptr dest, const Point2D &pos ) const
@@ -262,38 +262,38 @@ namespace AnsiGL
 		TempSurface->Width( Width() );
 		TempSurface->Height( Height() );
 
-		m_Layout->RenderToSurface( TempSurface );
+		_Layout->RenderToSurface( TempSurface );
 		TempSurface->RenderToSurface( dest, pos, TransparentSpaces );
 #else
 		// If there is no render buffer, there isn't any content to render
-		if ( !m_RenderBuf )
+		if ( !_RenderBuf )
 			return;
 
 		// Clear our buffer
-		m_RenderBuf->Clear();
+		_RenderBuf->Clear();
 
 		// Render our layout to that temp surface
-		m_Layout->RenderToSurface( m_RenderBuf );
+		_Layout->RenderToSurface( _RenderBuf );
 
 		// Then render the temp surface to the actual destination
-		m_RenderBuf->RenderToSurface( dest, pos, TransparentSpaces );
+		_RenderBuf->RenderToSurface( dest, pos, TransparentSpaces );
 #endif // 0
 	}
 
 	void Window::updateWindow()
 	{
-		m_Layout->ResizeViewport( m_Size );
-		m_RenderBuf = Surface::Ptr( new Surface(m_Size) );
+		_Layout->ResizeViewport( _Size );
+		_RenderBuf = Surface::Ptr( new Surface(_Size) );
 
 		// Move the title to the center of the window
-		m_Title->MoveTo( Point2D( m_Size.Width() / 2, 0) );
+		_Title->MoveTo( Point2D( _Size.Width() / 2, 0) );
 
 		// Put the content just inside the borders
-		m_Contents->MoveTo( Point2D(1, 1) );
-		m_Contents->ResizeViewport( Area2D(m_Size.Width() - 2, m_Size.Height() - 2) );
+		_Contents->MoveTo( Point2D(1, 1) );
+		_Contents->ResizeViewport( Area2D(_Size.Width() - 2, _Size.Height() - 2) );
 
 		// Move the status text to the proper location at the bottom-left
-		m_StatusText->MoveTo( Point2D(2, m_Size.Height() - 2) );
+		_StatusText->MoveTo( Point2D(2, _Size.Height() - 2) );
 
 		updateWindowBorders();
 		updateScrollbars();
@@ -301,14 +301,14 @@ namespace AnsiGL
 
 	void Window::updateWindowBorders()
 	{
-		m_Borders->Resize( m_Size );
-		m_Borders->DrawBox( m_Size );
+		_Borders->Resize( _Size );
+		_Borders->DrawBox( _Size );
 
 		// Draw the corners
-		m_Borders->DrawChar( "+", Point2D(0, 0) );
-		m_Borders->DrawChar( "+", Point2D(m_Size.Width() - 1, 0) );
-		m_Borders->DrawChar( "+", Point2D(0, m_Size.Height() - 1) );
-		m_Borders->DrawChar( "+", Point2D(m_Size.Width() - 1, m_Size.Height() - 1) );
+		_Borders->DrawChar( "+", Point2D(0, 0) );
+		_Borders->DrawChar( "+", Point2D(_Size.Width() - 1, 0) );
+		_Borders->DrawChar( "+", Point2D(0, _Size.Height() - 1) );
+		_Borders->DrawChar( "+", Point2D(_Size.Width() - 1, _Size.Height() - 1) );
 	}
 
 	void Window::updateScrollbars()
@@ -319,7 +319,7 @@ namespace AnsiGL
 
 	void Window::updateScrollbarSize()
 	{
-		FixedArea3D TotalContent = m_Contents->TotalContentSize();
+		FixedArea3D TotalContent = _Contents->TotalContentSize();
 
 		// Enforce minimums so we don't ever divide by 0
 		tSizeType TotalContentWidth = TotalContent.Width();
@@ -328,51 +328,51 @@ namespace AnsiGL
 		TotalContentHeight = TotalContentHeight != 0 ? TotalContentHeight : 1;
 
 		FixedArea3D CurViewport;
-		CurViewport.Point( m_Contents->CurViewportPos() );
-		CurViewport.Width( m_Contents->Width() );
-		CurViewport.Height( m_Contents->Height() );
+		CurViewport.Point( _Contents->CurViewportPos() );
+		CurViewport.Width( _Contents->Width() );
+		CurViewport.Height( _Contents->Height() );
 
 		Area2D MaxScrollbarSize( CurViewport.Width(), CurViewport.Height() );
 
-		m_HorizontalScrollbar->Width( MaxScrollbarSize.Width() * CurViewport.Width() / TotalContentWidth );
+		_HorizontalScrollbar->Width( MaxScrollbarSize.Width() * CurViewport.Width() / TotalContentWidth );
 
 		// Make sure we always have at least a little scrollbar showing if needed
-		if ( m_HorizontalScrollbar->Width() <= 0 )
-			m_HorizontalScrollbar->Width( 1 );
+		if ( _HorizontalScrollbar->Width() <= 0 )
+			_HorizontalScrollbar->Width( 1 );
 
-		if ( m_HorizontalScrollbar->Width() >= MaxScrollbarSize.Width() )
+		if ( _HorizontalScrollbar->Width() >= MaxScrollbarSize.Width() )
 		{
-			m_HorizontalScrollbar->Visible( false );
-			m_HorizontalScrollbar->Width( MaxScrollbarSize.Width() );
+			_HorizontalScrollbar->Visible( false );
+			_HorizontalScrollbar->Width( MaxScrollbarSize.Width() );
 		}
 		else
-			m_HorizontalScrollbar->Visible( true );
+			_HorizontalScrollbar->Visible( true );
 
-		for ( int i = 0; i < m_HorizontalScrollbar->Width(); ++i )
-			m_HorizontalScrollbar->DrawChar( "#", Point2D(i, 0) );
+		for ( int i = 0; i < _HorizontalScrollbar->Width(); ++i )
+			_HorizontalScrollbar->DrawChar( "#", Point2D(i, 0) );
 
 		// Set the size of the vertical scrollbar, and draw it to be sure it exists at the size we need
-		m_VerticalScrollbar->Height( MaxScrollbarSize.Height() * CurViewport.Height() / TotalContentHeight );
+		_VerticalScrollbar->Height( MaxScrollbarSize.Height() * CurViewport.Height() / TotalContentHeight );
 
 		// Make sure we always have at least a little scrollbar showing if needed
-		if ( m_VerticalScrollbar->Height() <= 0 )
-			m_VerticalScrollbar->Height( 1 );
+		if ( _VerticalScrollbar->Height() <= 0 )
+			_VerticalScrollbar->Height( 1 );
 
-		if ( m_VerticalScrollbar->Height() >= MaxScrollbarSize.Height() )
+		if ( _VerticalScrollbar->Height() >= MaxScrollbarSize.Height() )
 		{
-			m_VerticalScrollbar->Visible( false );
-			m_VerticalScrollbar->Height( MaxScrollbarSize.Height() );
+			_VerticalScrollbar->Visible( false );
+			_VerticalScrollbar->Height( MaxScrollbarSize.Height() );
 		}
 		else
-			m_VerticalScrollbar->Visible( true );
+			_VerticalScrollbar->Visible( true );
 
-		for ( int i = 0; i < m_VerticalScrollbar->Height(); ++i )
-			m_VerticalScrollbar->DrawChar( "#", Point2D(0, i) );
+		for ( int i = 0; i < _VerticalScrollbar->Height(); ++i )
+			_VerticalScrollbar->DrawChar( "#", Point2D(0, i) );
 	}
 
 	void Window::updateScrollbarPosition()
 	{
-		FixedArea3D TotalContent = m_Contents->TotalContentSize();
+		FixedArea3D TotalContent = _Contents->TotalContentSize();
 
 		// Enforce minimums so we don't ever divide by 0
 		tSizeType TotalContentWidth = TotalContent.Width();
@@ -381,9 +381,9 @@ namespace AnsiGL
 		TotalContentHeight = TotalContentHeight != 0 ? TotalContentHeight : 1;
 
 		FixedArea3D CurViewport;
-		CurViewport.Point( m_Contents->CurViewportPos() );
-		CurViewport.Width( m_Contents->Width() );
-		CurViewport.Height( m_Contents->Height() );
+		CurViewport.Point( _Contents->CurViewportPos() );
+		CurViewport.Width( _Contents->Width() );
+		CurViewport.Height( _Contents->Height() );
 
 		const int WIN_BORDER_WIDTH = 1;
 		const int WIN_BORDER_HEIGHT = 1;
@@ -392,20 +392,20 @@ namespace AnsiGL
 		int HeightDifference = TotalContentHeight - CurViewport.Height();
 
 		if ( WidthDifference == 0 )
-			m_HorizontalScrollbar->MoveTo( Point2D((CurViewport.Width() - m_HorizontalScrollbar->Width()) * CurViewport.X() + WIN_BORDER_WIDTH, CurViewport.Height() + 1) );
+			_HorizontalScrollbar->MoveTo( Point2D((CurViewport.Width() - _HorizontalScrollbar->Width()) * CurViewport.X() + WIN_BORDER_WIDTH, CurViewport.Height() + 1) );
 		else
-			m_HorizontalScrollbar->MoveTo( Point2D(((CurViewport.Width() - m_HorizontalScrollbar->Width()) * CurViewport.X() / WidthDifference) + WIN_BORDER_WIDTH, CurViewport.Height() + 1) );
+			_HorizontalScrollbar->MoveTo( Point2D(((CurViewport.Width() - _HorizontalScrollbar->Width()) * CurViewport.X() / WidthDifference) + WIN_BORDER_WIDTH, CurViewport.Height() + 1) );
 
-		if ( m_HorizontalScrollbar->X() > CurViewport.Width() - m_HorizontalScrollbar->Width() + 1 )
-			m_HorizontalScrollbar->MoveTo( Point2D((tPointType)(CurViewport.Width() - m_HorizontalScrollbar->Width() + 1), m_HorizontalScrollbar->Y()) );
+		if ( _HorizontalScrollbar->X() > CurViewport.Width() - _HorizontalScrollbar->Width() + 1 )
+			_HorizontalScrollbar->MoveTo( Point2D((tPointType)(CurViewport.Width() - _HorizontalScrollbar->Width() + 1), _HorizontalScrollbar->Y()) );
 
 		if ( HeightDifference == 0 )
-			m_VerticalScrollbar->MoveTo( Point2D(m_Borders->Width() - 1, ((CurViewport.Height() - m_VerticalScrollbar->Height()) * CurViewport.Y()) + WIN_BORDER_HEIGHT) );
+			_VerticalScrollbar->MoveTo( Point2D(_Borders->Width() - 1, ((CurViewport.Height() - _VerticalScrollbar->Height()) * CurViewport.Y()) + WIN_BORDER_HEIGHT) );
 		else
-			m_VerticalScrollbar->MoveTo( Point2D(m_Borders->Width() - 1, ((CurViewport.Height() - m_VerticalScrollbar->Height()) * CurViewport.Y() / HeightDifference) + WIN_BORDER_HEIGHT) );
+			_VerticalScrollbar->MoveTo( Point2D(_Borders->Width() - 1, ((CurViewport.Height() - _VerticalScrollbar->Height()) * CurViewport.Y() / HeightDifference) + WIN_BORDER_HEIGHT) );
 
-		if ( m_VerticalScrollbar->Y() > CurViewport.Height() - m_VerticalScrollbar->Height() + 1 )
-			m_VerticalScrollbar->MoveTo( Point2D(m_VerticalScrollbar->X(), (tPointType)(CurViewport.Height() - m_VerticalScrollbar->Height() + 1)) );
+		if ( _VerticalScrollbar->Y() > CurViewport.Height() - _VerticalScrollbar->Height() + 1 )
+			_VerticalScrollbar->MoveTo( Point2D(_VerticalScrollbar->X(), (tPointType)(CurViewport.Height() - _VerticalScrollbar->Height() + 1)) );
 	}
 }
 

@@ -12,7 +12,7 @@
 namespace AnsiGL
 {
 	uchar::uchar():
-		m_UTF8(" ")
+		_UTF8(" ")
 	{
 	}
 
@@ -34,7 +34,7 @@ namespace AnsiGL
 
 	uchar &uchar::operator=( const achar &right )
 	{
-		m_UTF8 = right.Glyph();
+		_UTF8 = right.Glyph();
 		return *this;
 	}
 
@@ -48,8 +48,8 @@ namespace AnsiGL
 		// If it's less than 128, it's just ASCII, so just assign it
 		if ( !(right.c_str()[0] & (1 << 8)) )
 		{
-			m_UTF8.clear();
-			m_UTF8.push_back( right.c_str()[0] );
+			_UTF8.clear();
+			_UTF8.push_back( right.c_str()[0] );
 			return (*this);
 		}
 
@@ -62,7 +62,7 @@ namespace AnsiGL
 		for ( ; Check & (1 << 8); Check <<= 1 )
 			++TotalBytes;
 
-		m_UTF8.clear();
+		_UTF8.clear();
 
 		for ( CurByte = right.begin(); CurByte != right.end(); ++CurByte )
 		{
@@ -70,24 +70,24 @@ namespace AnsiGL
 			if ( !((*CurByte) & (1 << 8)) )
 				break;
 
-			m_UTF8.push_back( *CurByte );
+			_UTF8.push_back( *CurByte );
 
 			if ( ++NumBytes >= TotalBytes )
 				break;
 		}
 
 		// If the calculated number of bytes doesn't add up to what we recovered...consider it improperly formed as well
-		if ( TotalBytes != m_UTF8.length() )
+		if ( TotalBytes != _UTF8.length() )
 		{
-			m_UTF8.clear();
+			_UTF8.clear();
 			return (*this);
 		}
 
 		// And finally, check and make sure that we aren't over-encoded with too many bytes
-		Check = m_UTF8.c_str()[1];
+		Check = _UTF8.c_str()[1];
 		if ( Check & (1 << (8 - TotalBytes)) )
 		{
-			m_UTF8.clear();
+			_UTF8.clear();
 			return (*this);
 		}
 
@@ -102,7 +102,7 @@ namespace AnsiGL
 
 	bool uchar::operator==( const uchar &right ) const
 	{
-		return (!m_UTF8.compare( right.m_UTF8 ));
+		return (!_UTF8.compare( right._UTF8 ));
 	}
 
 	bool uchar::operator!=( const uchar &right ) const
@@ -112,7 +112,7 @@ namespace AnsiGL
 
 	bool uchar::operator==( const achar &right ) const
 	{
-		return (!m_UTF8.compare( right.Glyph() ));
+		return (!_UTF8.compare( right.Glyph() ));
 	}
 
 	bool uchar::operator!=( const achar &right ) const
@@ -122,7 +122,7 @@ namespace AnsiGL
 
 	bool uchar::operator==( const std::string &right ) const
 	{
-		return (!m_UTF8.compare( right ));
+		return (!_UTF8.compare( right ));
 	}
 
 	bool uchar::operator!=( const std::string &right ) const
@@ -132,10 +132,10 @@ namespace AnsiGL
 
 	bool uchar::operator==( const unsigned char &right ) const
 	{
-		if ( m_UTF8.length() != 1 )
+		if ( _UTF8.length() != 1 )
 			return false;
 
-		return (m_UTF8.c_str()[0] == right);
+		return (_UTF8.c_str()[0] == right);
 	}
 
 	bool uchar::operator!=( const unsigned char &right ) const
@@ -145,7 +145,7 @@ namespace AnsiGL
 
 	const std::string &uchar::Glyph() const
 	{
-		return m_UTF8;
+		return _UTF8;
 	}
 
 	void uchar::Glyph( const uchar &glyph )
@@ -167,14 +167,14 @@ namespace AnsiGL
 	{
 		if ( glyph < 128 )
 		{
-			m_UTF8.clear();
-			m_UTF8.push_back( glyph );
+			_UTF8.clear();
+			_UTF8.push_back( glyph );
 		}
 	}
 
 	void uchar::Clear()
 	{
-		m_UTF8 = " ";
+		_UTF8 = " ";
 	}
 
 	const std::string &uchar::Render() const

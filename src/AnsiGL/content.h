@@ -31,12 +31,12 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Content )
 
 	protected:
-		Context_wPtr		m_Container;		// A cached pointer to the context we reside within
-		ContentMarker_wPtr	m_ContentMarker;	// For faster access to our position information
+		Context_wPtr		_Container;		// A cached pointer to the context we reside within
+		ContentMarker_wPtr	_ContentMarker;	// For faster access to our position information
 
-		Area2D			m_Size;			// The rough size of this content
+		Area2D			_Size;			// The rough size of this content
 
-		bool			m_Visible;		// Is this visible within the context?
+		bool			_Visible;		// Is this visible within the context?
 
 	public:
 		Point2D			Offset;			// X/Y offset from the origin for rendering
@@ -72,7 +72,7 @@ namespace AnsiGL
 		virtual const tSizeType &Height() const;
 		virtual void Width( tSizeType width );
 		virtual void Height( tSizeType height );
-		virtual void Resize( const Area2D &size );		// Must set out m_Size appropriately!
+		virtual void Resize( const Area2D &size );		// Must set out _Size appropriately!
 
 		virtual bool Visible() const;
 		virtual void Visible( bool visible );
@@ -86,7 +86,7 @@ namespace AnsiGL
 	protected:
 		void triggerContextRecalc() const;
 
-		// Allow context to access m_Position to adjust the Z position
+		// Allow context to access _Position to adjust the Z position
 		friend class Context;
 	};
 

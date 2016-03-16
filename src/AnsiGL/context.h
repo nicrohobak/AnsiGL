@@ -26,7 +26,7 @@ namespace AnsiGL
 		ANSIGL_POINTERS_AND_LISTS( ContentMarker )
 
 	protected:
-		Content::Ptr			m_Content;
+		Content::Ptr			_Content;
 
 	public:
 		ContentMarker();
@@ -72,7 +72,7 @@ namespace AnsiGL
 		virtual void RemoveContent( Content::Ptr content );
 		virtual void RemoveContentFrom( tPointType depth, Content::Ptr content );	// Removes content from a specific depth
 		virtual const FixedArea3D &TotalContentSize();
-		virtual void RecalculateTotalContentSize();			// Recalculates m_TotalContentSize from scratch
+		virtual void RecalculateTotalContentSize();			// Recalculates _TotalContentSize from scratch
 		virtual bool Contains( Content::Ptr content ) const;		// Checks to see if specific content exists within this context
 
 		virtual std::string str();
@@ -80,20 +80,20 @@ namespace AnsiGL
 		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point() ) const;
 
 	protected:
-		tContentList			m_Contents;			// int for z position, with each one being a list of contents
+		tContentList			_Contents;			// int for z position, with each one being a list of contents
 
-		Point3D				m_ViewportPos;			// The position of the viewport within this context-space
+		Point3D				_ViewportPos;			// The position of the viewport within this context-space
 
-		FixedArea3D			m_TotalContentSize;		// Effectively a bounding box that encompasses all of the contents
+		FixedArea3D			_TotalContentSize;		// Effectively a bounding box that encompasses all of the contents
 
-		bool				m_NeedsSizeRecalc;
+		bool				_NeedsSizeRecalc;
 
 		void resetTotalContentSize();
-		void expandTotalContentSize( ContentMarker::Ptr content );	// Expands m_TotalContentSize (if needed) to fit the content
+		void expandTotalContentSize( ContentMarker::Ptr content );	// Expands _TotalContentSize (if needed) to fit the content
 		tSizeType cappedAdd( tSizeType first, tSizeType second );	// Adds the two together, making sure the variable doesn't wrap
 		tSizeType cappedSub( tSizeType first, tSizeType second );	// Subtracts 'second' from 'first', making sure the variable doesn't wrap
 
-		// Allow content to access m_Contents directly so it can perform move/remove/etc. operations in a programatically-sane fashion
+		// Allow content to access _Contents directly so it can perform move/remove/etc. operations in a programatically-sane fashion
 		friend class Content;
 	};
 }

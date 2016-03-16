@@ -19,10 +19,10 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Text )
 
 	protected:
-		astring			m_Text;
-		astring			m_FormattedText;
+		astring			_Text;
+		astring			_FormattedText;
 
-		ENUM_TxtAlign		m_Alignment;
+		ENUM_TxtAlign		_Alignment;
 
 	public:
 		bool			AutoHeight;			// Automatically adjusts the height based on the formatted text

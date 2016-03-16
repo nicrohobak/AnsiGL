@@ -16,7 +16,7 @@
 
 extern "C"
 {
-	#include <ncurses.h>
+#include <ncurses.h>
 }
 
 

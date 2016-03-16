@@ -24,7 +24,7 @@ namespace AnsiGL
 	class uchar
 	{
 	protected:
-		std::string	m_UTF8;
+		std::string	_UTF8;
 
 	public:
 		uchar();
@@ -68,7 +68,7 @@ namespace AnsiGL
 
 		bool IsSpace() const					// Returns 'true' if the glyph is whitespace
 		{
-			return (m_UTF8.empty() || isspace(*m_UTF8.begin()));
+			return (_UTF8.empty() || isspace(*_UTF8.begin()));
 		}
 
 		void Clear();

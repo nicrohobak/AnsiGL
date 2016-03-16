@@ -52,7 +52,7 @@ namespace AnsiGL
 		typedef typename std::vector< tCharType >::const_reverse_iterator	const_reverse_iterator;
 
 	protected:
-		std::vector< tCharType >	m_String;
+		std::vector< tCharType >	_String;
 
 	public:
 		String()
@@ -61,7 +61,7 @@ namespace AnsiGL
 
 		String( int reserveSize )
 		{
-			m_String.resize( reserveSize );
+			_String.resize( reserveSize );
 		}
 
 		String( const std::string &str )
@@ -80,12 +80,12 @@ namespace AnsiGL
 
 		tCharType &operator[]( size_t pos )
 		{
-			return m_String[pos];
+			return _String[pos];
 		}
 
 		const tCharType &operator[]( size_t pos ) const
 		{
-			return m_String[pos];
+			return _String[pos];
 		}
 
 		String< tCharType > &operator+=( const String< tCharType > &right )
@@ -124,42 +124,42 @@ namespace AnsiGL
 
 		iterator begin()
 		{
-			return m_String.begin();
+			return _String.begin();
 		}
 
 		iterator end()
 		{
-			return m_String.end();
+			return _String.end();
 		}
 
 		reverse_iterator rbegin()
 		{
-			return m_String.rbegin();
+			return _String.rbegin();
 		}
 
 		reverse_iterator rend()
 		{
-			return m_String.rend();
+			return _String.rend();
 		}
 
 		const_iterator begin() const
 		{
-			return m_String.begin();
+			return _String.begin();
 		}
 
 		const_iterator end() const
 		{
-			return m_String.end();
+			return _String.end();
 		}
 
 		const_reverse_iterator rbegin() const
 		{
-			return m_String.rbegin();
+			return _String.rbegin();
 		}
 
 		const_reverse_iterator rend() const
 		{
-			return m_String.rend();
+			return _String.rend();
 		}
 
 		void append( const String< tCharType > &str )
@@ -179,43 +179,43 @@ namespace AnsiGL
 
 		void clear()
 		{
-			m_String.clear();
+			_String.clear();
 		}
 
 		bool empty() const
 		{
-			return m_String.empty();
+			return _String.empty();
 		}
 
 		iterator insert( iterator pos, const tCharType &x )
 		{
-			m_String.insert( pos, x );
+			_String.insert( pos, x );
 		}
 
 		void insert( iterator pos, size_t n, const tCharType &x )
 		{
-			m_String.insert( pos, n, x );
+			_String.insert( pos, n, x );
 		}
 
 		template <class InputIterator>
 		void insert( iterator pos, InputIterator first, InputIterator last )
 		{
-			m_String.insert( pos, first, last );
+			_String.insert( pos, first, last );
 		}
 
 		size_t length() const
 		{
-			return m_String.size();
+			return _String.size();
 		}
 
 		void push_back( const tCharType &ch )
 		{
-			m_String.push_back( ch );
+			_String.push_back( ch );
 		}
 
 		void pop_back()
 		{
-			m_String.pop_back();
+			_String.pop_back();
 		}
 
 		//
@@ -388,7 +388,7 @@ namespace AnsiGL
 		{
 			size_t LineCount = 0;
 
-			if ( m_String.empty() )
+			if ( _String.empty() )
 				return LineCount;
 
 			typename String< tCharType >::iterator CurChar;
@@ -409,7 +409,7 @@ namespace AnsiGL
 				if ( !CurChar->IsSpace() )
 					break;
 
-				m_String.erase( CurChar );
+				_String.erase( CurChar );
 			}
 		}
 
@@ -420,7 +420,7 @@ namespace AnsiGL
 				if ( !CurChar->IsSpace() )
 					break;
 
-				m_String.erase( --(CurChar.base()) );
+				_String.erase( --(CurChar.base()) );
 			}
 		}
 

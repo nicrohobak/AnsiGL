@@ -19,7 +19,7 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Clone )
 
 	protected:
-		Content::wPtr		m_Target;
+		Content::wPtr		_Target;
 
 	public:
 		Clone();

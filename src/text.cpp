@@ -11,8 +11,8 @@
 namespace AnsiGL
 {
 	Text::Text():
-		m_Text("Default Text"),
-		m_Alignment(TxtAlign_Default),
+		_Text("Default Text"),
+		_Alignment(TxtAlign_Default),
 		AutoHeight(true),
 		TransparentSpaces(false)
 	{
@@ -20,8 +20,8 @@ namespace AnsiGL
 	}
 
 	Text::Text( const astring &text, tSizeType width, ENUM_TxtAlign alignment, bool transparentSpaces, bool autoHeight ):
-		m_Text(text),
-		m_Alignment(alignment),
+		_Text(text),
+		_Alignment(alignment),
 		AutoHeight(autoHeight),
 		TransparentSpaces(transparentSpaces)
 	{
@@ -37,60 +37,60 @@ namespace AnsiGL
 
 	const astring &Text::Value() const
 	{
-		return m_Text;
+		return _Text;
 	}
 
 	const astring &Text::FormattedValue() const
 	{
-		return m_FormattedText;
+		return _FormattedText;
 	}
 
 	void Text::Value( const astring &text )
 	{
-		m_Text = text;
+		_Text = text;
 		format();
 	}
 
 	void Text::Value( const ustring &text )
 	{
-		m_Text = astring( text );
+		_Text = astring( text );
 		format();
 	}
 
 	void Text::Value( const std::string &text )
 	{
-		m_Text = astring( text );
+		_Text = astring( text );
 		format();
 	}
 
 	void Text::Append( const astring &text )
 	{
-		m_Text.append( text );
+		_Text.append( text );
 	}
 
 	void Text::Append( const ustring &text )
 	{
-		m_Text.append( astring(text) );
+		_Text.append( astring(text) );
 	}
 
 	void Text::Append( const std::string &text )
 	{
-		m_Text.append( astring(text) );
+		_Text.append( astring(text) );
 	}
 
 	void Text::Clear()
 	{
-		m_Text.clear();
+		_Text.clear();
 	}
 
 	ENUM_TxtAlign Text::Align() const
 	{
-		return m_Alignment;
+		return _Alignment;
 	}
 
 	void Text::Align( ENUM_TxtAlign align )
 	{
-		m_Alignment = align;
+		_Alignment = align;
 		format();
 	}
 
@@ -123,12 +123,12 @@ namespace AnsiGL
 
 	std::string Text::str()
 	{
-		return m_FormattedText.str();
+		return _FormattedText.str();
 	}
 
 	std::string Text::Render() const
 	{
-		return m_FormattedText.Render( ColorDepth_Default );
+		return _FormattedText.Render( ColorDepth_Default );
 	}
 
 	void Text::RenderToSurface( Surface::Ptr dest, const Point2D &pos ) const
@@ -136,12 +136,12 @@ namespace AnsiGL
 		if ( !dest )
 			return;
 
-		dest->DrawString( m_FormattedText, pos, TransparentSpaces );
+		dest->DrawString( _FormattedText, pos, TransparentSpaces );
 	}
 
 	void Text::format()
 	{
-		m_FormattedText = m_Text.Format( m_Size.Width(), m_Alignment );
+		_FormattedText = _Text.Format( _Size.Width(), _Alignment );
 
 		// If AutoHeight is on, adjust our height based on the number of newlines we have
 		if ( AutoHeight )
@@ -149,7 +149,7 @@ namespace AnsiGL
 			astring::const_iterator CurChar;
 			tSizeType NumLines = 1;
 
-			for ( CurChar = m_FormattedText.begin(); CurChar != m_FormattedText.end(); ++CurChar )
+			for ( CurChar = _FormattedText.begin(); CurChar != _FormattedText.end(); ++CurChar )
 			{
 				if ( (*CurChar) == '\n' )
 					++NumLines;

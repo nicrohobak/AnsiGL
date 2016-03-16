@@ -19,8 +19,8 @@ namespace AnsiGL
 	class ColorComponent
 	{
 	protected:
-		ANSIColorPalette::Ptr	m_Palette;		// A pointer to the current ANSIColorPalette
-		int			m_Index;		// The color index of this component: Range: -1 to 255 (typically)  -1 is colorless
+		ANSIColorPalette::Ptr	_Palette;		// A pointer to the current ANSIColorPalette
+		int			_Index;		// The color index of this component: Range: -1 to 255 (typically)  -1 is colorless
 
 	public:
 		ColorComponent();
@@ -51,7 +51,7 @@ namespace AnsiGL
 		std::string Render( ENUM_ColorDepth desiredDepth, bool background = false ) const;	// If background is true, this color is rendered as a background color
 
 	protected:
-		void assignMasterPalette();			// Initializes AnsiGL's master color palette: ANSIColorPalette::Master, if necessary then points m_Palette over to it
+		void assignMasterPalette();			// Initializes AnsiGL's master color palette: ANSIColorPalette::Master, if necessary then points _Palette over to it
 	};
 
 
@@ -102,7 +102,7 @@ namespace AnsiGL
 		typedef std::list< ColorDef::Ptr >::const_reverse_iterator	const_reverse_iterator;
 
 	protected:
-		std::list< ColorDef::Ptr >		m_Colors;
+		std::list< ColorDef::Ptr >		_Colors;
 
 	public:
 		ColorPalette();

@@ -22,18 +22,18 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Window )
 
 	protected:
-		Surface::Ptr		m_RenderBuf;
-		Context::Ptr		m_Layout;
+		Surface::Ptr		_RenderBuf;
+		Context::Ptr		_Layout;
 
-		Text::Ptr		m_Title;
-		Text::Ptr		m_StatusText;
+		Text::Ptr		_Title;
+		Text::Ptr		_StatusText;
 
-		Context::Ptr		m_Contents;
+		Context::Ptr		_Contents;
 
-		Image::Ptr		m_Borders;
+		Image::Ptr		_Borders;
 
-		Image::Ptr		m_VerticalScrollbar;
-		Image::Ptr		m_HorizontalScrollbar;
+		Image::Ptr		_VerticalScrollbar;
+		Image::Ptr		_HorizontalScrollbar;
 
 	public:
 		bool			TransparentSpaces;			// True to not render blank spaces (allows the "background" to bleed through in whitespace)

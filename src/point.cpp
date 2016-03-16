@@ -11,8 +11,8 @@
 namespace AnsiGL
 {
 	Point2D::Point2D():
-		m_X(0),
-		m_Y(0)
+		_X(0),
+		_Y(0)
 	{
 	}
 
@@ -28,12 +28,12 @@ namespace AnsiGL
 
 	void Point2D::X( tPointType x )
 	{
-		m_X = x;
+		_X = x;
 	}
 
 	void Point2D::Y( tPointType y )
 	{
-		m_Y = y;
+		_Y = y;
 	}
 
 	void Point2D::Set( tPointType x, tPointType y )
@@ -44,21 +44,21 @@ namespace AnsiGL
 
 	Point2D &Point2D::operator+=( const Point2D &right )
 	{
-		m_X = m_X + right.m_X;
-		m_Y = m_Y + right.m_Y;
+		_X = _X + right._X;
+		_Y = _Y + right._Y;
 		return (*this);
 	}
 
 	Point2D &Point2D::operator-=( const Point2D &right )
 	{
-		m_X = m_X - right.m_X;
-		m_Y = m_Y - right.m_Y;
+		_X = _X - right._X;
+		_Y = _Y - right._Y;
 		return (*this);
 	}
 
 	bool Point2D::operator==( const Point2D &right ) const
 	{
-		return (m_X == right.m_X && m_Y == right.m_Y);
+		return (_X == right._X && _Y == right._Y);
 	}
 
 	bool Point2D::operator!=( const Point2D &right ) const
@@ -69,46 +69,46 @@ namespace AnsiGL
 
 	Point2D operator+( const Point2D &left, const Point2D &right )
 	{
-		Point2D RetVal( left.m_X + right.m_X, left.m_Y + right.m_Y );
+		Point2D RetVal( left._X + right._X, left._Y + right._Y );
 		return RetVal;
 	}
 
 	Point2D operator-( const Point2D &left, const Point2D &right )
 	{
-		Point2D RetVal( left.m_X - right.m_X, left.m_Y - right.m_Y );
+		Point2D RetVal( left._X - right._X, left._Y - right._Y );
 		return RetVal;
 	}
 
 
 	Point3D::Point3D():
-		m_Z(0)
+		_Z(0)
 	{
 	}
 
 	Point3D::Point3D( tPointType x, tPointType y, tPointType z ):
-		m_Z(z)
+		_Z(z)
 	{
-		m_X = x;
-		m_Y = y;
+		_X = x;
+		_Y = y;
 	}
 
 	Point3D::Point3D( const Point2D &point ):
-		m_Z(0)
+		_Z(0)
 	{
-		m_X = point.X();
-		m_Y = point.Y();
+		_X = point.X();
+		_Y = point.Y();
 	}
 
 	Point3D::Point3D( tPointType x, tPointType y ):
-		m_Z(0)
+		_Z(0)
 	{
-		m_X = x;
-		m_Y = y;
+		_X = x;
+		_Y = y;
 	}
 
 	void Point3D::Z( tPointType z )
 	{
-		m_Z = z;
+		_Z = z;
 	}
 
 	void Point3D::Set( tPointType x, tPointType y, tPointType z )
@@ -119,23 +119,23 @@ namespace AnsiGL
 
 	Point3D &Point3D::operator+=( const Point3D &right )
 	{
-		m_X = m_X + right.m_X;
-		m_Y = m_Y + right.m_Y;
-		m_Z = m_Z + right.m_Z;
+		_X = _X + right._X;
+		_Y = _Y + right._Y;
+		_Z = _Z + right._Z;
 		return (*this);
 	}
 
 	Point3D &Point3D::operator-=( const Point3D &right )
 	{
-		m_X = m_X - right.m_X;
-		m_Y = m_Y - right.m_Y;
-		m_Z = m_Z - right.m_Z;
+		_X = _X - right._X;
+		_Y = _Y - right._Y;
+		_Z = _Z - right._Z;
 		return (*this);
 	}
 
 	bool Point3D::operator==( const Point3D &right ) const
 	{
-		return (m_X == right.m_X && m_Y == right.m_Y && m_Z == right.m_Z);
+		return (_X == right._X && _Y == right._Y && _Z == right._Z);
 	}
 
 	bool Point3D::operator!=( const Point3D &right ) const
@@ -146,13 +146,13 @@ namespace AnsiGL
 
 	Point3D operator+( const Point3D &left, const Point3D &right )
 	{
-		Point3D RetVal( left.m_X + right.m_X, left.m_Y + right.m_Y, left.m_Z + right.m_Z );
+		Point3D RetVal( left._X + right._X, left._Y + right._Y, left._Z + right._Z );
 		return RetVal;
 	}
 
 	Point3D operator-( const Point3D &left, const Point3D &right )
 	{
-		Point3D RetVal( left.m_X - right.m_X, left.m_Y - right.m_Y, left.m_Z - right.m_Z );
+		Point3D RetVal( left._X - right._X, left._Y - right._Y, left._Z - right._Z );
 		return RetVal;
 	}
 }

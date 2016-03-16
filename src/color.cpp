@@ -13,44 +13,44 @@
 namespace AnsiGL
 {
 	ColorComponent::ColorComponent():
-		m_Index(-1)
+		_Index(-1)
 	{
 		assignMasterPalette();
 	}
 
 	ColorComponent::ColorComponent( ANSIColorPalette::Ptr palette ):
-		m_Palette(palette),
-		m_Index(-1)
+		_Palette(palette),
+		_Index(-1)
 	{
 		// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
 	}
 
 	ColorComponent::ColorComponent( ANSIColorPalette::Ptr palette, const ANSIColorDef &color ):
-		m_Palette(palette),
-		m_Index(-1)
+		_Palette(palette),
+		_Index(-1)
 	{
 		// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
 
-		if ( m_Palette )
-			m_Index = m_Palette->FindIndex( color );
+		if ( _Palette )
+			_Index = _Palette->FindIndex( color );
 	}
 
 	ColorComponent::ColorComponent( ENUM_ANSISystemColors color ):
-		m_Index(-1)
+		_Index(-1)
 	{
 		assignMasterPalette();
 		Set( color );
 	}
 
 	ColorComponent::ColorComponent( unsigned char r, unsigned char g, unsigned char b ):
-		m_Index(-1)
+		_Index(-1)
 	{
 		assignMasterPalette();
 		Set( r, g, b );
 	}
 
 	ColorComponent::ColorComponent( unsigned char grayscale ):
-		m_Index(-1)
+		_Index(-1)
 	{
 		assignMasterPalette();
 		Set( grayscale );
@@ -61,15 +61,15 @@ namespace AnsiGL
 		if ( this == &right )
 			return true;
 
-		if ( m_Index == -1 && right.m_Index == -1 )
+		if ( _Index == -1 && right._Index == -1 )
 			return true;
 
-		if ( m_Palette && right.m_Palette )
+		if ( _Palette && right._Palette )
 		{
-			if ( m_Index >= 0 && m_Index < (int)m_Palette->size() && right.m_Index >= 0 && right.m_Index < (int)right.m_Palette->size() )
+			if ( _Index >= 0 && _Index < (int)_Palette->size() && right._Index >= 0 && right._Index < (int)right._Palette->size() )
 			{
-				// m_Palette is a pointer, and so is (*m_Palette)[index]...hence the double deref
-				if ( (*(*m_Palette)[m_Index]) == (*(*right.m_Palette)[right.m_Index]) )
+				// _Palette is a pointer, and so is (*_Palette)[index]...hence the double deref
+				if ( (*(*_Palette)[_Index]) == (*(*right._Palette)[right._Index]) )
 					return true;
 			}
 		}
@@ -84,73 +84,73 @@ namespace AnsiGL
 
 	ANSIColorPalette::Ptr ColorComponent::Palette() const
 	{
-		return m_Palette;
+		return _Palette;
 	}
 
 	void ColorComponent::Palette( ANSIColorPalette::Ptr palette )
 	{
-		m_Palette = palette;
+		_Palette = palette;
 
 		// Check our index bounds against the new palette...if we're still in range, allow it...if not, become transparent
-		if ( !m_Palette || (m_Palette && m_Index >= (int)m_Palette->size()) )
-			m_Index = -1;
+		if ( !_Palette || (_Palette && _Index >= (int)_Palette->size()) )
+			_Index = -1;
 	}
 
 	int ColorComponent::Index() const
 	{
-		return m_Index;
+		return _Index;
 	}
 
 	void ColorComponent::Set( ENUM_ANSISystemColors color )
 	{
-		if ( !m_Palette )
+		if ( !_Palette )
 			return;
 
-		m_Index = m_Palette->FindIndex( color );
+		_Index = _Palette->FindIndex( color );
 	}
 
 	void ColorComponent::Set( unsigned char r, unsigned char g, unsigned char b )
 	{
-		if ( !m_Palette )
+		if ( !_Palette )
 			return;
 
-		m_Index = m_Palette->FindIndex( r, g, b );
+		_Index = _Palette->FindIndex( r, g, b );
 	}
 
 	void ColorComponent::Set( unsigned char grayscale )
 	{
-		if ( !m_Palette )
+		if ( !_Palette )
 			return;
 
-		m_Index = m_Palette->FindIndex( grayscale );
+		_Index = _Palette->FindIndex( grayscale );
 	}
 
 	ANSIColorDef::Ptr ColorComponent::Color() const
 	{
-		//if ( m_Palette && m_Index != -1 && m_Index < m_Palette->size() )
-		if ( m_Palette && m_Index != -1 )
-			return (*m_Palette)[m_Index];
+		//if ( _Palette && _Index != -1 && _Index < _Palette->size() )
+		if ( _Palette && _Index != -1 )
+			return (*_Palette)[_Index];
 
 		return ANSIColorDef::Ptr();
 	}
 
 	bool ColorComponent::IsColorless() const
 	{
-		return (!m_Palette || m_Index == -1);
+		return (!_Palette || _Index == -1);
 	}
 
 	void ColorComponent::Clear()
 	{
-		m_Palette.reset();
-		m_Index = -1;
+		_Palette.reset();
+		_Index = -1;
 	}
 
 	std::string ColorComponent::Render( ENUM_ColorDepth desiredDepth, bool background ) const
 	{
-		if ( IsColorless() || m_Index >= (int)m_Palette->size() )
+		if ( IsColorless() || _Index >= (int)_Palette->size() )
 			return std::string("");
 
-		return (*m_Palette)[m_Index]->Render( desiredDepth, background );
+		return (*_Palette)[_Index]->Render( desiredDepth, background );
 	}
 
 	void ColorComponent::assignMasterPalette()
@@ -158,7 +158,7 @@ namespace AnsiGL
 		if ( !ANSIColorPalette::Master )
 			ANSIColorPalette::InitMasterPalette();
 
-		m_Palette = ANSIColorPalette::Master;
+		_Palette = ANSIColorPalette::Master;
 	}
 
 
@@ -357,52 +357,52 @@ namespace AnsiGL
 
 	ColorPalette::iterator ColorPalette::begin()
 	{
-		return m_Colors.begin();
+		return _Colors.begin();
 	}
 
 	ColorPalette::iterator ColorPalette::end()
 	{
-		return m_Colors.end();
+		return _Colors.end();
 	}
 
 	ColorPalette::const_iterator ColorPalette::begin() const
 	{
-		return m_Colors.begin();
+		return _Colors.begin();
 	}
 
 	ColorPalette::const_iterator ColorPalette::end() const
 	{
-		return m_Colors.end();
+		return _Colors.end();
 	}
 
 	ColorPalette::reverse_iterator ColorPalette::rbegin()
 	{
-		return m_Colors.rbegin();
+		return _Colors.rbegin();
 	}
 
 	ColorPalette::reverse_iterator ColorPalette::rend()
 	{
-		return m_Colors.rend();
+		return _Colors.rend();
 	}
 
 	ColorPalette::const_reverse_iterator ColorPalette::rbegin() const
 	{
-		return m_Colors.rbegin();
+		return _Colors.rbegin();
 	}
 
 	ColorPalette::const_reverse_iterator ColorPalette::rend() const
 	{
-		return m_Colors.rend();
+		return _Colors.rend();
 	}
 
 	bool ColorPalette::empty() const
 	{
-		return m_Colors.empty();
+		return _Colors.empty();
 	}
 
 	size_t ColorPalette::size() const
 	{
-		return m_Colors.size();
+		return _Colors.size();
 	}
 
 	int ColorPalette::Add( ColorDef::Ptr color )
@@ -420,7 +420,7 @@ namespace AnsiGL
 
 		// Otherwise, lets actually add the color
 		NewIndex = size();		// The new index will be whatever the current size is, since we count from base 0 with our index
-		m_Colors.push_back( color );
+		_Colors.push_back( color );
 
 		return NewIndex;
 	}
@@ -436,7 +436,7 @@ namespace AnsiGL
 		{
 			// CurColor is an iterator to ColorDef::Ptr...hence the double-dref
 			if ( (*(*CurColor)) == color )
-				CurColor = m_Colors.erase( CurColor );
+				CurColor = _Colors.erase( CurColor );
 			else
 				++CurColor;
 		}
@@ -461,7 +461,7 @@ namespace AnsiGL
 			{
 				if ( CurIndex == index )
 				{
-					m_Colors.erase( --CurColor.base() );
+					_Colors.erase( --CurColor.base() );
 					break;
 				}
 			}
@@ -476,7 +476,7 @@ namespace AnsiGL
 			{
 				if ( CurIndex == index )
 				{
-					m_Colors.erase( CurColor );
+					_Colors.erase( CurColor );
 					break;
 				}
 			}

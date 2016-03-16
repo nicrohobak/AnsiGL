@@ -17,7 +17,7 @@ namespace AnsiGL
 
 	ContentMarker::ContentMarker( Content::Ptr content, const Point3D &pos ):
 		Point3D(pos),
-		m_Content(content)
+		_Content(content)
 	{
 	}
 
@@ -27,25 +27,25 @@ namespace AnsiGL
 
 	Content::Ptr ContentMarker::Target() const
 	{
-		return m_Content;
+		return _Content;
 	}
 
 	void ContentMarker::Target( Content::Ptr content )
 	{
-		m_Content = content;
+		_Content = content;
 	}
 
 
 	Context::Context():
-		m_NeedsSizeRecalc(true)
+		_NeedsSizeRecalc(true)
 	{
 	}
 
 	Context::Context( const Area2D &viewportSize, const Point3D &viewportPos ):
-		m_NeedsSizeRecalc(true)
+		_NeedsSizeRecalc(true)
 	{
 		Resize( viewportSize );
-		m_ViewportPos = viewportPos;
+		_ViewportPos = viewportPos;
 	}
 
 	Context::~Context()
@@ -54,17 +54,17 @@ namespace AnsiGL
 
 	const Point3D &Context::CurViewportPos() const
 	{
-		return m_ViewportPos;
+		return _ViewportPos;
 	}
 
 	void Context::MoveViewportTo( const Point3D &pos )
 	{
-		m_ViewportPos = pos;
+		_ViewportPos = pos;
 	}
 
 	void Context::MoveViewportTo( const Point2D &pos )
 	{
-		m_ViewportPos = pos;
+		_ViewportPos = pos;
 	}
 
 	void Context::ResizeViewport( const Area2D &size )
@@ -81,11 +81,11 @@ namespace AnsiGL
 		Context::Ptr ContainerPtr = std::dynamic_pointer_cast< Context >( shared_from_this() );
 
 		// Make sure the content is updated with our info
-		content->m_Container = ContainerPtr;
-		content->m_ContentMarker = NewMarker;
+		content->_Container = ContainerPtr;
+		content->_ContentMarker = NewMarker;
 
 		// Then add it to the proper list
-		m_Contents[ pos.Z() ].push_back( NewMarker );
+		_Contents[ pos.Z() ].push_back( NewMarker );
 
 		expandTotalContentSize( NewMarker );		// Expand our content, if needed
 	}
@@ -95,7 +95,7 @@ namespace AnsiGL
 		if ( !content )
 			return;
 
-		for ( depth_iterator CurDepth = m_Contents.begin(); CurDepth != m_Contents.end(); ++CurDepth )
+		for ( depth_iterator CurDepth = _Contents.begin(); CurDepth != _Contents.end(); ++CurDepth )
 		{
 			for ( content_iterator CurContent = CurDepth->second.begin(); CurContent != CurDepth->second.end(); ++CurContent )
 			{
@@ -111,14 +111,14 @@ namespace AnsiGL
 
 	void Context::RemoveContentFrom( tPointType depth, Content::Ptr content )
 	{
-		if ( !content || m_Contents[depth].empty() )
+		if ( !content || _Contents[depth].empty() )
 			return;
 
-		for ( content_iterator CurContent = m_Contents[depth].begin(); CurContent != m_Contents[depth].end(); ++CurContent )
+		for ( content_iterator CurContent = _Contents[depth].begin(); CurContent != _Contents[depth].end(); ++CurContent )
 		{
 			if ( (*CurContent)->Target() == content )
 			{
-				m_Contents[depth].erase( CurContent );
+				_Contents[depth].erase( CurContent );
 				RecalculateTotalContentSize();			// Since we're removing content, we'd better recalculate the size
 				return;
 			}
@@ -127,35 +127,35 @@ namespace AnsiGL
 
 	const FixedArea3D &Context::TotalContentSize()
 	{
-		if ( m_NeedsSizeRecalc )
+		if ( _NeedsSizeRecalc )
 		{
 			depth_iterator CurDepth;
 			content_iterator CurContent;
 
 			resetTotalContentSize();
 
-			for ( CurDepth = m_Contents.begin(); CurDepth != m_Contents.end(); ++CurDepth )
+			for ( CurDepth = _Contents.begin(); CurDepth != _Contents.end(); ++CurDepth )
 			{
 				for ( CurContent = CurDepth->second.begin(); CurContent != CurDepth->second.end(); ++CurContent )
 					expandTotalContentSize( *CurContent );
 			}
 
 			// If we ended up with nothing, then set our position to 0,0 so we look more "null" when examined
-			if ( m_TotalContentSize.Width() == 0 || m_TotalContentSize.Height() == 0 )
+			if ( _TotalContentSize.Width() == 0 || _TotalContentSize.Height() == 0 )
 			{
-				m_TotalContentSize.X( 0 );
-				m_TotalContentSize.Y( 0 );
+				_TotalContentSize.X( 0 );
+				_TotalContentSize.Y( 0 );
 			}
 
-			m_NeedsSizeRecalc = false;
+			_NeedsSizeRecalc = false;
 		}
 
-		return m_TotalContentSize;
+		return _TotalContentSize;
 	}
 
 	void Context::RecalculateTotalContentSize()
 	{
-		m_NeedsSizeRecalc = true;
+		_NeedsSizeRecalc = true;
 	}
 
 	bool Context::Contains( Content::Ptr content ) const
@@ -163,7 +163,7 @@ namespace AnsiGL
 		if ( !content )
 			return false;
 
-		for ( const_depth_iterator CurDepth = m_Contents.begin(); CurDepth != m_Contents.end(); ++CurDepth )
+		for ( const_depth_iterator CurDepth = _Contents.begin(); CurDepth != _Contents.end(); ++CurDepth )
 		{
 			for ( const_content_iterator CurContent = CurDepth->second.begin(); CurContent != CurDepth->second.end(); ++CurContent )
 			{
@@ -178,7 +178,7 @@ namespace AnsiGL
 	std::string Context::str()
 	{
 		// Create a temporary surface for rendering assistance
-		Surface::Ptr Temp = Surface::Ptr( new Surface(Area2D(Content::m_Size.Width(), Content::m_Size.Height())) );
+		Surface::Ptr Temp = Surface::Ptr( new Surface(Area2D(Content::_Size.Width(), Content::_Size.Height())) );
 
 		// Render to the temp surface
 		RenderToSurface( Temp );
@@ -190,7 +190,7 @@ namespace AnsiGL
 	std::string Context::Render() const
 	{
 		// Create a temporary surface for rendering assistance
-		Surface::Ptr Temp = Surface::Ptr( new Surface(m_Size) );
+		Surface::Ptr Temp = Surface::Ptr( new Surface(_Size) );
 
 		// Render to the temp surface
 		RenderToSurface( Temp );
@@ -207,11 +207,11 @@ namespace AnsiGL
 		Context::const_reverse_depth_iterator CurDepth;
 		Context::const_content_iterator CurContent;
 
-		// Go through each thing in our m_Contents
-		for ( CurDepth = m_Contents.rbegin(); CurDepth != m_Contents.rend(); ++CurDepth )
+		// Go through each thing in our _Contents
+		for ( CurDepth = _Contents.rbegin(); CurDepth != _Contents.rend(); ++CurDepth )
 		{
 			// If we're above our viewport depth, then we can just skip it
-			if ( CurDepth->first < m_ViewportPos.Z() )
+			if ( CurDepth->first < _ViewportPos.Z() )
 				continue;
 
 			for ( CurContent = CurDepth->second.begin(); CurContent != CurDepth->second.end(); ++CurContent )
@@ -226,7 +226,7 @@ namespace AnsiGL
 				Point2D ActualTargetPos = (Point2D)TargetPos - Target->Offset;
 
 				// Then adjust the render position to account for the viewport position and the desired location from the arguments
-				Point2D CurRenderPos = ActualTargetPos - (Point2D)m_ViewportPos + pos;
+				Point2D CurRenderPos = ActualTargetPos - (Point2D)_ViewportPos + pos;
 
 				// And render the content to the target
 				Target->RenderToSurface( dest, CurRenderPos );
@@ -236,10 +236,10 @@ namespace AnsiGL
 
 	void Context::resetTotalContentSize()
 	{
-		m_TotalContentSize.X( 0 );
-		m_TotalContentSize.Y( 0 );
-		m_TotalContentSize.Width( 0 );
-		m_TotalContentSize.Height( 0 );
+		_TotalContentSize.X( 0 );
+		_TotalContentSize.Y( 0 );
+		_TotalContentSize.Width( 0 );
+		_TotalContentSize.Height( 0 );
 	}
 
 	void Context::expandTotalContentSize( ContentMarker::Ptr content )
@@ -252,23 +252,23 @@ namespace AnsiGL
 		// Apply the content's offset so we obtain visual area
 		ContentArea.Point( (Point2D)ContentArea.Point() - content->Target()->Offset );
 
-		// If the point is less in any dimension, then we need to move the m_TotalContentSize point to match since it marks the "corner of minimums", and we need to increase the area by the difference
-		if ( ContentArea.X() < m_TotalContentSize.X() )
+		// If the point is less in any dimension, then we need to move the _TotalContentSize point to match since it marks the "corner of minimums", and we need to increase the area by the difference
+		if ( ContentArea.X() < _TotalContentSize.X() )
 		{
-			m_TotalContentSize.X( ContentArea.X() );
-			m_TotalContentSize.Width( m_TotalContentSize.Width() + (ContentArea.X() - m_TotalContentSize.X()) );
+			_TotalContentSize.X( ContentArea.X() );
+			_TotalContentSize.Width( _TotalContentSize.Width() + (ContentArea.X() - _TotalContentSize.X()) );
 		}
 
-		if ( ContentArea.Y() < m_TotalContentSize.Y() )
+		if ( ContentArea.Y() < _TotalContentSize.Y() )
 		{
-			m_TotalContentSize.Y( ContentArea.Y() );
-			m_TotalContentSize.Height( m_TotalContentSize.Height() + (ContentArea.Y() - m_TotalContentSize.Y()) );
+			_TotalContentSize.Y( ContentArea.Y() );
+			_TotalContentSize.Height( _TotalContentSize.Height() + (ContentArea.Y() - _TotalContentSize.Y()) );
 		}
 
-		if ( ContentArea.Z() < m_TotalContentSize.Z() )
+		if ( ContentArea.Z() < _TotalContentSize.Z() )
 		{
-			m_TotalContentSize.Z( ContentArea.Z() );
-			m_TotalContentSize.Depth( m_TotalContentSize.Depth() + (ContentArea.Z() - m_TotalContentSize.Z()) );
+			_TotalContentSize.Z( ContentArea.Z() );
+			_TotalContentSize.Depth( _TotalContentSize.Depth() + (ContentArea.Z() - _TotalContentSize.Z()) );
 		}
 
 		// If the translated right-side of the content is further out than the translated right-side of our total content, then expand the "corner of maximums"
@@ -277,19 +277,19 @@ namespace AnsiGL
 		                     ContentArea.Y() + ContentArea.Height(),
 		                     ContentArea.Z() );
 
-		Point3D TotalContentEdge( m_TotalContentSize.X() + m_TotalContentSize.Width(),
-		                          m_TotalContentSize.Y() + m_TotalContentSize.Height(),
-		                          m_TotalContentSize.Depth() );
+		Point3D TotalContentEdge( _TotalContentSize.X() + _TotalContentSize.Width(),
+		                          _TotalContentSize.Y() + _TotalContentSize.Height(),
+		                          _TotalContentSize.Depth() );
 
 		// If the content is further out, then increase the width of the total content by the difference
 		if ( ContentEdge.X() > TotalContentEdge.X() )
-			m_TotalContentSize.Width( m_TotalContentSize.Width() + (ContentEdge.X() - TotalContentEdge.X()) );
+			_TotalContentSize.Width( _TotalContentSize.Width() + (ContentEdge.X() - TotalContentEdge.X()) );
 
 		if ( ContentEdge.Y() > TotalContentEdge.Y() )
-			m_TotalContentSize.Height( m_TotalContentSize.Height() + (ContentEdge.Y() - TotalContentEdge.Y()) );
+			_TotalContentSize.Height( _TotalContentSize.Height() + (ContentEdge.Y() - TotalContentEdge.Y()) );
 
 		if ( ContentEdge.Z() > TotalContentEdge.Z() )
-			m_TotalContentSize.Depth( m_TotalContentSize.Depth() + (ContentEdge.Z() - TotalContentEdge.Z()) );
+			_TotalContentSize.Depth( _TotalContentSize.Depth() + (ContentEdge.Z() - TotalContentEdge.Z()) );
 	}
 
 	tSizeType Context::cappedAdd( tSizeType first, tSizeType second )

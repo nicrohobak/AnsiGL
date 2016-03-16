@@ -23,8 +23,8 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Point2D )
 
 	protected:
-		tPointType	m_X;
-		tPointType	m_Y;
+		tPointType	_X;
+		tPointType	_Y;
 
 	public:
 		Point2D();
@@ -34,30 +34,30 @@ namespace AnsiGL
 
 		const tPointType &X() const		// Give the compiler the option to in-line
 		{
-			return m_X;
+			return _X;
 		}
 		void X( tPointType x );
 		inline tPointType IncX()
 		{
-			return ++m_X;
+			return ++_X;
 		};
 		inline tPointType DecX()
 		{
-			return --m_X;
+			return --_X;
 		};
 
 		const tPointType &Y() const		// Give the compiler the option to in-line
 		{
-			return m_Y;
+			return _Y;
 		}
 		void Y( tPointType y );
 		inline tPointType IncY()
 		{
-			return ++m_Y;
+			return ++_Y;
 		};
 		inline tPointType DecY()
 		{
-			return --m_Y;
+			return --_Y;
 		};
 
 		void Set( tPointType x, tPointType y );
@@ -90,7 +90,7 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Point3D )
 
 	protected:
-		tPointType	m_Z;
+		tPointType	_Z;
 
 	public:
 		Point3D();
@@ -100,16 +100,16 @@ namespace AnsiGL
 
 		const tPointType &Z() const		// Give the compiler the option to in-line
 		{
-			return m_Z;
+			return _Z;
 		}
 		void Z( tPointType Z );
 		inline tPointType IncZ()
 		{
-			return ++m_Z;
+			return ++_Z;
 		};
 		inline tPointType DecZ()
 		{
-			return --m_Z;
+			return --_Z;
 		};
 
 		void Set( tPointType x, tPointType y, tPointType z );

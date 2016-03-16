@@ -25,8 +25,8 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Area2D )
 
 	protected:
-		tSizeType	m_Width;
-		tSizeType	m_Height;
+		tSizeType	_Width;
+		tSizeType	_Height;
 
 	public:
 		Area2D();
@@ -36,13 +36,13 @@ namespace AnsiGL
 
 		inline const tSizeType &Width() const
 		{
-			return m_Width;
+			return _Width;
 		}
 		void Width( tSizeType width );
 
 		inline const tSizeType &Height() const
 		{
-			return m_Height;
+			return _Height;
 		}
 		void Height( tSizeType height );
 
@@ -73,7 +73,7 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Area3D )
 
 	protected:
-		tSizeType	m_Depth;
+		tSizeType	_Depth;
 
 	public:
 		Area3D();
@@ -81,7 +81,7 @@ namespace AnsiGL
 
 		inline const tSizeType &Depth() const
 		{
-			return m_Depth;
+			return _Depth;
 		}
 		void Depth( tSizeType depth );
 
@@ -108,7 +108,7 @@ namespace AnsiGL
 		ANSIGL_POINTERS( FixedArea2D )
 
 	protected:
-		Point2D		m_Point;	// The point to which this area is fixed
+		Point2D		_Point;	// The point to which this area is fixed
 
 	public:
 		FixedArea2D();
@@ -116,19 +116,19 @@ namespace AnsiGL
 
 		inline const Point2D &Point() const
 		{
-			return m_Point;
+			return _Point;
 		}
 		void Point( const Point2D &point );
 
 		inline const tPointType &X() const
 		{
-			return m_Point.X();
+			return _Point.X();
 		}
 		void X( tPointType x );
 
 		inline const tPointType &Y() const
 		{
-			return m_Point.Y();
+			return _Point.Y();
 		}
 		void Y( tPointType y );
 
@@ -149,7 +149,7 @@ namespace AnsiGL
 		ANSIGL_POINTERS( FixedArea3D )
 
 	protected:
-		Point3D		m_Point;			// The position to which this area is fixed
+		Point3D		_Point;			// The position to which this area is fixed
 
 	public:
 		FixedArea3D();
@@ -162,25 +162,25 @@ namespace AnsiGL
 
 		inline const Point3D &Point() const
 		{
-			return m_Point;
+			return _Point;
 		}
 		void Point( const Point3D &point );
 
 		inline const tPointType &X() const
 		{
-			return m_Point.X();
+			return _Point.X();
 		}
 		void X( tPointType x );
 
 		inline const tPointType &Y() const
 		{
-			return m_Point.Y();
+			return _Point.Y();
 		}
 		void Y( tPointType y );
 
 		inline const tPointType &Z() const
 		{
-			return m_Point.Z();
+			return _Point.Z();
 		}
 		void Z( tPointType z );
 

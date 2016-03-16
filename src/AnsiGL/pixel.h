@@ -18,7 +18,7 @@ namespace AnsiGL
 	class Pixel : public uchar
 	{
 	protected:
-		ANSICodeList	m_Attributes;		// Except color!
+		ANSICodeList	_Attributes;		// Except color!
 
 	public:
 		int		PaletteIndex;

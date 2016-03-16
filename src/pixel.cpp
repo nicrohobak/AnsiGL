@@ -20,12 +20,12 @@ namespace AnsiGL
 
 	ANSICodeList Pixel::Attributes() const
 	{
-		return m_Attributes;
+		return _Attributes;
 	}
 
 	bool Pixel::HasAttribute( ENUM_ANSICodes attrib ) const
 	{
-		return m_Attributes.Has( attrib );
+		return _Attributes.Has( attrib );
 	}
 
 	void Pixel::AddAttribute( ENUM_ANSICodes attrib )
@@ -38,23 +38,23 @@ namespace AnsiGL
 		if ( attrib >= ANSI_BG_Black && attrib <= ANSI_BG_Default )
 			return;
 
-		m_Attributes.Add( attrib );
+		_Attributes.Add( attrib );
 	}
 
 	void Pixel::AddAttributes( ANSICodeList attributes )
 	{
-		m_Attributes.Add( attributes );
+		_Attributes.Add( attributes );
 	}
 
 	void Pixel::RemoveAttribute( ENUM_ANSICodes attrib )
 	{
-		m_Attributes.Remove( attrib );
+		_Attributes.Remove( attrib );
 	}
 
 	void Pixel::Clear()
 	{
 		uchar::Clear();
-		m_Attributes.clear();
+		_Attributes.clear();
 		PaletteIndex = 0;
 		Bell = false;
 	}

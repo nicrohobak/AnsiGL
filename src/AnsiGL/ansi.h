@@ -161,19 +161,19 @@ namespace AnsiGL
 		ANSIGL_POINTERS( ANSICodeList )
 
 	protected:
-		int	m_CodesL;			// I'm sure there's a more portable way to do this...but babysteps for now
-		int	m_CodesH;
+		int	_CodesL;			// I'm sure there's a more portable way to do this...but babysteps for now
+		int	_CodesH;
 
 	public:
 		ANSICodeList():
-			m_CodesL(0),
-			m_CodesH(0)
+			_CodesL(0),
+			_CodesH(0)
 		{
 		}
 
 		bool operator==( const ANSICodeList &right ) const
 		{
-			return (m_CodesL == right.m_CodesL && m_CodesH == right.m_CodesH);
+			return (_CodesL == right._CodesL && _CodesH == right._CodesH);
 		}
 		bool operator!=( const ANSICodeList &right ) const
 		{
@@ -182,32 +182,32 @@ namespace AnsiGL
 
 		bool empty() const
 		{
-			return (!m_CodesL && !m_CodesH);
+			return (!_CodesL && !_CodesH);
 		}
 		void clear()
 		{
-			m_CodesL = m_CodesH = 0;
+			_CodesL = _CodesH = 0;
 		}
 
 		void Add( ENUM_ANSICodes code )
 		{
 			if ( code < 32 )
-				m_CodesL |= (1 << code);
+				_CodesL |= (1 << code);
 			else
-				m_CodesH |= (1 << (code - 32));
+				_CodesH |= (1 << (code - 32));
 		}
 		void Add( const ANSICodeList &codes )
 		{
-			m_CodesL |= codes.m_CodesL;
-			m_CodesH |= codes.m_CodesH;
+			_CodesL |= codes._CodesL;
+			_CodesH |= codes._CodesH;
 		}
 
 		bool Has( ENUM_ANSICodes code ) const
 		{
 			if ( code < 32 )
-				return (m_CodesL & (1 << code));
+				return (_CodesL & (1 << code));
 			else
-				return (m_CodesH & (1 << (code - 32)));
+				return (_CodesH & (1 << (code - 32)));
 		}
 		bool HasAll( const ANSICodeList &codes ) const
 		{
@@ -223,14 +223,14 @@ namespace AnsiGL
 		void Remove( ENUM_ANSICodes code )
 		{
 			if ( code < 32 )
-				m_CodesL &= ~(1 << code);
+				_CodesL &= ~(1 << code);
 			else
-				m_CodesH &= ~(1 << (code - 32));
+				_CodesH &= ~(1 << (code - 32));
 		}
 		void Remove( const ANSICodeList &codes )
 		{
-			m_CodesL &= ~(codes.m_CodesL);
-			m_CodesH &= ~(codes.m_CodesH);
+			_CodesL &= ~(codes._CodesL);
+			_CodesH &= ~(codes._CodesH);
 		}
 
 		std::string Render( ENUM_ColorDepth desiredDepth = ColorDepth_Default, bool background = false ) const;	// Renders the ANSI codes with separaters between them if needed, but nothing else
@@ -252,16 +252,16 @@ namespace AnsiGL
 		ANSIGL_POINTERS( ANSIColorDef )
 
 	protected:
-		ANSICodeList		m_ANSI;						// The actual ANSI codes associated with our color
-		unsigned char		m_Index;					// The computed 0-255 index for 8Bit colors
+		ANSICodeList		_ANSI;						// The actual ANSI codes associated with our color
+		unsigned char		_Index;					// The computed 0-255 index for 8Bit colors
 
-		ENUM_ANSISystemColors	m_SystemColor;					// The first 16 ANSI colors (well, the first 8, and then again bold)
+		ENUM_ANSISystemColors	_SystemColor;					// The first 16 ANSI colors (well, the first 8, and then again bold)
 
-		unsigned char		m_R;						// Range 0-5	RxGxB 6x6x6
-		unsigned char		m_G;						// Range 0-5    215 colors
-		unsigned char		m_B;						// Range 0-5
+		unsigned char		_R;						// Range 0-5	RxGxB 6x6x6
+		unsigned char		_G;						// Range 0-5    215 colors
+		unsigned char		_B;						// Range 0-5
 
-		unsigned char		m_Grayscale;					// Range 0-23	24 colors
+		unsigned char		_Grayscale;					// Range 0-23	24 colors
 
 	public:
 		std::string		Name;						// A human-readable "common name" for this color
@@ -320,7 +320,7 @@ namespace AnsiGL
 		static void InitMasterPalette();					// Initalize the master color palette
 
 	protected:
-		std::vector< ANSIColorDef::Ptr >	m_Colors;
+		std::vector< ANSIColorDef::Ptr >	_Colors;
 
 	public:
 		ANSIColorPalette();

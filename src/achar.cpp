@@ -429,7 +429,7 @@ namespace AnsiGL
 		if ( Color != right.Color )
 			return false;
 
-		if ( m_Attributes != right.Attributes() )
+		if ( _Attributes != right.Attributes() )
 			return false;
 
 		/* -- Not sure if it should compare this or not...I'm thinking no
@@ -491,7 +491,7 @@ namespace AnsiGL
 
 	void achar::CopyAttributes( const ANSICodeList &attrib )
 	{
-		m_Attributes = attrib;
+		_Attributes = attrib;
 	}
 
 	void achar::AddAttribute( ENUM_ANSICodes attrib )
@@ -504,7 +504,7 @@ namespace AnsiGL
 		if ( attrib >= ANSI_BG_Black && attrib <= ANSI_BG_Default )
 			return;
 
-		m_Attributes.Add( attrib );
+		_Attributes.Add( attrib );
 	}
 
 	void achar::AddAttributes( const ANSICodeList &attrib )
@@ -512,29 +512,29 @@ namespace AnsiGL
 		// Make sure our banned attributes are initialized as expected
 		initBannedAttributes();
 
-		m_Attributes.Add( attrib );
-		m_Attributes.Remove( *achar::m_BannedAttributes );
+		_Attributes.Add( attrib );
+		_Attributes.Remove( *achar::_BannedAttributes );
 	}
 
 	void achar::RemoveAttribute( ENUM_ANSICodes attrib )
 	{
-		m_Attributes.Remove( attrib );
+		_Attributes.Remove( attrib );
 	}
 
 	void achar::RemoveAttributes( const ANSICodeList &attrib )
 	{
-		m_Attributes.Remove( attrib );
+		_Attributes.Remove( attrib );
 	}
 
 	bool achar::HasAnsi() const
 	{
-		return (!m_Attributes.empty() || !Color.IsColorless());
+		return (!_Attributes.empty() || !Color.IsColorless());
 	}
 
 	void achar::Clear()
 	{
 		uchar::Clear();
-		m_Attributes.clear();
+		_Attributes.clear();
 		Bell = false;
 		Color.Clear();
 	}
@@ -544,7 +544,7 @@ namespace AnsiGL
 		std::stringstream RenderedStr("");
 
 		// If we have no color or attributes set, just render an ANSI default
-		if ( Color.IsColorless() && m_Attributes.empty() )
+		if ( Color.IsColorless() && _Attributes.empty() )
 		{
 			RenderedStr << ANSI_CODE_START << ANSI_Default << ANSI_CODE_END;
 			return RenderedStr.str();
@@ -553,12 +553,12 @@ namespace AnsiGL
 		bool NeedANSICodeBegin = true;
 
 		// Render our ANSI attributes
-		if ( !m_Attributes.empty() )
+		if ( !_Attributes.empty() )
 		{
 			RenderedStr << ANSI_CODE_START << (int)ANSI_Default << ANSI_CODE_SEPARATOR;		// ANSI Code Begin and reset all ANSI styles
 			NeedANSICodeBegin = false;					// Since we've officially started our sequence,
 
-			RenderedStr << m_Attributes.Render();
+			RenderedStr << _Attributes.Render();
 		}
 
 		if ( !Color.IsColorless() )
@@ -598,35 +598,35 @@ namespace AnsiGL
 		return RenderedStr.str();
 	}
 
-	ANSICodeList::Ptr achar::m_BannedAttributes;
+	ANSICodeList::Ptr achar::_BannedAttributes;
 
 	void achar::initBannedAttributes()
 	{
-		if ( m_BannedAttributes )
+		if ( _BannedAttributes )
 			return;
 
-		m_BannedAttributes = ANSICodeList::Ptr( new ANSICodeList );
+		_BannedAttributes = ANSICodeList::Ptr( new ANSICodeList );
 
 		// We don't allow colors since they will be stored separately
-		m_BannedAttributes->Add( ANSI_FG_Black );
-		m_BannedAttributes->Add( ANSI_FG_Red );
-		m_BannedAttributes->Add( ANSI_FG_Green );
-		m_BannedAttributes->Add( ANSI_FG_Yellow );
-		m_BannedAttributes->Add( ANSI_FG_Blue );
-		m_BannedAttributes->Add( ANSI_FG_Magenta );
-		m_BannedAttributes->Add( ANSI_FG_Cyan );
-		m_BannedAttributes->Add( ANSI_FG_White );
-		m_BannedAttributes->Add( ANSI_FG_Default );
-		m_BannedAttributes->Add( ANSI_BG_Black );
-		m_BannedAttributes->Add( ANSI_BG_Red );
-		m_BannedAttributes->Add( ANSI_BG_Green );
-		m_BannedAttributes->Add( ANSI_BG_Yellow );
-		m_BannedAttributes->Add( ANSI_BG_Blue );
-		m_BannedAttributes->Add( ANSI_BG_Magenta );
-		m_BannedAttributes->Add( ANSI_BG_Cyan );
-		m_BannedAttributes->Add( ANSI_BG_White );
-		m_BannedAttributes->Add( ANSI_BG_Default );
-		m_BannedAttributes->Add( ANSI_BG_256Color );
+		_BannedAttributes->Add( ANSI_FG_Black );
+		_BannedAttributes->Add( ANSI_FG_Red );
+		_BannedAttributes->Add( ANSI_FG_Green );
+		_BannedAttributes->Add( ANSI_FG_Yellow );
+		_BannedAttributes->Add( ANSI_FG_Blue );
+		_BannedAttributes->Add( ANSI_FG_Magenta );
+		_BannedAttributes->Add( ANSI_FG_Cyan );
+		_BannedAttributes->Add( ANSI_FG_White );
+		_BannedAttributes->Add( ANSI_FG_Default );
+		_BannedAttributes->Add( ANSI_BG_Black );
+		_BannedAttributes->Add( ANSI_BG_Red );
+		_BannedAttributes->Add( ANSI_BG_Green );
+		_BannedAttributes->Add( ANSI_BG_Yellow );
+		_BannedAttributes->Add( ANSI_BG_Blue );
+		_BannedAttributes->Add( ANSI_BG_Magenta );
+		_BannedAttributes->Add( ANSI_BG_Cyan );
+		_BannedAttributes->Add( ANSI_BG_White );
+		_BannedAttributes->Add( ANSI_BG_Default );
+		_BannedAttributes->Add( ANSI_BG_256Color );
 	}
 
 

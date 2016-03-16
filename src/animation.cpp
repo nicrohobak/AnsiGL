@@ -11,10 +11,10 @@ namespace AnsiGL
 {
 	Frame::Ptr Animation::CurFrame() const
 	{
-		if ( m_CurFrame == m_Frames.end() )
+		if ( _CurFrame == _Frames.end() )
 			return Frame::Ptr();
 
-		return (*m_CurFrame);
+		return (*_CurFrame);
 	}
 
 	void Animation::AddFrame( Frame::Ptr frame )
@@ -22,8 +22,8 @@ namespace AnsiGL
 		if ( !frame )
 			return;
 
-		m_Frames.push_back( frame );
-		m_CurFrame = m_Frames.begin();
+		_Frames.push_back( frame );
+		_CurFrame = _Frames.begin();
 	}
 
 	void Animation::RemoveFrame( Frame::Ptr frame )
@@ -31,12 +31,12 @@ namespace AnsiGL
 		if ( !frame )
 			return;
 
-		for ( iterator CurFrame = m_Frames.begin(); CurFrame != m_Frames.end(); ++CurFrame )
+		for ( iterator CurFrame = _Frames.begin(); CurFrame != _Frames.end(); ++CurFrame )
 		{
 			if ( (*CurFrame) == frame )
 			{
-				m_Frames.erase( CurFrame );
-				m_CurFrame = m_Frames.begin();
+				_Frames.erase( CurFrame );
+				_CurFrame = _Frames.begin();
 				return;
 			}
 		}
@@ -44,17 +44,17 @@ namespace AnsiGL
 
 	void Animation::RemoveFrame( unsigned int frameNum )
 	{
-		if ( frameNum >= m_Frames.size() )
+		if ( frameNum >= _Frames.size() )
 			return;
 
 		unsigned int FrameCount = 0;
 
-		for ( iterator CurFrame = m_Frames.begin(); CurFrame != m_Frames.end(); ++CurFrame, ++FrameCount )
+		for ( iterator CurFrame = _Frames.begin(); CurFrame != _Frames.end(); ++CurFrame, ++FrameCount )
 		{
 			if ( FrameCount == frameNum )
 			{
-				m_Frames.erase( CurFrame );
-				m_CurFrame = m_Frames.begin();
+				_Frames.erase( CurFrame );
+				_CurFrame = _Frames.begin();
 			}
 		}
 	}
@@ -65,11 +65,11 @@ namespace AnsiGL
 
 		while ( FrameCount++ < numFrames )
 		{
-			++m_CurFrame;
+			++_CurFrame;
 
 			// Make sure it loops
-			if ( m_CurFrame == m_Frames.end() )
-				m_CurFrame = m_Frames.begin();
+			if ( _CurFrame == _Frames.end() )
+				_CurFrame = _Frames.begin();
 		}
 	}
 
@@ -80,35 +80,35 @@ namespace AnsiGL
 		while ( FrameCount++ < numFrames )
 		{
 			// Make sure it loops
-			if ( m_CurFrame == m_Frames.begin() )
-				m_CurFrame = m_Frames.end();
+			if ( _CurFrame == _Frames.begin() )
+				_CurFrame = _Frames.end();
 
-			--m_CurFrame;
+			--_CurFrame;
 		}
 	}
 
 	std::string Animation::str()
 	{
-		if ( m_CurFrame == m_Frames.end() )
+		if ( _CurFrame == _Frames.end() )
 			return std::string("");
 
-		return (*m_CurFrame)->str();
+		return (*_CurFrame)->str();
 	}
 
 	std::string Animation::Render() const
 	{
-		if ( m_CurFrame == m_Frames.end() )
+		if ( _CurFrame == _Frames.end() )
 			return std::string("");
 
-		return (*m_CurFrame)->Render();
+		return (*_CurFrame)->Render();
 	}
 
 	void Animation::RenderToSurface( Surface::Ptr dest, Point2D pos ) const
 	{
-		if ( m_CurFrame == m_Frames.end() )
+		if ( _CurFrame == _Frames.end() )
 			return;
 
-		(*m_CurFrame)->RenderToSurface( dest, pos );
+		(*_CurFrame)->RenderToSurface( dest, pos );
 	}
 }
 
