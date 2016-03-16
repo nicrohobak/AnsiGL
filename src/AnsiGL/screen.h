@@ -13,25 +13,27 @@
 
 namespace AnsiGL
 {
-    class Screen : public Context
-    {
-    public:
-	ANSIGL_POINTERS( Screen )
+	class Screen : public Context
+	{
+	public:
+		ANSIGL_POINTERS( Screen )
 
-    protected:
+	protected:
 
-    public:
-	~Screen();
+	public:
+		~Screen();
 
-	virtual std::string str() const;
-	virtual std::string Render() const;
-	virtual void RenderToSurface( Surface_Ptr dest, Point2D pos = Point2D(), bool transparentSpaces = false );
-    };
+		virtual std::string str() const;
+		virtual std::string Render() const;
+		virtual void RenderToSurface( Surface_Ptr dest, Point2D pos = Point2D(), bool transparentSpaces = false );
+	};
 }
 
 
 #endif // __ANSIGL_SCREEN__
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

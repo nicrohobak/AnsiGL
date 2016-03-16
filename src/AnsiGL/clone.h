@@ -13,26 +13,26 @@
 
 namespace AnsiGL
 {
-    class Clone : public Content
-    {
-    public:
-	ANSIGL_POINTERS( Clone )
+	class Clone : public Content
+	{
+	public:
+		ANSIGL_POINTERS( Clone )
 
-    protected:
-	Content::wPtr		m_Target;
+	protected:
+		Content::wPtr		m_Target;
 
-    public:
-	Clone();
-	Clone( Content::Ptr target );
-	~Clone();
+	public:
+		Clone();
+		Clone( Content::Ptr target );
+		~Clone();
 
-	virtual Content::Ptr Target() const;
-	virtual void Target( Content::Ptr target );
+		virtual Content::Ptr Target() const;
+		virtual void Target( Content::Ptr target );
 
-	virtual std::string str();
-	virtual std::string Render() const;
-	virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
-    };
+		virtual std::string str();
+		virtual std::string Render() const;
+		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
+	};
 }
 
 
@@ -40,5 +40,7 @@ namespace AnsiGL
 #endif // __ANSIGL_CLONE_H__
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

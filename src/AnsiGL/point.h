@@ -13,108 +13,130 @@
 
 namespace AnsiGL
 {
-    // A single data type for corrdinate systems based on AnsiGL::Point
-    typedef int		tPointType;
+	// A single data type for corrdinate systems based on AnsiGL::Point
+	typedef int		tPointType;
 
 
-    class Point2D
-    {
-    public:
-	ANSIGL_POINTERS( Point2D )
-
-    protected:
-	tPointType	m_X;
-	tPointType	m_Y;
-
-    public:
-	Point2D();
-	Point2D( tPointType x, tPointType y );
-
-	virtual ~Point2D();
-
-	const tPointType &X() const		// Give the compiler the option to in-line
+	class Point2D
 	{
-	    return m_X;
-	}
-	void X( tPointType x );
-	inline tPointType IncX() { return ++m_X; };
-	inline tPointType DecX() { return --m_X; };
+	public:
+		ANSIGL_POINTERS( Point2D )
 
-	const tPointType &Y() const		// Give the compiler the option to in-line
+	protected:
+		tPointType	m_X;
+		tPointType	m_Y;
+
+	public:
+		Point2D();
+		Point2D( tPointType x, tPointType y );
+
+		virtual ~Point2D();
+
+		const tPointType &X() const		// Give the compiler the option to in-line
+		{
+			return m_X;
+		}
+		void X( tPointType x );
+		inline tPointType IncX()
+		{
+			return ++m_X;
+		};
+		inline tPointType DecX()
+		{
+			return --m_X;
+		};
+
+		const tPointType &Y() const		// Give the compiler the option to in-line
+		{
+			return m_Y;
+		}
+		void Y( tPointType y );
+		inline tPointType IncY()
+		{
+			return ++m_Y;
+		};
+		inline tPointType DecY()
+		{
+			return --m_Y;
+		};
+
+		void Set( tPointType x, tPointType y );
+
+		Point2D &operator+=( const Point2D &right );
+		Point2D &operator-=( const Point2D &right );
+
+		bool operator==( const Point2D &right ) const;
+		bool operator!=( const Point2D &right ) const;
+
+		friend Point2D operator+( const Point2D &left, const Point2D &right );
+		friend Point2D operator-( const Point2D &left, const Point2D &right );
+	};
+
+
+	//
+	// Point2D arithmetic operators
+	//
+	Point2D operator+( const Point2D &left, const Point2D &right );
+	Point2D operator-( const Point2D &left, const Point2D &right );
+
+
+	// Since we now have a distinction...let the simple "Point" just refer to a Point2D by default
+	typedef Point2D	Point;
+
+
+	class Point3D : public Point2D
 	{
-	    return m_Y;
-	}
-	void Y( tPointType y );
-	inline tPointType IncY() { return ++m_Y; };
-	inline tPointType DecY() { return --m_Y; };
+	public:
+		ANSIGL_POINTERS( Point3D )
 
-	void Set( tPointType x, tPointType y );
+	protected:
+		tPointType	m_Z;
 
-	Point2D &operator+=( const Point2D &right );
-	Point2D &operator-=( const Point2D &right );
+	public:
+		Point3D();
+		Point3D( tPointType x, tPointType y, tPointType z );
+		Point3D( const Point2D &point );
+		Point3D( tPointType x, tPointType y );
 
-	bool operator==( const Point2D &right ) const;
-	bool operator!=( const Point2D &right ) const;
+		const tPointType &Z() const		// Give the compiler the option to in-line
+		{
+			return m_Z;
+		}
+		void Z( tPointType Z );
+		inline tPointType IncZ()
+		{
+			return ++m_Z;
+		};
+		inline tPointType DecZ()
+		{
+			return --m_Z;
+		};
 
-	friend Point2D operator+( const Point2D &left, const Point2D &right );
-	friend Point2D operator-( const Point2D &left, const Point2D &right );
-    };
+		void Set( tPointType x, tPointType y, tPointType z );
 
+		Point3D &operator+=( const Point3D &right );
+		Point3D &operator-=( const Point3D &right );
 
-    //
-    // Point2D arithmetic operators
-    //
-    Point2D operator+( const Point2D &left, const Point2D &right );
-    Point2D operator-( const Point2D &left, const Point2D &right );
+		bool operator==( const Point3D &right ) const;
+		bool operator!=( const Point3D &right ) const;
 
-
-    // Since we now have a distinction...let the simple "Point" just refer to a Point2D by default
-    typedef Point2D	Point;
-
-
-    class Point3D : public Point2D
-    {
-    public:
-	ANSIGL_POINTERS( Point3D )
-
-    protected:
-	tPointType	m_Z;
-
-    public:
-	Point3D();
-	Point3D( tPointType x, tPointType y, tPointType z );
-	Point3D( const Point2D &point );
-	Point3D( tPointType x, tPointType y );
-
-	const tPointType &Z() const		// Give the compiler the option to in-line
-	{
-	    return m_Z;
-	}
-	void Z( tPointType Z );
-	inline tPointType IncZ() { return ++m_Z; };
-	inline tPointType DecZ() { return --m_Z; };
-
-	void Set( tPointType x, tPointType y, tPointType z );
-
-	Point3D &operator+=( const Point3D &right );
-	Point3D &operator-=( const Point3D &right );
-
-	bool operator==( const Point3D &right ) const;
-	bool operator!=( const Point3D &right ) const;
-
-	friend Point3D operator+( const Point3D &left, const Point3D &right );
-	friend Point3D operator-( const Point3D &left, const Point3D &right );
-    };
+		friend Point3D operator+( const Point3D &left, const Point3D &right );
+		friend Point3D operator-( const Point3D &left, const Point3D &right );
+	};
 
 
-    //
-    // Point3D arithmetic operators
-    //
-    Point3D operator+( const Point3D &left, const Point3D &right );
-    Point3D operator-( const Point3D &left, const Point3D &right );
+	//
+	// Point3D arithmetic operators
+	//
+	Point3D operator+( const Point3D &left, const Point3D &right );
+	Point3D operator-( const Point3D &left, const Point3D &right );
 }
 
 
 #endif // __ANSIGL_POINT_H__
+
+
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

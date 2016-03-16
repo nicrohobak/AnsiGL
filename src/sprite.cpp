@@ -10,43 +10,45 @@
 
 namespace AnsiGL
 {
-    Sprite::Sprite():
-	Offset(Point(0,0))
-    {
-    }
+	Sprite::Sprite():
+		Offset(Point(0, 0))
+	{
+	}
 
-    Sprite::Sprite( const Area2D &size ):
-	Offset(Point(0,0))
-    {
-	Resize( size );
-    }
+	Sprite::Sprite( const Area2D &size ):
+		Offset(Point(0, 0))
+	{
+		Resize( size );
+	}
 
-    void Sprite::FlipX()
-    {
-	// TODO: Make sure glyphs get flipped as needed
-    }
+	void Sprite::FlipX()
+	{
+		// TODO: Make sure glyphs get flipped as needed
+	}
 
-    void Sprite::FlipY()
-    {
-	// TODO: Make sure glyphs get flipped as needed
-    }
+	void Sprite::FlipY()
+	{
+		// TODO: Make sure glyphs get flipped as needed
+	}
 
-    void Sprite::Rotate( int rotation )
-    {
-	// TODO: Make sure glyphs get flipped as needed
-    }
+	void Sprite::Rotate( int rotation )
+	{
+		// TODO: Make sure glyphs get flipped as needed
+	}
 
-    void Sprite::RenderToSurface( Surface::Ptr dest, const Point &pos, bool transparentSpaces )
-    {
-	Point NewPos;
+	void Sprite::RenderToSurface( Surface::Ptr dest, const Point &pos, bool transparentSpaces )
+	{
+		Point NewPos;
 
-	NewPos.X( pos.X() + Offset.X() );
-	NewPos.Y( pos.Y() + Offset.Y() );
+		NewPos.X( pos.X() + Offset.X() );
+		NewPos.Y( pos.Y() + Offset.Y() );
 
-	Surface::RenderToSurface( dest, NewPos, transparentSpaces );
-    }
+		Surface::RenderToSurface( dest, NewPos, transparentSpaces );
+	}
 }
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

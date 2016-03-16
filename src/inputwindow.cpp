@@ -12,22 +12,23 @@
 
 namespace AnsiGL
 {
-    InputWindow::InputWindow()
-    {
-    }
+	InputWindow::InputWindow()
+	{
+	}
 
-    std::string InputWindow::Render()
-    {
-	return TextWindow::Render();
-    }
+	std::string InputWindow::Render()
+	{
+		return TextWindow::Render();
+	}
 
-    void InputWindow::RenderToSurface( Surface *dest, const Point &pos, bool transparentSpaces )
-    {
-	TextWindow::RenderToSurface( dest, pos, transparentSpaces );
-    }
+	void InputWindow::RenderToSurface( Surface *dest, const Point &pos, bool transparentSpaces )
+	{
+		TextWindow::RenderToSurface( dest, pos, transparentSpaces );
+	}
 }
 
 
-
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

@@ -14,20 +14,21 @@ using namespace std;
 using namespace AnsiGL;
 
 
-
 bool test_Pixel()
 {
-    Pixel Test;
+	Pixel Test;
 
-    cout << "Testing AnsiGL::Pixel..." << endl;
+	cout << "Testing AnsiGL::Pixel..." << endl;
 
-    // Nothing really to be done...AnsiGL::Surface will have most of the tests
+	// Nothing really to be done...AnsiGL::Surface will have most of the tests
 
-    cout << "All tests for AnsiGL::Pixel completed successfully!" << endl;
+	cout << "All tests for AnsiGL::Pixel completed successfully!" << endl;
 
-    return true;
+	return true;
 }
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

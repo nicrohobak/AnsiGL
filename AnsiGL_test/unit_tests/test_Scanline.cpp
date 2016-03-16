@@ -14,20 +14,21 @@ using namespace std;
 using namespace AnsiGL;
 
 
-
 bool test_Scanline()
 {
-    Scanline Test;
+	Scanline Test;
 
-    cout << "Testing AnsiGL::Scanline..." << endl;
+	cout << "Testing AnsiGL::Scanline..." << endl;
 
-    // Nothing really to be done...AnsiGL::Surface will have most of the tests
+	// Nothing really to be done...AnsiGL::Surface will have most of the tests
 
-    cout << "All tests for AnsiGL::Scanline completed successfully!" << endl;
+	cout << "All tests for AnsiGL::Scanline completed successfully!" << endl;
 
-    return true;
+	return true;
 }
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

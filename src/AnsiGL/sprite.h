@@ -7,33 +7,35 @@
  * A surface lineage with functions and rendering rules better suited for being meaningful content instead of being a simple container for content (like the Window lineage).
  */
 
+
 #include "surface.h"
 
 
 namespace AnsiGL
 {
-    class Sprite : public Surface
-    {
-    public:
-	Point		Offset;		// Rendering offset from the origin
+	class Sprite : public Surface
+	{
+	public:
+		Point		Offset;		// Rendering offset from the origin
 
-    public:
-	Sprite();
-	Sprite( const Area2D &size );
+	public:
+		Sprite();
+		Sprite( const Area2D &size );
 
-	void FlipX();
-	void FlipY();
+		void FlipX();
+		void FlipY();
 
-	void Rotate( int rotation );	// Rotates in 90 degree increments...negative is counter-clockwise, positive is clockwise
+		void Rotate( int rotation );	// Rotates in 90 degree increments...negative is counter-clockwise, positive is clockwise
 
-	virtual void RenderToSurface( Surface::Ptr dest, const Point &pos = Point(), bool transparentSpaces = false );
-    };
+		virtual void RenderToSurface( Surface::Ptr dest, const Point &pos = Point(), bool transparentSpaces = false );
+	};
 }
-
 
 
 #endif // __ANSIGL_SPRITE_H__
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

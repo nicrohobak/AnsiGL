@@ -15,72 +15,76 @@
 
 namespace AnsiGL
 {
-    //
-    // Forward declaration of achar so we can convert both ways
-    //
-    class achar;
+	//
+	// Forward declaration of achar so we can convert both ways
+	//
+	class achar;
 
 
-    class uchar
-    {
-    protected:
-	std::string	m_UTF8;
-
-    public:
-	uchar();
-	uchar( const achar &glyph );
-	uchar( const std::string &glyph );
-	uchar( unsigned char glyph );
-
-	uchar &operator=( const achar &right );
-	uchar &operator=( const std::string &right );
-	uchar &operator=( const unsigned char &right );
-
-	inline uchar &operator<<( const achar &right )
+	class uchar
 	{
-	    return ((*this) = right);
-	}
+	protected:
+		std::string	m_UTF8;
 
-	inline uchar &operator<<( const std::string &right )
-	{
-	    return ((*this) = right);
-	}
+	public:
+		uchar();
+		uchar( const achar &glyph );
+		uchar( const std::string &glyph );
+		uchar( unsigned char glyph );
 
-	inline uchar &operator<<( const unsigned char &right )
-	{
-	    return ((*this) = right);
-	}
+		uchar &operator=( const achar &right );
+		uchar &operator=( const std::string &right );
+		uchar &operator=( const unsigned char &right );
 
-	bool operator==( const uchar &right ) const;
-	bool operator!=( const uchar &right ) const;
-	bool operator==( const achar &right ) const;		// Compares only the glyphs
-	bool operator!=( const achar &right ) const;
-	bool operator==( const std::string &right ) const;	// Compares the std::string as a single unicode glyph
-	bool operator!=( const std::string &right ) const;
-	bool operator==( const unsigned char &right ) const;
-	bool operator!=( const unsigned char &right ) const;
+		inline uchar &operator<<( const achar &right )
+		{
+			return ((*this) = right);
+		}
 
-	const std::string &Glyph() const;
-	void Glyph( const uchar &glyph );
-	void Glyph( const achar &glyph );
-	void Glyph( const std::string &glyph );			// Takes the first valid UTF-8 character and assigns it as our glyph
-	void Glyph( unsigned char glyph );
+		inline uchar &operator<<( const std::string &right )
+		{
+			return ((*this) = right);
+		}
 
-	bool IsSpace() const					// Returns 'true' if the glyph is whitespace
-	{
-	    return (m_UTF8.empty() || isspace(*m_UTF8.begin()));
-	}
+		inline uchar &operator<<( const unsigned char &right )
+		{
+			return ((*this) = right);
+		}
 
-	void Clear();
+		bool operator==( const uchar &right ) const;
+		bool operator!=( const uchar &right ) const;
+		bool operator==( const achar &right ) const;		// Compares only the glyphs
+		bool operator!=( const achar &right ) const;
+		bool operator==( const std::string &right ) const;	// Compares the std::string as a single unicode glyph
+		bool operator!=( const std::string &right ) const;
+		bool operator==( const unsigned char &right ) const;
+		bool operator!=( const unsigned char &right ) const;
 
-	const std::string &Render() const;			// Simply returns the glyph
-    };
+		const std::string &Glyph() const;
+		void Glyph( const uchar &glyph );
+		void Glyph( const achar &glyph );
+		void Glyph( const std::string &glyph );			// Takes the first valid UTF-8 character and assigns it as our glyph
+		void Glyph( unsigned char glyph );
+
+		bool IsSpace() const					// Returns 'true' if the glyph is whitespace
+		{
+			return (m_UTF8.empty() || isspace(*m_UTF8.begin()));
+		}
+
+		void Clear();
+
+		const std::string &Render() const;			// Simply returns the glyph
+	};
 
 
-    extern std::ostream &operator<<( std::ostream &left, const uchar &right );
+	extern std::ostream &operator<<( std::ostream &left, const uchar &right );
 }
 
 
 #endif // __ANSIGL_UCHAR_H__
+
+
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

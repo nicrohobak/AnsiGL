@@ -17,7 +17,6 @@ using namespace std;
 using namespace AnsiGL;
 
 
-
 ////////////////////////////////////////////////////////////////
 //
 // Unit Tests
@@ -65,7 +64,7 @@ extern bool FAIL( string message, ... );				// NOTE: Always returns 'false'
 
 
 //
-// This TEST() macro should be treated like an assert statement.  If the 
+// This TEST() macro should be treated like an assert statement.  If the
 //
 #define TEST( test_condition )	if ( gVerbose && (test_condition) )						\
 				{										\
@@ -83,5 +82,7 @@ extern bool FAIL( string message, ... );				// NOTE: Always returns 'false'
 #endif // __ANSIGL_UNIT_TEST_H__
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

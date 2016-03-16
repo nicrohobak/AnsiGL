@@ -12,18 +12,19 @@ using namespace std;
 using namespace AnsiGL;
 
 
-
 bool test_FixedArea()
 {
-    cout << "Testing AnsiGL::FixedArea..." << endl;
+	cout << "Testing AnsiGL::FixedArea..." << endl;
 
-    // Nothing significant that requires testing
+	// Nothing significant that requires testing
 
-    cout << "All tests for AnsiGL::FixedArea completed successfully!" << endl;
+	cout << "All tests for AnsiGL::FixedArea completed successfully!" << endl;
 
-    return true;
+	return true;
 }
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

@@ -13,60 +13,61 @@
 
 namespace AnsiGL
 {
-    class Text : public Content
-    {
-    public:
-	ANSIGL_POINTERS( Text )
+	class Text : public Content
+	{
+	public:
+		ANSIGL_POINTERS( Text )
 
-    protected:
-	astring			m_Text;
-	astring			m_FormattedText;
+	protected:
+		astring			m_Text;
+		astring			m_FormattedText;
 
-	ENUM_TxtAlign		m_Alignment;
+		ENUM_TxtAlign		m_Alignment;
 
-    public:
-	bool			AutoHeight;			// Automatically adjusts the height based on the formatted text
-	bool			TransparentSpaces;
+	public:
+		bool			AutoHeight;			// Automatically adjusts the height based on the formatted text
+		bool			TransparentSpaces;
 
-    public:
-	Text();
-	Text( const astring &text, tSizeType width = 0, ENUM_TxtAlign alignment = TxtAlign_Default, bool transparentSpaces = false, bool autoHeight = true );	// A width of 0 is unlimited
-	~Text();
+	public:
+		Text();
+		Text( const astring &text, tSizeType width = 0, ENUM_TxtAlign alignment = TxtAlign_Default, bool transparentSpaces = false, bool autoHeight = true );	// A width of 0 is unlimited
+		~Text();
 
-	const astring &Value() const;
-	const astring &FormattedValue() const;
-	void Value( const astring &text );
-	void Value( const ustring &text );
-	void Value( const std::string &text );
+		const astring &Value() const;
+		const astring &FormattedValue() const;
+		void Value( const astring &text );
+		void Value( const ustring &text );
+		void Value( const std::string &text );
 
-	void Append( const astring &text );
-	void Append( const ustring &text );
-	void Append( const std::string &text );
+		void Append( const astring &text );
+		void Append( const ustring &text );
+		void Append( const std::string &text );
 
-	void Clear();
+		void Clear();
 
-	ENUM_TxtAlign Align() const;
-	void Align( ENUM_TxtAlign align );
+		ENUM_TxtAlign Align() const;
+		void Align( ENUM_TxtAlign align );
 
-	virtual const tSizeType &Width() const;
-	virtual void Width( tSizeType width );
-	virtual const tSizeType &Height() const;
-	virtual void Height( tSizeType height );
-	virtual void Resize( const Area2D &size );
+		virtual const tSizeType &Width() const;
+		virtual void Width( tSizeType width );
+		virtual const tSizeType &Height() const;
+		virtual void Height( tSizeType height );
+		virtual void Resize( const Area2D &size );
 
-	virtual std::string str();
-	virtual std::string Render() const;
-	virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
+		virtual std::string str();
+		virtual std::string Render() const;
+		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
 
-    protected:
-	void format();
-    };
+	protected:
+		void format();
+	};
 }
-
 
 
 #endif // __ANSIGL_TEXT_H__
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

@@ -15,32 +15,36 @@
 
 namespace AnsiGL
 {
-    class Pixel : public uchar
-    {
-    protected:
-	ANSICodeList	m_Attributes;		// Except color!
+	class Pixel : public uchar
+	{
+	protected:
+		ANSICodeList	m_Attributes;		// Except color!
 
-    public:
-	int		PaletteIndex;
-	bool		Bell;
+	public:
+		int		PaletteIndex;
+		bool		Bell;
 
-    public:
-	Pixel();
+	public:
+		Pixel();
 
-	ANSICodeList Attributes() const;
+		ANSICodeList Attributes() const;
 
-	bool HasAttribute( ENUM_ANSICodes attrib ) const;
+		bool HasAttribute( ENUM_ANSICodes attrib ) const;
 
-	void AddAttribute( ENUM_ANSICodes attrib );
-	void AddAttributes( ANSICodeList attributes );
-	void RemoveAttribute( ENUM_ANSICodes attrib );
+		void AddAttribute( ENUM_ANSICodes attrib );
+		void AddAttributes( ANSICodeList attributes );
+		void RemoveAttribute( ENUM_ANSICodes attrib );
 
-	void Clear();
+		void Clear();
 
-	friend class Surface;	// For fast access
-    };
+		friend class Surface;	// For fast access
+	};
 }
 
 #endif // __ANSIGL_PIXEL_H__
+
+
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

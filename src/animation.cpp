@@ -9,110 +9,111 @@
 
 namespace AnsiGL
 {
-    Frame::Ptr Animation::CurFrame() const
-    {
-	if ( m_CurFrame == m_Frames.end() )
-	    return Frame::Ptr();
-
-	return (*m_CurFrame);
-    }
-
-    void Animation::AddFrame( Frame::Ptr frame )
-    {
-	if ( !frame )
-	    return;
-
-	m_Frames.push_back( frame );
-	m_CurFrame = m_Frames.begin();
-    }
-
-    void Animation::RemoveFrame( Frame::Ptr frame )
-    {
-	if ( !frame )
-	    return;
-
-	for ( iterator CurFrame = m_Frames.begin(); CurFrame != m_Frames.end(); ++CurFrame )
+	Frame::Ptr Animation::CurFrame() const
 	{
-	    if ( (*CurFrame) == frame )
-	    {
-		m_Frames.erase( CurFrame );
-		m_CurFrame = m_Frames.begin();
-		return;
-	    }
+		if ( m_CurFrame == m_Frames.end() )
+			return Frame::Ptr();
+
+		return (*m_CurFrame);
 	}
-    }
 
-    void Animation::RemoveFrame( unsigned int frameNum )
-    {
-	if ( frameNum >= m_Frames.size() )
-	    return;
-
-	unsigned int FrameCount = 0;
-
-	for ( iterator CurFrame = m_Frames.begin(); CurFrame != m_Frames.end(); ++CurFrame, ++FrameCount )
+	void Animation::AddFrame( Frame::Ptr frame )
 	{
-	    if ( FrameCount == frameNum )
-	    {
-		m_Frames.erase( CurFrame );
-		m_CurFrame = m_Frames.begin();
-	    }
-	}
-    }
+		if ( !frame )
+			return;
 
-    void Animation::Advance( unsigned int numFrames )
-    {
-	unsigned int FrameCount = 0;
-
-	while ( FrameCount++ < numFrames )
-	{
-	    ++m_CurFrame;
-
-	    // Make sure it loops
-	    if ( m_CurFrame == m_Frames.end() )
+		m_Frames.push_back( frame );
 		m_CurFrame = m_Frames.begin();
 	}
-    }
 
-    void Animation::Rewind( unsigned int numFrames )
-    {
-	unsigned int FrameCount = 0;
-
-	while ( FrameCount++ < numFrames )
+	void Animation::RemoveFrame( Frame::Ptr frame )
 	{
-	    // Make sure it loops
-	    if ( m_CurFrame == m_Frames.begin() )
-		m_CurFrame = m_Frames.end();
+		if ( !frame )
+			return;
 
-	    --m_CurFrame;
+		for ( iterator CurFrame = m_Frames.begin(); CurFrame != m_Frames.end(); ++CurFrame )
+		{
+			if ( (*CurFrame) == frame )
+			{
+				m_Frames.erase( CurFrame );
+				m_CurFrame = m_Frames.begin();
+				return;
+			}
+		}
 	}
-    }
 
-    std::string Animation::str()
-    {
-	if ( m_CurFrame == m_Frames.end() )
-	    return std::string("");
+	void Animation::RemoveFrame( unsigned int frameNum )
+	{
+		if ( frameNum >= m_Frames.size() )
+			return;
 
-	return (*m_CurFrame)->str();
-    }
+		unsigned int FrameCount = 0;
 
-    std::string Animation::Render() const
-    {
-	if ( m_CurFrame == m_Frames.end() )
-	    return std::string("");
+		for ( iterator CurFrame = m_Frames.begin(); CurFrame != m_Frames.end(); ++CurFrame, ++FrameCount )
+		{
+			if ( FrameCount == frameNum )
+			{
+				m_Frames.erase( CurFrame );
+				m_CurFrame = m_Frames.begin();
+			}
+		}
+	}
 
-	return (*m_CurFrame)->Render();
-    }
+	void Animation::Advance( unsigned int numFrames )
+	{
+		unsigned int FrameCount = 0;
 
-    void Animation::RenderToSurface( Surface::Ptr dest, Point2D pos ) const
-    {
-	if ( m_CurFrame == m_Frames.end() )
-	    return;
+		while ( FrameCount++ < numFrames )
+		{
+			++m_CurFrame;
 
-	(*m_CurFrame)->RenderToSurface( dest, pos );
-    }
+			// Make sure it loops
+			if ( m_CurFrame == m_Frames.end() )
+				m_CurFrame = m_Frames.begin();
+		}
+	}
+
+	void Animation::Rewind( unsigned int numFrames )
+	{
+		unsigned int FrameCount = 0;
+
+		while ( FrameCount++ < numFrames )
+		{
+			// Make sure it loops
+			if ( m_CurFrame == m_Frames.begin() )
+				m_CurFrame = m_Frames.end();
+
+			--m_CurFrame;
+		}
+	}
+
+	std::string Animation::str()
+	{
+		if ( m_CurFrame == m_Frames.end() )
+			return std::string("");
+
+		return (*m_CurFrame)->str();
+	}
+
+	std::string Animation::Render() const
+	{
+		if ( m_CurFrame == m_Frames.end() )
+			return std::string("");
+
+		return (*m_CurFrame)->Render();
+	}
+
+	void Animation::RenderToSurface( Surface::Ptr dest, Point2D pos ) const
+	{
+		if ( m_CurFrame == m_Frames.end() )
+			return;
+
+		(*m_CurFrame)->RenderToSurface( dest, pos );
+	}
 }
 
 
-
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

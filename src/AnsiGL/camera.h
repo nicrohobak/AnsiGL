@@ -16,38 +16,41 @@
 
 namespace AnsiGL
 {
-    class Camera : public Content
-    {
-    public:
-	ANSIGL_POINTERS( Camera )
+	class Camera : public Content
+	{
+	public:
+		ANSIGL_POINTERS( Camera )
 
-    protected:
-	Context::wPtr	m_Context;
-	Point3D		m_Position;
+	protected:
+		Context::wPtr	m_Context;
+		Point3D		m_Position;
 
-    public:
-	Camera();
-	Camera( Context::Ptr context, const Area2D &viewportSize = Area2D(), const Point3D &pos = Point3D() );
-	virtual ~Camera();
+	public:
+		Camera();
+		Camera( Context::Ptr context, const Area2D &viewportSize = Area2D(), const Point3D &pos = Point3D() );
+		virtual ~Camera();
 
-	virtual Point3D CurCameraPos() const;
-	virtual tPointType CameraX() const;
-	virtual tPointType CameraY() const;
-	virtual tPointType CameraZ() const;
-	virtual void MoveCameraTo( const Point3D &pos );
-	virtual void MoveCameraTo( const Point2D &pos );
+		virtual Point3D CurCameraPos() const;
+		virtual tPointType CameraX() const;
+		virtual tPointType CameraY() const;
+		virtual tPointType CameraZ() const;
+		virtual void MoveCameraTo( const Point3D &pos );
+		virtual void MoveCameraTo( const Point2D &pos );
 
-	virtual Context::Ptr GetContext() const;
-	virtual void SetContext( Context::Ptr context );
+		virtual Context::Ptr GetContext() const;
+		virtual void SetContext( Context::Ptr context );
 
-	std::string str();
-	std::string Render() const;
-	void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
-    };
+		std::string str();
+		std::string Render() const;
+		void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
+	};
 }
 
 
 #endif // __ANSIGL_CAMERA_H__
 
+
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 

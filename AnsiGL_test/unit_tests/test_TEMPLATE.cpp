@@ -12,22 +12,23 @@ using namespace std;
 using namespace AnsiGL;
 
 
-
 bool test_<ClassName>()
 {
-    cout << "Testing AnsiGL::<ClassName>..." << endl;
+	cout << "Testing AnsiGL::<ClassName>..." << endl;
 
-    ANNOUNCE( "AnsiGL::<ClassName>", "<MemberFunc>" );
-    TEST( 0 ); // The condition given to TEST() must not be false, or the program will exit and report failure
+	ANNOUNCE( "AnsiGL::<ClassName>", "<MemberFunc>" );
+	TEST( 0 ); // The condition given to TEST() must not be false, or the program will exit and report failure
 
-    ANNOUNCE( "", "<MemberFunc>" );
-    TEST( 0 );
+	ANNOUNCE( "", "<MemberFunc>" );
+	TEST( 0 );
 
-    cout << "All tests for AnsiGL::<ClassName> completed successfully!" << endl;
+	cout << "All tests for AnsiGL::<ClassName> completed successfully!" << endl;
 
-    return true;
+	return true;
 }
 
 
+// vim: tabstop=4 shiftwidth=4
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
 
 
