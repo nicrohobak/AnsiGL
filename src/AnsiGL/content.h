@@ -20,9 +20,9 @@ namespace AnsiGL
 	class ContentMarker;
 	class Context;
 	typedef std::shared_ptr< ContentMarker >	ContentMarker_Ptr;
-	typedef std::weak_ptr< ContentMarker >	ContentMarker_wPtr;
-	typedef std::shared_ptr< Context >		Context_Ptr;
-	typedef std::weak_ptr< Context >		Context_wPtr;
+	typedef std::weak_ptr< ContentMarker >		ContentMarker_wPtr;
+	typedef std::shared_ptr< Context >			Context_Ptr;
+	typedef std::weak_ptr< Context >			Context_wPtr;
 
 
 	class Content : public std::enable_shared_from_this< Content >
@@ -30,21 +30,23 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Content )
 
-	protected:
-		Context_wPtr		_Container;		// A cached pointer to the context we reside within
-		ContentMarker_wPtr	_ContentMarker;	// For faster access to our position information
-
-		Area2D			_Size;			// The rough size of this content
-
-		bool			_Visible;		// Is this visible within the context?
+	public:
+		Point2D				Offset;					// X/Y offset from the origin for rendering
 
 	public:
-		Point2D			Offset;			// X/Y offset from the origin for rendering
+		Content():
+			_Visible(true)
+		{
+		}
 
-	public:
-		Content();
-		Content( Context_Ptr container );
-		virtual ~Content();
+		Content( Context_Ptr container ):
+			_Container( container )
+		{
+		}
+
+		virtual ~Content()
+		{
+		}
 
 		Context_Ptr Container() const;
 		void Container( Context_Ptr container );
@@ -62,17 +64,17 @@ namespace AnsiGL
 		virtual const tPointType X() const;
 		virtual const tPointType Y() const;
 		virtual const tPointType Z() const;
-		virtual void Move( const Point3D &pos );		// Offset move
+		virtual void Move( const Point3D &pos );	// Offset move
 		virtual void Move( const Point2D &pos );
-		virtual void MoveTo( const Point3D &pos );		// Absolute Move
+		virtual void MoveTo( const Point3D &pos );	// Absolute Move
 		virtual void MoveTo( const Point2D &pos );
 
 		virtual const Area2D &Size() const;
-		virtual const tSizeType &Width() const;
-		virtual const tSizeType &Height() const;
+		virtual const tSizeType Width() const;
+		virtual const tSizeType Height() const;
 		virtual void Width( tSizeType width );
 		virtual void Height( tSizeType height );
-		virtual void Resize( const Area2D &size );		// Must set out _Size appropriately!
+		virtual void Resize( const Area2D &size );	// Must set out _Size appropriately!
 
 		virtual bool Visible() const;
 		virtual void Visible( bool visible );
@@ -80,8 +82,16 @@ namespace AnsiGL
 		virtual void RemoveFromContext();			// Removes ourself from our parent context, if we're within one
 
 		virtual std::string str() = 0;				// Renders this content to a std::string, ANSI and everything off by default
-		virtual std::string Render() const = 0;			// Renders this content to a std::string, but with ANSI and everything on
+		virtual std::string Render() const = 0;		// Renders this content to a std::string, but with ANSI and everything on
 		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const = 0;	// Renders this content to a surface
+
+	protected:
+		Context_wPtr		_Container;				// A cached pointer to the context we reside within
+		ContentMarker_wPtr	_ContentMarker;			// For faster access to our position information
+
+		Area2D				_Size;					// The rough size of this content
+
+		bool				_Visible;				// Is this visible within the context?
 
 	protected:
 		void triggerContextRecalc() const;

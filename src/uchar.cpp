@@ -11,25 +11,9 @@
 
 namespace AnsiGL
 {
-	uchar::uchar():
-		_UTF8(" ")
-	{
-	}
-
 	uchar::uchar( const achar &glyph )
 	{
 		Glyph( glyph.Glyph() );
-	}
-
-	uchar::uchar( const std::string &glyph )
-	{
-		Glyph( glyph );
-	}
-
-	uchar::uchar( unsigned char glyph )
-	{
-		if ( glyph < 128 )
-			(*this) = glyph;
 	}
 
 	uchar &uchar::operator=( const achar &right )
@@ -143,11 +127,6 @@ namespace AnsiGL
 		return !((*this) == right);
 	}
 
-	const std::string &uchar::Glyph() const
-	{
-		return _UTF8;
-	}
-
 	void uchar::Glyph( const uchar &glyph )
 	{
 		(*this) = glyph;
@@ -170,16 +149,6 @@ namespace AnsiGL
 			_UTF8.clear();
 			_UTF8.push_back( glyph );
 		}
-	}
-
-	void uchar::Clear()
-	{
-		_UTF8 = " ";
-	}
-
-	const std::string &uchar::Render() const
-	{
-		return Glyph();
 	}
 
 

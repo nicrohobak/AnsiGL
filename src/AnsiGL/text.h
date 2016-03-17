@@ -18,20 +18,39 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Text )
 
-	protected:
-		astring			_Text;
-		astring			_FormattedText;
-
-		ENUM_TxtAlign		_Alignment;
-
 	public:
-		bool			AutoHeight;			// Automatically adjusts the height based on the formatted text
+		bool			AutoHeight;					// Automatically adjusts the height based on the formatted text
 		bool			TransparentSpaces;
 
 	public:
-		Text();
-		Text( const astring &text, tSizeType width = 0, ENUM_TxtAlign alignment = TxtAlign_Default, bool transparentSpaces = false, bool autoHeight = true );	// A width of 0 is unlimited
-		~Text();
+		Text():
+			AutoHeight(true),
+			TransparentSpaces(false),
+			_Text("Default Text"),
+			_Alignment(TxtAlign_Default)
+		{
+			Resize( Area2D(12, 1) );				// Size for "Default Text"
+		}
+
+		Text( const astring &text,
+			  tSizeType width			= 0,		// A width of 0 is unlimited
+			  ENUM_TxtAlign alignment	= TxtAlign_Default,
+			  bool transparentSpaces	= false,
+			  bool autoHeight			= true ):
+			AutoHeight(autoHeight),
+			TransparentSpaces(transparentSpaces),
+			_Text(text),
+			_Alignment(alignment)
+		{
+			if ( width == 0 )
+				Width( text.length() );
+			else
+				Width( width );
+		}
+
+		~Text()
+		{
+		}
 
 		const astring &Value() const;
 		const astring &FormattedValue() const;
@@ -48,15 +67,21 @@ namespace AnsiGL
 		ENUM_TxtAlign Align() const;
 		void Align( ENUM_TxtAlign align );
 
-		virtual const tSizeType &Width() const;
+		virtual const tSizeType Width() const;
 		virtual void Width( tSizeType width );
-		virtual const tSizeType &Height() const;
+		virtual const tSizeType Height() const;
 		virtual void Height( tSizeType height );
 		virtual void Resize( const Area2D &size );
 
 		virtual std::string str();
 		virtual std::string Render() const;
 		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
+
+	protected:
+		astring			_Text;
+		astring			_FormattedText;
+
+		ENUM_TxtAlign	_Alignment;
 
 	protected:
 		void format();

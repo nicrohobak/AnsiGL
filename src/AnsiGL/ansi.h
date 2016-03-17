@@ -267,35 +267,169 @@ namespace AnsiGL
 		std::string		Name;						// A human-readable "common name" for this color
 
 	public:
-		ANSIColorDef();
-		ANSIColorDef( const ANSIColorDef &color );
-		ANSIColorDef( const std::string &Name, ENUM_ANSISystemColors systemColor = ANSISysColor_Default );
-		ANSIColorDef( const std::string &Name, unsigned char r, unsigned char g, unsigned char b );
-		ANSIColorDef( const std::string &Name, unsigned char grayscaleGradient );
-		ANSIColorDef( ENUM_ANSISystemColors systemColor );
-		ANSIColorDef( unsigned char r, unsigned char g, unsigned char b );
-		ANSIColorDef( unsigned char grayscaleGradient );
+		ANSIColorDef():
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(0),
+			_G(0),
+			_B(0),
+			_Grayscale(0),
+			Name(DEFAULT_ANSICOLOR_NAME)
+		{
+		}
+
+		ANSIColorDef( const ANSIColorDef &color ):
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(0),
+			_G(0),
+			_B(0),
+			_Grayscale(0),
+			Name(DEFAULT_ANSICOLOR_NAME)
+		{
+			_Index = color._Index;
+			_SystemColor = color._SystemColor;
+			_R = color._R;
+			_G = color._G;
+			_B = color._B;
+			_Grayscale = color._Grayscale;
+			Name = color.Name;
+
+			_ANSI.Add( color._ANSI );
+		}
+
+		ANSIColorDef( const std::string &name, ENUM_ANSISystemColors color ):
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(0),
+			_G(0),
+			_B(0),
+			_Grayscale(0),
+			Name(name)
+		{
+			SystemColor( color );
+		}
+
+		ANSIColorDef( const std::string &name, unsigned char r, unsigned char g, unsigned char b ):
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(r),
+			_G(g),
+			_B(b),
+			_Grayscale(0),
+			Name(name)
+		{
+			calculateIndexFromRGB();
+		}
+
+		ANSIColorDef( const std::string &name, unsigned char grayscale ):
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(0),
+			_G(0),
+			_B(0),
+			_Grayscale(grayscale),
+			Name(name)
+		{
+			calculateIndexFromGrayscale();
+		}
+
+		ANSIColorDef( ENUM_ANSISystemColors color ):
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(0),
+			_G(0),
+			_B(0),
+			_Grayscale(0),
+			Name(DEFAULT_ANSICOLOR_NAME)
+		{
+			SystemColor( color );
+		}
+
+		ANSIColorDef( unsigned char r, unsigned char g, unsigned char b ):
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(r),
+			_G(g),
+			_B(b),
+			_Grayscale(0),
+			Name(DEFAULT_ANSICOLOR_NAME)
+		{
+			calculateIndexFromRGB();
+		}
+
+		ANSIColorDef( unsigned char grayscale ):
+			_Index(-1),
+			_SystemColor(ANSISysColor_Default),
+			_R(0),
+			_G(0),
+			_B(0),
+			_Grayscale(grayscale),
+			Name(DEFAULT_ANSICOLOR_NAME)
+		{
+			calculateIndexFromGrayscale();
+		}
 
 		bool operator==( const ANSIColorDef &right ) const;
 		bool operator!=( const ANSIColorDef &right ) const;
 
-		ANSICodeList ANSI() const;
-		unsigned char Index() const;
+		const ANSICodeList &ANSI() const
+		{
+			return _ANSI;
+		}
+
+		unsigned char Index() const
+		{
+			return _Index;
+		}
 
 		ENUM_ANSISystemColors SystemColor() const;
 		void SystemColor( ENUM_ANSISystemColors color );
 
-		void GetRGB( unsigned char *r, unsigned char *g, unsigned char *b ) const;
+		void GetRGB( unsigned char *r, unsigned char *g, unsigned char *b ) const
+		{
+			if ( r )
+				*r = _R;
+
+			if ( g )
+				*g = _G;
+
+			if ( b )
+				*b = _B;
+		}
 		void SetRGB( unsigned char r, unsigned char g, unsigned char b );	// Each value ranges from 0-5
 
-		unsigned char Grayscale() const;					// Returns 0 (black) if the index is not in the grayscale range
-		void Grayscale( unsigned char grayscaleGradient );			// Ranges from 0-23, 0 is black, 23 is white
+		unsigned char Grayscale() const										// Returns 0 (black) if the index is not in the grayscale range
+		{
+			return _Grayscale;
+		}
+		void Grayscale( unsigned char grayscaleGradient );					// Ranges from 0-23, 0 is black, 23 is white
 
-		bool IsSysColor() const;						// Returns true if we're using a standard system color
-		bool IsRGB() const;							// Returns true if we're using RGB values
-		bool IsGrayscale() const;						// Returns true if we're using Grayscale values
+		bool IsSysColor() const												// Returns true if we're using a standard system color
+		{
+			return (_Index != -1 && _Index <= 15);
+		}
 
-		void Clear();
+		bool IsRGB() const													// Returns true if we're using RGB values
+		{
+			return (_Index != -1 && _Index >= 16 && _Index <= 231);
+		}
+
+		bool IsGrayscale() const											// Returns true if we're using Grayscale values
+		{
+			return (_Index != -1 && _Index >= 232);
+		}
+
+		void Clear()
+		{
+			_ANSI.clear();
+			_Index = -1;
+			_SystemColor = ANSISysColor_Default;
+			_R = 0;
+			_G = 0;
+			_B = 0;
+			_Grayscale = 0;
+		}
 
 		std::string Render( ENUM_ColorDepth desiredDepth = ColorDepth_Default, bool background = false ) const;	// Renders the color as a background color, if set
 
@@ -323,7 +457,9 @@ namespace AnsiGL
 		std::vector< ANSIColorDef::Ptr >	_Colors;
 
 	public:
-		ANSIColorPalette();
+		ANSIColorPalette()
+		{
+		}
 
 		ANSIColorDef::Ptr &operator[]( size_t index );
 		const ANSIColorDef::Ptr &operator[]( size_t index ) const;

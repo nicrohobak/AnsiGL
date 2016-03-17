@@ -91,59 +91,59 @@ namespace AnsiGL
 	// All functions in the astring class that take a std::string will
 	//   convert color codes when creating a astring.
 	//
-	const char COLOR_ESCAPE_CHAR	= '^';
+	const char COLOR_ESCAPE_CHAR		= '^';
 	const char COLOR_LIST_START_CHAR	= '{';
-	const char COLOR_LIST_END_CHAR	= '}';
+	const char COLOR_LIST_END_CHAR		= '}';
 
-	const char COLOR_RGB		= '#';
-	const char COLOR_GRAYSCALE		= '$';
+	const char COLOR_RGB				= '#';
+	const char COLOR_GRAYSCALE			= '$';
 
-	const char COLOR_BELL		= '&';
+	const char COLOR_BELL				= '&';
 
-	const char COLOR_CLEAR_ALL		= 'D';
+	const char COLOR_CLEAR_ALL			= 'D';
 
-	const char COLOR_BLACK		= 'k';
-	const char COLOR_RED		= 'r';
-	const char COLOR_GREEN		= 'g';
-	const char COLOR_YELLOW		= 'y';
-	const char COLOR_BLUE		= 'b';
-	const char COLOR_MAGENTA		= 'm';
-	const char COLOR_CYAN		= 'c';
-	const char COLOR_WHITE		= 'w';
-	const char COLOR_DEFAULT		= 'd';
+	const char COLOR_BLACK				= 'k';
+	const char COLOR_RED				= 'r';
+	const char COLOR_GREEN				= 'g';
+	const char COLOR_YELLOW				= 'y';
+	const char COLOR_BLUE				= 'b';
+	const char COLOR_MAGENTA			= 'm';
+	const char COLOR_CYAN				= 'c';
+	const char COLOR_WHITE				= 'w';
+	const char COLOR_DEFAULT			= 'd';
 
-	const char COLOR_BOLD_BLACK		= 'K';
-	const char COLOR_BOLD_RED		= 'R';
-	const char COLOR_BOLD_GREEN		= 'G';
-	const char COLOR_BOLD_YELLOW	= 'Y';
-	const char COLOR_BOLD_BLUE		= 'B';
-	const char COLOR_BOLD_MAGENTA	= 'M';
-	const char COLOR_BOLD_CYAN		= 'C';
-	const char COLOR_BOLD_WHITE		= 'W';
+	const char COLOR_BOLD_BLACK			= 'K';
+	const char COLOR_BOLD_RED			= 'R';
+	const char COLOR_BOLD_GREEN			= 'G';
+	const char COLOR_BOLD_YELLOW		= 'Y';
+	const char COLOR_BOLD_BLUE			= 'B';
+	const char COLOR_BOLD_MAGENTA		= 'M';
+	const char COLOR_BOLD_CYAN			= 'C';
+	const char COLOR_BOLD_WHITE			= 'W';
 
-	const char COLOR_BG_BLACK		= '1';
-	const char COLOR_BG_RED		= '2';
-	const char COLOR_BG_GREEN		= '3';
-	const char COLOR_BG_YELLOW		= '4';
-	const char COLOR_BG_BLUE		= '5';
-	const char COLOR_BG_MAGENTA		= '6';
-	const char COLOR_BG_CYAN		= '7';
-	const char COLOR_BG_WHITE		= '8';
-	const char COLOR_BG_DEFAULT		= '0';
+	const char COLOR_BG_BLACK			= '1';
+	const char COLOR_BG_RED				= '2';
+	const char COLOR_BG_GREEN			= '3';
+	const char COLOR_BG_YELLOW			= '4';
+	const char COLOR_BG_BLUE			= '5';
+	const char COLOR_BG_MAGENTA			= '6';
+	const char COLOR_BG_CYAN			= '7';
+	const char COLOR_BG_WHITE			= '8';
+	const char COLOR_BG_DEFAULT			= '0';
 
-	const char COLOR_BOLD_ON		= '*';
-	const char COLOR_BOLD_OFF		= '.';
-	const char COLOR_ITALICS_ON		= '/';
-	const char COLOR_ITALICS_OFF	= '\\';
-	const char COLOR_UNDERLINE_ON	= '_';
-	const char COLOR_UNDERLINE_OFF	= '-';
-	const char COLOR_CROSSEDOUT_ON	= '%';
-	const char COLOR_CROSSEDOUT_OFF	= '=';
-	const char COLOR_BLINK_ON		= ':';
-	const char COLOR_BLINK_OFF		= ';';
+	const char COLOR_BOLD_ON			= '*';
+	const char COLOR_BOLD_OFF			= '.';
+	const char COLOR_ITALICS_ON			= '/';
+	const char COLOR_ITALICS_OFF		= '\\';
+	const char COLOR_UNDERLINE_ON		= '_';
+	const char COLOR_UNDERLINE_OFF		= '-';
+	const char COLOR_CROSSEDOUT_ON		= '%';
+	const char COLOR_CROSSEDOUT_OFF		= '=';
+	const char COLOR_BLINK_ON			= ':';
+	const char COLOR_BLINK_OFF			= ';';
 
-	const char COLOR_INVERT_ON		= 'I';
-	const char COLOR_INVERT_OFF		= 'i';
+	const char COLOR_INVERT_ON			= 'I';
+	const char COLOR_INVERT_OFF			= 'i';
 
 
 	//
@@ -158,50 +158,79 @@ namespace AnsiGL
 	//
 	class achar : public uchar
 	{
-	protected:
-		ANSICodeList		_Attributes;		// Except color!
+	public:
+		ColorDef			Color;
+		bool				Bell;
 
 	public:
-		ColorDef		Color;
-		bool			Bell;
+		achar():
+			Bell(false)
+		{
+		}
 
-	public:
-		achar();
-		achar( const ColorDef &color );
-		achar( const ColorDef &color, bool bell );
-		achar( const ustring &glyphWithColor );		// This will convert the ustring for color, and take the first character from the resulting gstring as the achar
-		achar( const uchar &glyph );
-		achar( const std::string &glyphWithColor );	// This will convert the std::string for color, and take the first character from the resulting gstring as the achar
-		achar( const char ch );
+		achar( const ColorDef &color ):
+			Color(color),
+			Bell(false)
+		{
+		}
 
-		achar &operator=( const ustring &right );	// Overloaded = for unicode std::strings, so we can convert on the fly via = as well
-		achar &operator=( const uchar &right );		// Overloaded = for unicode characters too
-		achar &operator=( const std::string &right );	// Overloaded = for std::strings, so we can convert on the fly via = as well
+		achar( const ColorDef &color, bool bell ):
+			Color(color),
+			Bell(bell)
+		{
+		}
+
+		achar( const ustring &glyphWithColor ):				// This will convert the ustring for color, and take the first character from the resulting gstring as the achar
+			Bell(false)
+		{
+			(*this) = glyphWithColor;
+		}
+
+		achar( const uchar &glyph ):
+			Bell(false)
+		{
+			(*this) = glyph;
+		}
+
+		achar( const std::string &glyphWithColor ):			// This will convert the std::string for color, and take the first character from the resulting gstring as the achar
+			Bell(false)
+		{
+			(*this) = glyphWithColor;
+		}
+
+		achar( const char ch )
+		{
+			(*this) = ch;
+		}
+
+		achar &operator=( const ustring &right );			// Overloaded = for unicode std::strings, so we can convert on the fly via = as well
+		achar &operator=( const uchar &right );				// Overloaded = for unicode characters too
+		achar &operator=( const std::string &right );		// Overloaded = for std::strings, so we can convert on the fly via = as well
 		achar &operator=( const char &right );
 
-		inline achar &operator<<( const ustring &right )
+		achar &operator<<( const ustring &right )
 		{
 			return ((*this) = right);
 		}
 
-		inline achar &operator<<( const uchar &right )
+		achar &operator<<( const uchar &right )
 		{
 			return ((*this) = right);
 		}
 
-		inline achar &operator<<( const std::string &right )
+		achar &operator<<( const std::string &right )
 		{
 			return ((*this) = right);
 		}
 
-		inline achar &operator<<( const char &right )
+		achar &operator<<( const char &right )
 		{
 			return ((*this) = right);
 		}
 
 		bool operator==( const achar &right ) const;
 		bool operator!=( const achar &right ) const;
-		bool operator==( const ustring &right ) const;	// Compares the ustring as a single character with a color code
+		bool operator==( const ustring &right ) const;		// Compares the ustring as a single character with a color code
 		bool operator!=( const ustring &right ) const;
 		bool operator==( const uchar &right ) const;
 		bool operator!=( const uchar &right ) const;
@@ -210,7 +239,7 @@ namespace AnsiGL
 		bool operator==( const char &right ) const;
 		bool operator!=( const char &right ) const;
 
-		const ANSICodeList Attributes() const			// Give the compiler the option to inline
+		const ANSICodeList Attributes() const
 		{
 			return _Attributes;
 		}
@@ -226,17 +255,20 @@ namespace AnsiGL
 		void RemoveAttribute( ENUM_ANSICodes attrib );
 		void RemoveAttributes( const ANSICodeList &attrib );
 
-		bool HasAnsi() const;				// Returns true if there is ANSI to render
+		bool HasAnsi() const;							// Returns true if there is ANSI to render
 
 		virtual void Clear();
 
 		virtual std::string RenderAnsi( ENUM_ColorDepth desiredDepth = ColorDepth_Default ) const;	// Renders the complete ANSI code required for this character (and a bell character too, if needed)
 		virtual std::string Render( ENUM_ColorDepth desiredDepth = ColorDepth_Default, bool enableAnsi = true, bool enableBell = true ) const;	// Renders the character as a properly formed ANSI-encoded std::string, complete with an ANSI terminator
 
-		friend class Surface;	// For fast access
+		friend class Surface;							// For fast access
 
 	protected:
-		static ANSICodeList::Ptr _BannedAttributes;
+		static ANSICodeList::Ptr	_BannedAttributes;
+
+	protected:
+		ANSICodeList				_Attributes;		// Except color!
 
 		void initBannedAttributes();
 	};

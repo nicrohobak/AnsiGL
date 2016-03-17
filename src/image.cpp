@@ -30,12 +30,12 @@ namespace AnsiGL
 		return Content::_Size;
 	}
 
-	const tSizeType &Image::Width() const
+	const tSizeType Image::Width() const
 	{
 		return Content::_Size.Width();
 	}
 
-	const tSizeType &Image::Height() const
+	const tSizeType Image::Height() const
 	{
 		return Content::_Size.Height();
 	}
@@ -56,6 +56,21 @@ namespace AnsiGL
 	{
 		Content::Resize( size );
 		Surface::Resize( size );
+	}
+
+	void Image::FlipX()
+	{
+		// TODO: Make sure glyphs get flipped as needed
+	}
+
+	void Image::FlipY()
+	{
+		// TODO: Make sure glyphs get flipped as needed
+	}
+
+	void Image::Rotate( int rotation )
+	{
+		// TODO: Make sure glyphs get flipped as needed
 	}
 
 	std::string Image::str()

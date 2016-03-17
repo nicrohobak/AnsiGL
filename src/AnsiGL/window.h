@@ -49,9 +49,9 @@ namespace AnsiGL
 		virtual const astring &StatusText() const;
 		virtual void StatusText( const astring &text );
 
-		virtual const tSizeType &Width() const;
+		virtual const tSizeType Width() const;
 		virtual void Width( tSizeType width );
-		virtual const tSizeType &Height() const;
+		virtual const tSizeType Height() const;
 		virtual void Height( tSizeType height );
 		virtual void Resize( const Area2D &size );
 

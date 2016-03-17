@@ -16,37 +16,6 @@
 
 namespace AnsiGL
 {
-	Surface::Surface():
-		AutoPalette(true),
-		DesiredDepth(ColorDepth_8Bit),
-		TabSize(8),
-		RenderANSI(true),
-		RenderBell(true),
-		UseCLS(false),
-		UseENDL(true),
-		UseLF(false),
-		UseCR(false)
-	{
-	}
-
-	Surface::Surface( const Area2D &size ):
-		AutoPalette(true),
-		DesiredDepth(ColorDepth_8Bit),
-		TabSize(8),
-		RenderANSI(true),
-		RenderBell(true),
-		UseCLS(false),
-		UseENDL(true),
-		UseLF(false),
-		UseCR(false)
-	{
-		Resize( size );
-	}
-
-	Surface::~Surface()
-	{
-	}
-
 	Scanline Surface::GetScanline( int lineNum ) const
 	{
 		if ( lineNum < 0 || lineNum >= _Size.Height() )
@@ -86,7 +55,7 @@ namespace AnsiGL
 		Height( size.Height() );
 	}
 
-	const tSizeType &Surface::Width() const
+	const tSizeType Surface::Width() const
 	{
 		return _Size.Width();
 	}
@@ -105,7 +74,7 @@ namespace AnsiGL
 			_Pixels[y].resize( _Size.Width() );
 	}
 
-	const tSizeType &Surface::Height() const
+	const tSizeType Surface::Height() const
 	{
 		return _Size.Height();
 	}
@@ -329,9 +298,11 @@ namespace AnsiGL
 		if ( transparentSpaces && ach.IsSpace() )
 			return;
 
-		_Pixels[pos.Y()][pos.X()].Glyph( ach.Glyph() );
-		_Pixels[pos.Y()][pos.X()].Bell = ach.Bell;
-		_Pixels[pos.Y()][pos.X()].Attributes().clear();
+		Pixel *CurPixel = &_Pixels[ pos.Y() ][ pos.X() ];
+
+		CurPixel->Glyph( ach.Glyph() );
+		CurPixel->Bell = ach.Bell;
+		CurPixel->ClearAttributes();
 
 		if ( !ach.Attributes().empty() )
 			_Pixels[pos.Y()][pos.X()].AddAttributes( ach.Attributes() );

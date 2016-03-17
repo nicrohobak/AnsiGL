@@ -12,50 +12,6 @@
 
 namespace AnsiGL
 {
-	ColorComponent::ColorComponent():
-		_Index(-1)
-	{
-		assignMasterPalette();
-	}
-
-	ColorComponent::ColorComponent( ANSIColorPalette::Ptr palette ):
-		_Palette(palette),
-		_Index(-1)
-	{
-		// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
-	}
-
-	ColorComponent::ColorComponent( ANSIColorPalette::Ptr palette, const ANSIColorDef &color ):
-		_Palette(palette),
-		_Index(-1)
-	{
-		// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
-
-		if ( _Palette )
-			_Index = _Palette->FindIndex( color );
-	}
-
-	ColorComponent::ColorComponent( ENUM_ANSISystemColors color ):
-		_Index(-1)
-	{
-		assignMasterPalette();
-		Set( color );
-	}
-
-	ColorComponent::ColorComponent( unsigned char r, unsigned char g, unsigned char b ):
-		_Index(-1)
-	{
-		assignMasterPalette();
-		Set( r, g, b );
-	}
-
-	ColorComponent::ColorComponent( unsigned char grayscale ):
-		_Index(-1)
-	{
-		assignMasterPalette();
-		Set( grayscale );
-	}
-
 	bool ColorComponent::operator==( const ColorComponent &right ) const
 	{
 		if ( this == &right )
@@ -82,11 +38,6 @@ namespace AnsiGL
 		return !((*this) == right);
 	}
 
-	ANSIColorPalette::Ptr ColorComponent::Palette() const
-	{
-		return _Palette;
-	}
-
 	void ColorComponent::Palette( ANSIColorPalette::Ptr palette )
 	{
 		_Palette = palette;
@@ -94,11 +45,6 @@ namespace AnsiGL
 		// Check our index bounds against the new palette...if we're still in range, allow it...if not, become transparent
 		if ( !_Palette || (_Palette && _Index >= (int)_Palette->size()) )
 			_Index = -1;
-	}
-
-	int ColorComponent::Index() const
-	{
-		return _Index;
 	}
 
 	void ColorComponent::Set( ENUM_ANSISystemColors color )
@@ -134,17 +80,6 @@ namespace AnsiGL
 		return ANSIColorDef::Ptr();
 	}
 
-	bool ColorComponent::IsColorless() const
-	{
-		return (!_Palette || _Index == -1);
-	}
-
-	void ColorComponent::Clear()
-	{
-		_Palette.reset();
-		_Index = -1;
-	}
-
 	std::string ColorComponent::Render( ENUM_ColorDepth desiredDepth, bool background ) const
 	{
 		if ( IsColorless() || _Index >= (int)_Palette->size() )
@@ -161,32 +96,6 @@ namespace AnsiGL
 		_Palette = ANSIColorPalette::Master;
 	}
 
-
-	ColorDef::ColorDef():
-		Inverted(false)
-	{
-	}
-
-	ColorDef::ColorDef( const ColorComponent &fg, const ColorComponent &bg ):
-		FG(fg),
-		BG(bg),
-		Inverted(false)
-	{
-	}
-
-	ColorDef::ColorDef( const ColorComponent &fg, const ColorComponent &bg, bool inverted ):
-		FG(fg),
-		BG(bg),
-		Inverted(inverted)
-	{
-	}
-
-	ColorDef::ColorDef( ENUM_ANSISystemColors fg, ENUM_ANSISystemColors bg ):
-		FG(fg),
-		BG(bg),
-		Inverted(false)
-	{
-	}
 
 	bool ColorDef::operator==( const ColorDef &right ) const
 	{
@@ -229,11 +138,6 @@ namespace AnsiGL
 		return !((*this) == right);
 	}
 
-	bool ColorDef::IsColorless() const
-	{
-		return (FG.IsColorless() && BG.IsColorless());
-	}
-
 	void ColorDef::SetPalette( ANSIColorPalette::Ptr palette )
 	{
 		if ( !palette )
@@ -241,13 +145,6 @@ namespace AnsiGL
 
 		FG.Palette( palette );
 		BG.Palette( palette );
-	}
-
-	void ColorDef::Clear()
-	{
-		FG.Clear();
-		BG.Clear();
-		Inverted = false;
 	}
 
 	std::string ColorDef::Render( ENUM_ColorDepth desiredDepth ) const
@@ -282,10 +179,6 @@ namespace AnsiGL
 		return RenderedStr.str();
 	}
 
-
-	ColorPalette::ColorPalette()
-	{
-	}
 
 	ColorDef::Ptr ColorPalette::operator[]( int index )
 	{
@@ -509,9 +402,9 @@ namespace AnsiGL
 			(*CurColor)->Inverted = !(*CurColor)->Inverted;
 	}
 
-	/*
-	    std::string ColorPalette::Render()
-	    {
+/*
+    std::string ColorPalette::Render()
+    {
 		std::stringstream RenderedStr("");
 
 		ColorPalette::iterator CurColor;
@@ -524,8 +417,8 @@ namespace AnsiGL
 		RetStr << 'm';		// ANSI Code End
 
 		return RenderedStr.str();
-	    }
-	*/
+    }
+*/
 }
 
 

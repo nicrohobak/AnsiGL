@@ -10,31 +10,6 @@
 
 namespace AnsiGL
 {
-	Text::Text():
-		_Text("Default Text"),
-		_Alignment(TxtAlign_Default),
-		AutoHeight(true),
-		TransparentSpaces(false)
-	{
-		Resize( Area2D(12, 1) );		// Size for "Default Text"
-	}
-
-	Text::Text( const astring &text, tSizeType width, ENUM_TxtAlign alignment, bool transparentSpaces, bool autoHeight ):
-		_Text(text),
-		_Alignment(alignment),
-		AutoHeight(autoHeight),
-		TransparentSpaces(transparentSpaces)
-	{
-		if ( width == 0 )
-			Width( text.length() );
-		else
-			Width( width );
-	}
-
-	Text::~Text()
-	{
-	}
-
 	const astring &Text::Value() const
 	{
 		return _Text;
@@ -94,7 +69,7 @@ namespace AnsiGL
 		format();
 	}
 
-	const tSizeType &Text::Width() const
+	const tSizeType Text::Width() const
 	{
 		return Content::Width();
 	}
@@ -105,7 +80,7 @@ namespace AnsiGL
 		format();
 	}
 
-	const tSizeType &Text::Height() const
+	const tSizeType Text::Height() const
 	{
 		return Content::Height();
 	}

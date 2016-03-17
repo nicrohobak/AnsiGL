@@ -42,7 +42,7 @@ namespace AnsiGL
 			_Frames.clear();
 		}
 
-		void Reset()
+		void Restart()
 		{
 			_CurFrame = _Frames.begin();
 		}
@@ -55,13 +55,13 @@ namespace AnsiGL
 		virtual void RenderToSurface( Surface::Ptr dest, Point2D pos = Point2D() ) const;
 
 	protected:
-		typedef std::list< Frame::Ptr >::iterator		iterator;
-		typedef std::list< Frame::Ptr >::const_iterator		const_iterator;
-		typedef std::list< Frame::Ptr >::reverse_iterator	reverse_iterator;
+		typedef std::list< Frame::Ptr >::iterator				iterator;
+		typedef std::list< Frame::Ptr >::const_iterator			const_iterator;
+		typedef std::list< Frame::Ptr >::reverse_iterator		reverse_iterator;
 		typedef std::list< Frame::Ptr >::const_reverse_iterator	const_reverse_iterator;
 
 		std::list< Frame::Ptr >	_Frames;
-		iterator		_CurFrame;
+		iterator				_CurFrame;
 	};
 }
 

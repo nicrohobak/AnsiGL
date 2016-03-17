@@ -22,6 +22,9 @@ namespace AnsiGL
 	const int  ANSI_BG_OFFSET		= 10;
 
 
+	//
+	// ANSICodeList
+	//
 	std::string ANSICodeList::Render( ENUM_ColorDepth desiredDepth, bool background ) const
 	{
 		std::stringstream RenderedStr("");
@@ -81,109 +84,9 @@ namespace AnsiGL
 	}
 
 
-	ANSIColorDef::ANSIColorDef():
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(0),
-		_G(0),
-		_B(0),
-		_Grayscale(0),
-		Name(DEFAULT_ANSICOLOR_NAME)
-	{
-	}
-
-	ANSIColorDef::ANSIColorDef( const ANSIColorDef &color ):
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(0),
-		_G(0),
-		_B(0),
-		_Grayscale(0),
-		Name(DEFAULT_ANSICOLOR_NAME)
-	{
-		_Index = color._Index;
-		_SystemColor = color._SystemColor;
-		_R = color._R;
-		_G = color._G;
-		_B = color._B;
-		_Grayscale = color._Grayscale;
-		Name = color.Name;
-
-		_ANSI.Add( color._ANSI );
-	}
-
-	ANSIColorDef::ANSIColorDef( const std::string &name, ENUM_ANSISystemColors color ):
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(0),
-		_G(0),
-		_B(0),
-		_Grayscale(0),
-		Name(name)
-	{
-		SystemColor( color );
-	}
-
-	ANSIColorDef::ANSIColorDef( const std::string &name, unsigned char r, unsigned char g, unsigned char b ):
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(r),
-		_G(g),
-		_B(b),
-		_Grayscale(0),
-		Name(name)
-	{
-		calculateIndexFromRGB();
-	}
-
-	ANSIColorDef::ANSIColorDef( const std::string &name, unsigned char grayscale ):
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(0),
-		_G(0),
-		_B(0),
-		_Grayscale(grayscale),
-		Name(name)
-	{
-		calculateIndexFromGrayscale();
-	}
-
-	ANSIColorDef::ANSIColorDef( ENUM_ANSISystemColors color ):
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(0),
-		_G(0),
-		_B(0),
-		_Grayscale(0),
-		Name(DEFAULT_ANSICOLOR_NAME)
-	{
-		SystemColor( color );
-	}
-
-	ANSIColorDef::ANSIColorDef( unsigned char r, unsigned char g, unsigned char b ):
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(r),
-		_G(g),
-		_B(b),
-		_Grayscale(0),
-		Name(DEFAULT_ANSICOLOR_NAME)
-	{
-		calculateIndexFromRGB();
-	}
-
-	ANSIColorDef::ANSIColorDef( unsigned char grayscale ):
-		_Index(-1),
-		_SystemColor(ANSISysColor_Default),
-		_R(0),
-		_G(0),
-		_B(0),
-		_Grayscale(grayscale),
-		Name(DEFAULT_ANSICOLOR_NAME)
-	{
-		calculateIndexFromGrayscale();
-	}
-
+	//
+	// ANSIColorDef
+	//
 	bool ANSIColorDef::operator==( const ANSIColorDef &right ) const
 	{
 		if ( this == &right )
@@ -198,16 +101,6 @@ namespace AnsiGL
 	bool ANSIColorDef::operator!=( const ANSIColorDef &right ) const
 	{
 		return !((*this) == right);
-	}
-
-	ANSICodeList ANSIColorDef::ANSI() const
-	{
-		return _ANSI;
-	}
-
-	unsigned char ANSIColorDef::Index() const
-	{
-		return _Index;
 	}
 
 	ENUM_ANSISystemColors ANSIColorDef::SystemColor() const
@@ -297,18 +190,6 @@ namespace AnsiGL
 			_Index += 8;
 	}
 
-	void ANSIColorDef::GetRGB( unsigned char *r, unsigned char *g, unsigned char *b ) const
-	{
-		if ( r )
-			*r = _R;
-
-		if ( g )
-			*g = _G;
-
-		if ( b )
-			*b = _B;
-	}
-
 	void ANSIColorDef::SetRGB( unsigned char r, unsigned char g, unsigned char b )
 	{
 		_R = r;
@@ -318,42 +199,11 @@ namespace AnsiGL
 		calculateIndexFromRGB();
 	}
 
-	unsigned char ANSIColorDef::Grayscale() const
-	{
-		return _Grayscale;
-	}
-
 	void ANSIColorDef::Grayscale( unsigned char gradient )
 	{
 		_Grayscale = gradient;
 
 		calculateIndexFromGrayscale();
-	}
-
-	bool ANSIColorDef::IsSysColor() const
-	{
-		return (_Index != -1 && _Index <= 15);
-	}
-
-	bool ANSIColorDef::IsRGB() const
-	{
-		return (_Index != -1 && _Index >= 16 && _Index <= 231);
-	}
-
-	bool ANSIColorDef::IsGrayscale() const
-	{
-		return (_Index != -1 && _Index >= 232);
-	}
-
-	void ANSIColorDef::Clear()
-	{
-		_ANSI.clear();
-		_Index = -1;
-		_SystemColor = ANSISysColor_Default;
-		_R = 0;
-		_G = 0;
-		_B = 0;
-		_Grayscale = 0;
 	}
 
 	std::string ANSIColorDef::Render( ENUM_ColorDepth desiredDepth, bool background ) const
@@ -454,10 +304,9 @@ namespace AnsiGL
 	}
 
 
-	ANSIColorPalette::ANSIColorPalette()
-	{
-	}
-
+	//
+	// ANSIColorPalette
+	//
 	ANSIColorPalette::Ptr ANSIColorPalette::Master;
 
 	void ANSIColorPalette::InitMasterPalette()

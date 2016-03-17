@@ -4,7 +4,7 @@
 /*
  * area.h
  *
- * A simple definition of a square area.i
+ * A simple definition of a square area.
  */
 
 
@@ -24,39 +24,94 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Area2D )
 
-	protected:
-		tSizeType	_Width;
-		tSizeType	_Height;
-
 	public:
-		Area2D();
-		Area2D( tSizeType width, tSizeType height );
+		Area2D():
+			_Width(0),
+			_Height(0)
+		{
+		}
 
-		virtual ~Area2D();
+		Area2D( tSizeType width, tSizeType height ):
+			_Width(width),
+			_Height(height)
+		{
+		}
 
-		inline const tSizeType &Width() const
+		~Area2D()
+		{
+		}
+
+		tSizeType Width() const
 		{
 			return _Width;
 		}
-		void Width( tSizeType width );
 
-		inline const tSizeType &Height() const
+		tSizeType Height() const
 		{
 			return _Height;
 		}
-		void Height( tSizeType height );
 
-		bool operator==( const Area2D &right ) const;
-		bool operator!=( const Area2D &right ) const;
+		void Width( tSizeType width )
+		{
+			if ( width < 0 )
+				_Width = 0;
+			else
+				_Width = width;
+		}
 
-		bool operator>( const Area2D &right ) const;
-		bool operator<( const Area2D &right ) const;
+		void Height( tSizeType height )
+		{
+			if ( height < 0 )
+				_Height = 0;
+			else
+				_Height = height;
+		}
 
-		bool operator>=( const Area2D &right ) const;
-		bool operator<=( const Area2D &right ) const;
+		bool operator==( const Area2D &right ) const
+		{
+			return (_Width == right._Width && _Height == right._Height);
+		}
 
-		void ResizeTo( const Area2D &size );
-		void ResizeTo( tSizeType width, tSizeType height );
+		bool operator!=( const Area2D &right ) const
+		{
+			return !((*this) == right);
+		}
+
+		bool operator>( const Area2D &right ) const
+		{
+			return ((_Width * _Height) > (right._Width * right._Height));
+		}
+
+		bool operator<( const Area2D &right ) const
+		{
+			return !((*this) > right);
+		}
+
+		bool operator>=( const Area2D &right ) const
+		{
+			return ((_Width * _Height) >= (right._Width * right._Height));
+		}
+
+		bool operator<=( const Area2D &right ) const
+		{
+			return !((*this) >= right);
+		}
+
+		void ResizeTo( const Area2D &size )
+		{
+			Width( size._Width );
+			Height( size._Height );
+		}
+
+		void ResizeTo( tSizeType width, tSizeType height )
+		{
+			Width( width );
+			Height( height );
+		}
+
+	protected:
+		tSizeType	_Width;
+		tSizeType	_Height;
 	};
 
 
@@ -72,30 +127,77 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Area3D )
 
-	protected:
-		tSizeType	_Depth;
-
 	public:
-		Area3D();
-		Area3D( tSizeType width, tSizeType height, tSizeType depth = 0 );
+		Area3D():
+			_Depth(0)
+		{
+		}
 
-		inline const tSizeType &Depth() const
+		Area3D( tSizeType width, tSizeType height, tSizeType depth ):
+			_Depth(depth)
+		{
+			ResizeTo( width, height, depth );
+		}
+
+		tSizeType Depth() const
 		{
 			return _Depth;
 		}
-		void Depth( tSizeType depth );
 
-		bool operator==( const Area3D &right ) const;
-		bool operator!=( const Area3D &right ) const;
+		void Depth( tSizeType depth )
+		{
+			if ( depth < 0 )
+				_Depth = 0;
+			else
+				_Depth = depth;
+		}
 
-		bool operator>( const Area3D &right ) const;
-		bool operator<( const Area3D &right ) const;
+		bool operator==( const Area3D &right ) const
+		{
+			return (_Width == right._Width && _Height == right._Height && _Depth == right._Depth);
+		}
 
-		bool operator>=( const Area3D &right ) const;
-		bool operator<=( const Area3D &right ) const;
+		bool operator!=( const Area3D &right ) const
+		{
+			return !((*this) == right);
+		}
 
-		void ResizeTo( const Area3D &size );
-		void ResizeTo( tSizeType width, tSizeType height, tSizeType depth );
+		bool operator>( const Area3D &right ) const
+		{
+			return ((_Width * _Height * _Depth) > (right._Width * right._Height * right._Depth));
+		}
+
+		bool operator<( const Area3D &right ) const
+		{
+			return !((*this) > right);
+		}
+
+		bool operator>=( const Area3D &right ) const
+		{
+			return ((_Width * _Height * _Depth) >= (right._Width * right._Height * right._Depth));
+		}
+
+		bool operator<=( const Area3D &right ) const
+		{
+			return !((*this) >= right);
+		}
+
+		void ResizeTo( const Area3D &size )
+		{
+			Width( size._Width );
+			Height( size._Height );
+			Depth( size._Depth );
+		}
+
+		void ResizeTo( tSizeType width, tSizeType height, tSizeType depth )
+		{
+			Width( width );
+			Height( height );
+			Depth( depth );
+		}
+
+	protected:
+		tSizeType	_Depth;
 	};
 
 
@@ -107,32 +209,52 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( FixedArea2D )
 
-	protected:
-		Point2D		_Point;	// The point to which this area is fixed
-
 	public:
-		FixedArea2D();
-		FixedArea2D( const Area2D &size, const Point2D &pos = Point2D() );
+		FixedArea2D()
+		{
+		}
 
-		inline const Point2D &Point() const
+		FixedArea2D( const Area2D &area, const Point2D &pos ):
+			_Point(pos)
+		{
+			_Width = area.Width();
+			_Height = area.Height();
+		}
+
+		const Point2D &Point() const
 		{
 			return _Point;
 		}
-		void Point( const Point2D &point );
 
-		inline const tPointType &X() const
+		void Point( const Point2D &point )
+		{
+			_Point = point;
+		}
+
+		const tPointType &X() const
 		{
 			return _Point.X();
 		}
-		void X( tPointType x );
 
-		inline const tPointType &Y() const
+		void X( tPointType x )
+		{
+			_Point.X( x );
+		}
+
+		const tPointType &Y() const
 		{
 			return _Point.Y();
 		}
-		void Y( tPointType y );
+		
+		void Y( tPointType y )
+		{
+			_Point.Y( y );
+		}
 
 		// NOTE: Since the ==/!= operators have not been defined here, any use of those operators will not compare the position itself, only the size of the fixed areas!
+
+	protected:
+		Point2D		_Point;	// The point to which this area is fixed
 	};
 
 
@@ -148,43 +270,101 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( FixedArea3D )
 
-	protected:
-		Point3D		_Point;			// The position to which this area is fixed
-
 	public:
-		FixedArea3D();
-		FixedArea3D( const Area3D &size, const Point3D &point );
-		FixedArea3D( const Area3D &size, const Point2D &point );
-		FixedArea3D( const Area2D &size, const Point3D &point );
-		FixedArea3D( const Area2D &size, const Point2D &point );
-		FixedArea3D( const Area3D &size );
-		FixedArea3D( const Area2D &size );
+		FixedArea3D()
+		{
+		}
 
-		inline const Point3D &Point() const
+		FixedArea3D( const Area3D &area, const Point3D &point ):
+			_Point(point)
+		{
+			_Width = area.Width();
+			_Height = area.Height();
+			_Depth = area.Depth();
+		}
+
+		FixedArea3D( const Area3D &area, const Point2D &point ):
+			_Point(point)
+		{
+			_Width = area.Width();
+			_Height = area.Height();
+			_Depth = area.Depth();
+		}
+
+		FixedArea3D( const Area2D &area, const Point3D &point ):
+			_Point(point)
+		{
+			_Width = area.Width();
+			_Height = area.Height();
+			_Depth = 0;
+		}
+
+		FixedArea3D( const Area2D &area, const Point2D &point ):
+			_Point(point)
+		{
+			_Width = area.Width();
+			_Height = area.Height();
+			_Depth = 0;
+		}
+
+		FixedArea3D( const Area3D &area )
+		{
+			_Width = area.Width();
+			_Height = area.Height();
+			_Depth = area.Depth();
+		}
+
+		FixedArea3D( const Area2D &area )
+		{
+			_Width = area.Width();
+			_Height = area.Height();
+			_Depth = 0;
+		}
+
+		const Point3D &Point() const
 		{
 			return _Point;
 		}
-		void Point( const Point3D &point );
 
-		inline const tPointType &X() const
+		void Point( const Point3D &point )
+		{
+			_Point = point;
+		}
+
+		const tPointType &X() const
 		{
 			return _Point.X();
 		}
-		void X( tPointType x );
+		
+		void X( tPointType x )
+		{
+			_Point.X( x );
+		}
 
-		inline const tPointType &Y() const
+		const tPointType &Y() const
 		{
 			return _Point.Y();
 		}
-		void Y( tPointType y );
+		
+		void Y( tPointType y )
+		{
+			_Point.Y( y );
+		}
 
-		inline const tPointType &Z() const
+		const tPointType &Z() const
 		{
 			return _Point.Z();
 		}
-		void Z( tPointType z );
+
+		void Z( tPointType z )
+		{
+			_Point.Z( z );
+		}
 
 		// NOTE: Since the ==/!= operators have not been defined here, any use of those operators will not compare the position itself, only the size of the fixed areas!
+
+	protected:
+		Point3D		_Point;			// The position to which this area is fixed
 	};
 }
 

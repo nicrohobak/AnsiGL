@@ -102,7 +102,7 @@ namespace AnsiGL
 		_StatusText->Width( text.length() );
 	}
 
-	const tSizeType &Window::Width() const
+	const tSizeType Window::Width() const
 	{
 		return Content::Width();
 	}
@@ -113,7 +113,7 @@ namespace AnsiGL
 		updateWindow();
 	}
 
-	const tSizeType &Window::Height() const
+	const tSizeType Window::Height() const
 	{
 		return Content::Height();
 	}

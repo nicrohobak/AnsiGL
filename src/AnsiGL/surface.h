@@ -40,27 +40,53 @@ namespace AnsiGL
 		ANSIGL_POINTERS( Surface )
 
 	public:
-		ColorPalette::Ptr		Palette;	// The color palette for this surface
+		ColorPalette::Ptr	Palette;		// The color palette for this surface
 		bool				AutoPalette;	// On by default, determines if this surface will manage its own palette automatically
 
-		ENUM_ColorDepth			DesiredDepth;	// 7Bit by default (16 foreground, 8 background colors)
+		ENUM_ColorDepth		DesiredDepth;	// 7Bit by default (16 foreground, 8 background colors)
 
-		int				TabSize;	// 8 by default, the number of spaces a tab character should represent (for std::strings drawn vertically, tabs are 1/4 this size, with a minimum of 1 space).  8 seems to be the tab size of most consoles I've encountered.
+		int					TabSize;		// 8 by default, the number of spaces a tab character should represent (for std::strings drawn vertically, tabs are 1/4 this size, with a minimum of 1 space).  8 seems to be the tab size of most consoles I've encountered.
 
-		bool				RenderANSI;	// On by default
-		bool				RenderBell;	// On by default (The bell character, '\007')
+		bool				RenderANSI;		// On by default
+		bool				RenderBell;		// On by default (The bell character, '\007')
 
-		bool				UseCLS;		// Off by default, adds an ANSI clear screen code to the start of the surface rendering
+		bool				UseCLS;			// Off by default, adds an ANSI clear screen code to the start of the surface rendering
 
-		bool				UseENDL;	// On by default, adds a endl character to the end of each line when rendering
-		bool				UseLF;		// Off by default, adds a '\n' at the end of each line when rendering
-		bool				UseCR;		// Off by default, adds a '\r' at the end of each line when rendering
+		bool				UseENDL;		// On by default, adds a endl character to the end of each line when rendering
+		bool				UseLF;			// Off by default, adds a '\n' at the end of each line when rendering
+		bool				UseCR;			// Off by default, adds a '\r' at the end of each line when rendering
 
 	public:
-		Surface();
-		Surface( const Area2D &size );
+		Surface():
+			AutoPalette(true),
+			DesiredDepth(ColorDepth_8Bit),
+			TabSize(8),
+			RenderANSI(true),
+			RenderBell(true),
+			UseCLS(false),
+			UseENDL(true),
+			UseLF(false),
+			UseCR(false)
+		{
+		}
 
-		virtual ~Surface();
+		Surface( const Area2D &size ):
+			AutoPalette(true),
+			DesiredDepth(ColorDepth_8Bit),
+			TabSize(8),
+			RenderANSI(true),
+			RenderBell(true),
+			UseCLS(false),
+			UseENDL(true),
+			UseLF(false),
+			UseCR(false)
+		{
+			Resize( size );
+		}
+
+		virtual ~Surface()
+		{
+		}
 
 		// This is a little safer than direct access to our vector...
 		// This is preferred unless direct access is absolutely necessary (usually only for low-level rendering functions, etc.)
@@ -70,10 +96,10 @@ namespace AnsiGL
 		virtual const Area2D &Size() const;
 		virtual void Resize( Area2D size );
 
-		virtual const tSizeType &Width() const;
+		virtual const tSizeType Width() const;
 		virtual void Width( tSizeType width );
 
-		virtual const tSizeType &Height() const;
+		virtual const tSizeType Height() const;
 		virtual void Height( tSizeType height );
 
 		void Clear();
@@ -91,7 +117,7 @@ namespace AnsiGL
 		// Render Functions
 		//
 		virtual std::string str();			// Calls Render() with ANSI off by default instead of on
-		virtual std::string Render() const;		// Converts this surface into a std::string
+		virtual std::string Render() const;	// Converts this surface into a std::string
 		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &point = Point2D(), bool transparentSpaces = TRANSPARENT_DEFAULT ) const;	// Renders this surface to another surface
 		virtual void RenderAreaToSurface( FixedArea2D visibleArea, Surface::Ptr dest, const Point2D &point = Point2D(), bool transparentSpaces = TRANSPARENT_DEFAULT ) const;	// Renders an area on this surface to another surface
 
@@ -127,7 +153,7 @@ namespace AnsiGL
 	protected:
 		std::vector< Scanline >		_Pixels;	// NOTE: Direct access is via y,x (_Pixels[y][x]) rather than x,y!
 
-		Area2D				_Size;
+		Area2D						_Size;
 
 	protected:
 		bool pixelHasAnsi( const Point2D &pixel ) const;

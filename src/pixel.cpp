@@ -12,17 +12,6 @@
 
 namespace AnsiGL
 {
-	Pixel::Pixel():
-		PaletteIndex(-1),
-		Bell(false)
-	{
-	}
-
-	ANSICodeList Pixel::Attributes() const
-	{
-		return _Attributes;
-	}
-
 	bool Pixel::HasAttribute( ENUM_ANSICodes attrib ) const
 	{
 		return _Attributes.Has( attrib );
@@ -57,6 +46,11 @@ namespace AnsiGL
 		_Attributes.clear();
 		PaletteIndex = 0;
 		Bell = false;
+	}
+
+	void Pixel::ClearAttributes()
+	{
+		_Attributes.clear();
 	}
 }
 

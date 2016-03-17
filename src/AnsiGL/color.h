@@ -20,23 +20,67 @@ namespace AnsiGL
 	{
 	protected:
 		ANSIColorPalette::Ptr	_Palette;		// A pointer to the current ANSIColorPalette
-		int			_Index;		// The color index of this component: Range: -1 to 255 (typically)  -1 is colorless
+		int						_Index;			// The color index of this component: Range: -1 to 255 (typically)  -1 is colorless
 
 	public:
-		ColorComponent();
-		ColorComponent( ANSIColorPalette::Ptr palette );
-		ColorComponent( ANSIColorPalette::Ptr palette, const ANSIColorDef &color );
-		ColorComponent( ENUM_ANSISystemColors color );
-		ColorComponent( unsigned char r, unsigned char g, unsigned char b );
-		ColorComponent( unsigned char grayscale );
+		ColorComponent():
+			_Index(-1)
+		{
+			assignMasterPalette();
+		}
+
+		ColorComponent( ANSIColorPalette::Ptr palette ):
+			_Palette(palette),
+			_Index(-1)
+		{
+			// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
+		}
+
+		ColorComponent( ANSIColorPalette::Ptr palette, const ANSIColorDef &color ):
+			_Palette(palette),
+			_Index(-1)
+		{
+			// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
+
+			if ( _Palette )
+				_Index = _Palette->FindIndex( color );
+		}
+
+		ColorComponent( ENUM_ANSISystemColors color ):
+			_Index(-1)
+		{
+			assignMasterPalette();
+			Set( color );
+		}
+
+		ColorComponent( unsigned char r, unsigned char g, unsigned char b ):
+			_Index(-1)
+		{
+			assignMasterPalette();
+			Set( r, g, b );
+		}
+
+		ColorComponent( unsigned char grayscale ):
+			_Index(-1)
+		{
+			assignMasterPalette();
+			Set( grayscale );
+		}
 
 		bool operator==( const ColorComponent &right ) const;
 		bool operator!=( const ColorComponent &right ) const;
 
-		ANSIColorPalette::Ptr Palette() const;
+		ANSIColorPalette::Ptr Palette() const
+		{
+			return _Palette;
+		}
+
 		void Palette( ANSIColorPalette::Ptr palette );
 
-		int Index() const;
+		int Index() const
+		{
+			return _Index;
+		}
 
 		void Set( ENUM_ANSISystemColors color );
 		void Set( unsigned char r, unsigned char g, unsigned char b );
@@ -44,14 +88,21 @@ namespace AnsiGL
 
 		ANSIColorDef::Ptr Color() const;		// Returns the ANSIColorDef for this color (if it has one)
 
-		bool IsColorless() const;			// Returns true if this color component is colorless
+		bool IsColorless() const				// Returns true if this color component is colorless
+		{
+			return (!_Palette || _Index == -1);
+		}
 
-		void Clear();
+		void Clear()
+		{
+			_Palette.reset();
+			_Index = -1;
+		}
 
 		std::string Render( ENUM_ColorDepth desiredDepth, bool background = false ) const;	// If background is true, this color is rendered as a background color
 
 	protected:
-		void assignMasterPalette();			// Initializes AnsiGL's master color palette: ANSIColorPalette::Master, if necessary then points _Palette over to it
+		void assignMasterPalette();				// Initializes AnsiGL's master color palette: ANSIColorPalette::Master, if necessary then points _Palette over to it
 	};
 
 
@@ -70,19 +121,48 @@ namespace AnsiGL
 		bool			Inverted;		// Invert the foreground and background colors when rendering
 
 	public:
-		ColorDef();
-		ColorDef( const ColorComponent &fg, const ColorComponent &bg );
-		ColorDef( const ColorComponent &fg, const ColorComponent &bg, bool inverted );
-		ColorDef( ENUM_ANSISystemColors fg, ENUM_ANSISystemColors bg );
+		ColorDef():
+			Inverted(false)
+		{
+		}
+
+		ColorDef( const ColorComponent &fg, const ColorComponent &bg ):
+			FG(fg),
+			BG(bg),
+			Inverted(false)
+		{
+		}
+
+		ColorDef( const ColorComponent &fg, const ColorComponent &bg, bool inverted ):
+			FG(fg),
+			BG(bg),
+			Inverted(inverted)
+		{
+		}
+
+		ColorDef( ENUM_ANSISystemColors fg, ENUM_ANSISystemColors bg ):
+			FG(fg),
+			BG(bg),
+			Inverted(false)
+		{
+		}
 
 		bool operator==( const ColorDef &right ) const;	// Returns true if they are effectively equivalant colors, even if not constructed identically or named identically
 		bool operator!=( const ColorDef &right ) const;
 
-		bool IsColorless() const;
+		bool IsColorless() const
+		{
+			return (FG.IsColorless() && BG.IsColorless());
+		}
 
 		void SetPalette( ANSIColorPalette::Ptr palette );	// Assigns this palette to the FG and BG colors
 
-		void Clear();
+		void Clear()
+		{
+			FG.Clear();
+			BG.Clear();
+			Inverted = false;
+		}
 
 		std::string Render( ENUM_ColorDepth desiredDepth = ColorDepth_7Bit ) const;	// Renders the ANSI color code for this color...no escape sequence, only numbers and separators.
 	};
@@ -101,11 +181,10 @@ namespace AnsiGL
 		typedef std::list< ColorDef::Ptr >::reverse_iterator		reverse_iterator;
 		typedef std::list< ColorDef::Ptr >::const_reverse_iterator	const_reverse_iterator;
 
-	protected:
-		std::list< ColorDef::Ptr >		_Colors;
-
 	public:
-		ColorPalette();
+		ColorPalette()
+		{
+		}
 
 		ColorDef::Ptr operator[]( int index );
 		const ColorDef::Ptr operator[]( int index ) const;
@@ -138,6 +217,9 @@ namespace AnsiGL
 
 		// shift operators could move the palette colors
 		// increment/decrement operators could do the same
+
+	protected:
+		std::list< ColorDef::Ptr >		_Colors;
 	};
 }
 

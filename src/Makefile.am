@@ -7,7 +7,6 @@ lib_LTLIBRARIES = libAnsiGL.la
 libAnsiGL_la_SOURCES =  achar.cpp		\
 			animation.cpp		\
 			ansi.cpp		\
-			area.cpp		\
 			camera.cpp		\
 			clone.cpp		\
 			color.cpp		\
@@ -16,7 +15,6 @@ libAnsiGL_la_SOURCES =  achar.cpp		\
 			image.cpp		\
 			pixel.cpp		\
 			point.cpp		\
-			sprite.cpp		\
 			string.cpp		\
 			surface.cpp		\
 			text.cpp		\
@@ -44,7 +42,6 @@ library_include_HEADERS =	AnsiGL/achar.h		\
 				AnsiGL/image.h		\
 				AnsiGL/pixel.h		\
 				AnsiGL/point.h		\
-				AnsiGL/sprite.h		\
 				AnsiGL/string.h		\
 				AnsiGL/surface.h	\
 				AnsiGL/text.h		\

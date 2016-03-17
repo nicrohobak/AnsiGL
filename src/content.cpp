@@ -11,15 +11,6 @@
 
 namespace AnsiGL
 {
-	Content::Content():
-		_Visible(true)
-	{
-	}
-
-	Content::~Content()
-	{
-	}
-
 	Context::Ptr Content::Container() const
 	{
 		return _Container.lock();
@@ -157,12 +148,12 @@ namespace AnsiGL
 		return _Size;
 	}
 
-	const tSizeType &Content::Width() const
+	const tSizeType Content::Width() const
 	{
 		return _Size.Width();
 	}
 
-	const tSizeType &Content::Height() const
+	const tSizeType Content::Height() const
 	{
 		return _Size.Height();
 	}

@@ -22,54 +22,99 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Point2D )
 
-	protected:
-		tPointType	_X;
-		tPointType	_Y;
-
 	public:
-		Point2D();
-		Point2D( tPointType x, tPointType y );
+		Point2D():
+			_X(0),
+			_Y(0)
+		{
+		}
 
-		virtual ~Point2D();
+		Point2D( tPointType x, tPointType y )
+		{
+			X(x);
+			Y(y);
+		}
 
-		const tPointType &X() const		// Give the compiler the option to in-line
+		virtual ~Point2D()
+		{
+		}
+
+		const tPointType &X() const
 		{
 			return _X;
 		}
-		void X( tPointType x );
-		inline tPointType IncX()
+
+		void X( tPointType x )
+		{
+			_X = x;
+		}
+
+		tPointType IncX()
 		{
 			return ++_X;
-		};
-		inline tPointType DecX()
+		}
+
+		tPointType DecX()
 		{
 			return --_X;
-		};
+		}
 
-		const tPointType &Y() const		// Give the compiler the option to in-line
+		const tPointType &Y() const
 		{
 			return _Y;
 		}
-		void Y( tPointType y );
-		inline tPointType IncY()
+
+		void Y( tPointType y )
+		{
+			_Y = y;
+		}
+
+		tPointType IncY()
 		{
 			return ++_Y;
-		};
-		inline tPointType DecY()
+		}
+
+		tPointType DecY()
 		{
 			return --_Y;
-		};
+		}
 
-		void Set( tPointType x, tPointType y );
+		void Set( tPointType x, tPointType y )
+		{
+			X( x );
+			Y( y );
+		}
 
-		Point2D &operator+=( const Point2D &right );
-		Point2D &operator-=( const Point2D &right );
+		Point2D &operator+=( const Point2D &right )
+		{
+			_X = _X + right._X;
+			_Y = _Y + right._Y;
+			return (*this);
+		}
 
-		bool operator==( const Point2D &right ) const;
-		bool operator!=( const Point2D &right ) const;
+		Point2D &operator-=( const Point2D &right )
+		{
+			_X = _X - right._X;
+			_Y = _Y - right._Y;
+			return (*this);
+		}
+
+		bool operator==( const Point2D &right ) const
+		{
+			return (_X == right._X && _Y == right._Y);
+		}
+
+		bool operator!=( const Point2D &right ) const
+		{
+			return !((*this) == right);
+		}
 
 		friend Point2D operator+( const Point2D &left, const Point2D &right );
 		friend Point2D operator-( const Point2D &left, const Point2D &right );
+
+	protected:
+		tPointType	_X;
+		tPointType	_Y;
 	};
 
 
@@ -93,32 +138,84 @@ namespace AnsiGL
 		tPointType	_Z;
 
 	public:
-		Point3D();
-		Point3D( tPointType x, tPointType y, tPointType z );
-		Point3D( const Point2D &point );
-		Point3D( tPointType x, tPointType y );
+		Point3D():
+			_Z(0)
+		{
+		}
 
-		const tPointType &Z() const		// Give the compiler the option to in-line
+		Point3D( tPointType x, tPointType y, tPointType z ):
+			_Z(z)
+		{
+			_X = x;
+			_Y = y;
+		}
+
+		Point3D( const Point2D &point ):
+			_Z(0)
+		{
+			_X = point.X();
+			_Y = point.Y();
+		}
+
+		Point3D( tPointType x, tPointType y ):
+			_Z(0)
+		{
+			_X = x;
+			_Y = y;
+		}
+
+		const tPointType &Z() const
 		{
 			return _Z;
 		}
-		void Z( tPointType Z );
-		inline tPointType IncZ()
+
+		void Z( tPointType z )
+		{
+			_Z = z;
+		}
+
+		tPointType IncZ()
 		{
 			return ++_Z;
-		};
-		inline tPointType DecZ()
+		}
+
+		tPointType DecZ()
 		{
 			return --_Z;
-		};
+		}
 
-		void Set( tPointType x, tPointType y, tPointType z );
+		void Set( tPointType x, tPointType y, tPointType z )
+		{
+			X( x );
+			Y( y );
+			Z( z );
+		}
 
-		Point3D &operator+=( const Point3D &right );
-		Point3D &operator-=( const Point3D &right );
+		Point3D &operator+=( const Point3D &right )
+		{
+			_X = _X + right._X;
+			_Y = _Y + right._Y;
+			_Z = _Z + right._Z;
+			return (*this);
+		}
 
-		bool operator==( const Point3D &right ) const;
-		bool operator!=( const Point3D &right ) const;
+		Point3D &operator-=( const Point3D &right )
+		{
+			_X = _X - right._X;
+			_Y = _Y - right._Y;
+			_Z = _Z - right._Z;
+			return (*this);
+		}
+
+		bool operator==( const Point3D &right ) const
+		{
+			return (_X == right._X && _Y == right._Y && _Z == right._Z);
+		}
+
+		bool operator!=( const Point3D &right ) const
+		{
+			return !((*this) == right);
+		}
 
 		friend Point3D operator+( const Point3D &left, const Point3D &right );
 		friend Point3D operator-( const Point3D &left, const Point3D &right );

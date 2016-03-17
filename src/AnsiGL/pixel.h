@@ -17,17 +17,21 @@ namespace AnsiGL
 {
 	class Pixel : public uchar
 	{
-	protected:
-		ANSICodeList	_Attributes;		// Except color!
+	public:
+		int				PaletteIndex;
+		bool			Bell;
 
 	public:
-		int		PaletteIndex;
-		bool		Bell;
+		Pixel():
+			PaletteIndex(-1),
+			Bell(false)
+		{
+		}
 
-	public:
-		Pixel();
-
-		ANSICodeList Attributes() const;
+		const ANSICodeList &Attributes() const
+		{
+			return _Attributes;
+		}
 
 		bool HasAttribute( ENUM_ANSICodes attrib ) const;
 
@@ -36,8 +40,12 @@ namespace AnsiGL
 		void RemoveAttribute( ENUM_ANSICodes attrib );
 
 		void Clear();
+		void ClearAttributes();
 
-		friend class Surface;	// For fast access
+	protected:
+		ANSICodeList	_Attributes;		// Except color!
+
+		friend class Surface;				// For fast access
 	};
 }
 

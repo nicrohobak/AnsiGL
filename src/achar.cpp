@@ -328,46 +328,6 @@ namespace AnsiGL
 	//
 	// achar
 	//
-	achar::achar():
-		Bell(false)
-	{
-	}
-
-	achar::achar( const ColorDef &color ):
-		Color(color),
-		Bell(false)
-	{
-	}
-
-	achar::achar( const ColorDef &color, bool bell ):
-		Color(color),
-		Bell(bell)
-	{
-	}
-
-	achar::achar( const ustring &glyphWithColor ):
-		Bell(false)
-	{
-		(*this) = glyphWithColor;
-	}
-
-	achar::achar( const uchar &glyph ):
-		Bell(false)
-	{
-		(*this) = glyph;
-	}
-
-	achar::achar( const std::string &glyphWithColor ):
-		Bell(false)
-	{
-		(*this) = glyphWithColor;
-	}
-
-	achar::achar( const char ch )
-	{
-		(*this) = ch;
-	}
-
 	achar &achar::operator=( const ustring &right )
 	{
 		Clear();
