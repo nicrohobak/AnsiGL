@@ -393,7 +393,7 @@ namespace AnsiGL
 
 				switch ( CheckChar )
 				{
-				case ' ':
+					case ' ':
 					{
 						// Check to see if a space will fit on the line too, if not do the newline process, otherwise add the space
 						if ( CurLineLength + 1 > lineWidth )
@@ -412,7 +412,7 @@ namespace AnsiGL
 						break;
 					}
 
-				case '\t':
+					case '\t':
 					{
 						// Fill up a temp string with tabSize spaces
 						std::string TabStr( tabSize, ' ' );
@@ -434,13 +434,15 @@ namespace AnsiGL
 						break;
 					}
 
-				case '\n':
+					case '\n':
 					{
 						// Check to see if the next character is '\r', if so, skip over it
 						const_iterator NextChar = CurChar;
-						++NextChar;
 
-						if ( NextChar != end() && NextChar->Glyph().c_str()[0] == '\r' )
+						if ( NextChar == end() )
+							break;
+
+						if ( ++NextChar != end() && NextChar->Glyph().c_str()[0] == '\r' )
 							++CurChar;
 
 						CurLine.addNewline( lineWidth, align, newlineOnly );
@@ -450,13 +452,15 @@ namespace AnsiGL
 						break;
 					}
 
-				case '\r':
+					case '\r':
 					{
 						// Check to see if the next character is '\n', if so, skip over it
 						const_iterator NextChar = CurChar;
-						++NextChar;
 
-						if ( NextChar != end() && NextChar->Glyph().c_str()[0] == '\n' )
+						if ( NextChar == end() )
+							break;
+
+						if ( ++NextChar != end() && NextChar->Glyph().c_str()[0] == '\n' )
 							++CurChar;
 
 						CurLine.addNewline( lineWidth, align, newlineOnly );
@@ -466,8 +470,8 @@ namespace AnsiGL
 						break;
 					}
 
-				default:
-					break;
+					default:
+						break;
 				}
 			}
 			else

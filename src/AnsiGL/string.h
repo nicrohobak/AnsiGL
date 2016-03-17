@@ -267,67 +267,67 @@ namespace AnsiGL
 		}
 
 		// Streamify these strings
-		inline String< tCharType > &operator<<( bool val )
+		String< tCharType > &operator<<( bool val )
 		{
 			return addToStream< bool >( val );
 		}
 
-		inline String< tCharType > &operator<<( char val )
+		String< tCharType > &operator<<( char val )
 		{
 			return addToStream< char >( val );
 		}
 
-		inline String< tCharType > &operator<<( unsigned char val )
+		String< tCharType > &operator<<( unsigned char val )
 		{
 			return addToStream< unsigned char >( val );
 		}
 
-		inline String< tCharType > &operator<<( short val )
+		String< tCharType > &operator<<( short val )
 		{
 			return addToStream< short >( val );
 		}
 
-		inline String< tCharType > &operator<<( unsigned short val )
+		String< tCharType > &operator<<( unsigned short val )
 		{
 			return addToStream< unsigned short >( val );
 		}
 
-		inline String< tCharType > &operator<<( int val )
+		String< tCharType > &operator<<( int val )
 		{
 			return addToStream< int >( val );
 		}
 
-		inline String< tCharType > &operator<<( unsigned int val )
+		String< tCharType > &operator<<( unsigned int val )
 		{
 			return addToStream< unsigned int >( val );
 		}
 
-		inline String< tCharType > &operator<<( long val )
+		String< tCharType > &operator<<( long val )
 		{
 			return addToStream< long >( val );
 		}
 
-		inline String< tCharType > &operator<<( unsigned long val )
+		String< tCharType > &operator<<( unsigned long val )
 		{
 			return addToStream< unsigned long >( val );
 		}
 
-		inline String< tCharType > &operator<<( float val )
+		String< tCharType > &operator<<( float val )
 		{
 			return addToStream< float >( val );
 		}
 
-		inline String< tCharType > &operator<<( double val )
+		String< tCharType > &operator<<( double val )
 		{
 			return addToStream< double >( val );
 		}
 
-		inline String< tCharType > &operator<<( const char *right )
+		String< tCharType > &operator<<( const char *right )
 		{
 			return ((*this) += right);
 		}
 
-		inline String< tCharType > &operator<<( const std::string &right )
+		String< tCharType > &operator<<( const std::string &right )
 		{
 			return ((*this) += right);
 		}
@@ -500,67 +500,67 @@ namespace AnsiGL
 		ustring &operator=( const astring &right );
 		ustring &operator+=( const astring &right );
 
-		inline ustring &operator<<( bool val )
+		ustring &operator<<( bool val )
 		{
 			return addToStream< bool >( val );
 		}
 
-		inline ustring &operator<<( char val )
+		ustring &operator<<( char val )
 		{
 			return addToStream< char >( val );
 		}
 
-		inline ustring &operator<<( unsigned char val )
+		ustring &operator<<( unsigned char val )
 		{
 			return addToStream< unsigned char >( val );
 		}
 
-		inline ustring &operator<<( short val )
+		ustring &operator<<( short val )
 		{
 			return addToStream< short >( val );
 		}
 
-		inline ustring &operator<<( unsigned short val )
+		ustring &operator<<( unsigned short val )
 		{
 			return addToStream< unsigned short >( val );
 		}
 
-		inline ustring &operator<<( int val )
+		ustring &operator<<( int val )
 		{
 			return addToStream< int >( val );
 		}
 
-		inline ustring &operator<<( unsigned int val )
+		ustring &operator<<( unsigned int val )
 		{
 			return addToStream< unsigned int >( val );
 		}
 
-		inline ustring &operator<<( long val )
+		ustring &operator<<( long val )
 		{
 			return addToStream< long >( val );
 		}
 
-		inline ustring &operator<<( unsigned long val )
+		ustring &operator<<( unsigned long val )
 		{
 			return addToStream< unsigned long >( val );
 		}
 
-		inline ustring &operator<<( float val )
+		ustring &operator<<( float val )
 		{
 			return addToStream< float >( val );
 		}
 
-		inline ustring &operator<<( double val )
+		ustring &operator<<( double val )
 		{
 			return addToStream< double >( val );
 		}
 
-		inline ustring &operator<<( const char *right )
+		ustring &operator<<( const char *right )
 		{
 			return ((*this) += right );
 		}
 
-		inline ustring &operator<<( const astring &right )
+		ustring &operator<<( const astring &right )
 		{
 			return ((*this) += right );
 		}
@@ -607,67 +607,72 @@ namespace AnsiGL
 
 		astring &operator+=( const astring &right );
 
-		inline astring &operator<<( bool val )
+		astring &operator<<( void *val )
+		{
+			return addToStream< void * >( val );
+		}
+
+		astring &operator<<( bool val )
 		{
 			return addToStream< bool >( val );
 		}
 
-		inline astring &operator<<( char val )
+		astring &operator<<( char val )
 		{
 			return addToStream< char >( val );
 		}
 
-		inline astring &operator<<( unsigned char val )
+		astring &operator<<( unsigned char val )
 		{
 			return addToStream< unsigned char >( val );
 		}
 
-		inline astring &operator<<( short val )
+		astring &operator<<( short val )
 		{
 			return addToStream< short >( val );
 		}
 
-		inline astring &operator<<( unsigned short val )
+		astring &operator<<( unsigned short val )
 		{
 			return addToStream< unsigned short >( val );
 		}
 
-		inline astring &operator<<( int val )
+		astring &operator<<( int val )
 		{
 			return addToStream< int >( val );
 		}
 
-		inline astring &operator<<( unsigned int val )
+		astring &operator<<( unsigned int val )
 		{
 			return addToStream< unsigned int >( val );
 		}
 
-		inline astring &operator<<( long val )
+		astring &operator<<( long val )
 		{
 			return addToStream< long >( val );
 		}
 
-		inline astring &operator<<( unsigned long val )
+		astring &operator<<( unsigned long val )
 		{
 			return addToStream< unsigned long >( val );
 		}
 
-		inline astring &operator<<( float val )
+		astring &operator<<( float val )
 		{
 			return addToStream< float >( val );
 		}
 
-		inline astring &operator<<( double val )
+		astring &operator<<( double val )
 		{
 			return addToStream< double >( val );
 		}
 
-		inline astring &operator<<( const char *right )
+		astring &operator<<( const char *right )
 		{
 			return ((*this) += right );
 		}
 
-		inline astring &operator<<( const ustring &right )
+		astring &operator<<( const ustring &right )
 		{
 			return ((*this) += right );
 		}
