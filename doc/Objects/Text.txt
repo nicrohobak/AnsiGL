@@ -1,3 +1,54 @@
-TODO: Write me!
+==============================================================================
+| Class: Text								     |
+==============================================================================
+
+==== Overview ====
+
+    A Content object that represents a text field.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Content
+        Children:
+            None
+    Related:
+        TextWindow
+
+
+==== Member Variables ====
+
+Data Type	Name			Details
+-----------------------------------------------
+bool		AutoHeight		Automatically adjusts the height based
+					on the formatted text
+bool		TransparentSpaces	When 'true', whitespace will not be
+					rendered, effectively making that
+					location appear transparent
+
+
+==== Member Functions ====
+
+Name			Details
+-------------------------------
+Clear()			Clears the contents
+Append()		Appends text to the end of the current text
+Value()			Get/sets the text
+FormattedValue()	Gets the contents, formatted as directed
+
+Alignment
+---------
+Align()			Gets/sets the alignment
+
+Size
+----
+Width()			Gets/sets the width
+Height()		Gets/sets the height
+Resize()		Sets the size
+
+==============================================================================
+
 
 

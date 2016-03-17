@@ -1,35 +1,36 @@
 ==============================================================================
-| Class: FixedArea2D                                                         |
+| <TITLE>								     |
 ==============================================================================
 
 ==== Overview ====
 
-    A 2-dimensional area with a Point2D to place this area within some
-context.
+    TODO: Write me!
 
 
 ==== Relationships ====
 
     Inheritance:
         Parents:
-            Area2D
+            None
         Children:
             None
     Related:
-        Point2D
-        Window
+        None
 
 
 ==== Member Variables ====
 
-    None
+Data Type	Name	Details
+-------------------------------
 
 
 ==== Member Functions ====
 
-    (Same as Area2D and Point2D)
+Name		Details
+-----------------------
 
 
 ==============================================================================
+
 
 

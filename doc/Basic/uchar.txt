@@ -1,3 +1,40 @@
-TODO: Write me!
+==============================================================================
+| Class: uchar								     |
+==============================================================================
+
+==== Overview ====
+
+    A UTF-8 'char' always of the same physical width(1) regardless of the
+width of its glyph.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            None
+        Children:
+            achar
+    Related:
+        ustring
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+Glyph()		Returns the current glyph (as std::string)
+IsSpace()	Returns 'true' if the glyph is a whitespace character
+Clear()		Clears the uchar data, effectively turning it into a space: ' '
+Render()	Returns the current glyph (identical to Glyph())
+
+
+==============================================================================
+
 
 

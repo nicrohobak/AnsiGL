@@ -1,3 +1,57 @@
-TODO: Write me!
+==============================================================================
+| Class: Image								     |
+==============================================================================
+
+==== Overview ====
+
+    A Content-based AnsiGL::Surface.  An Image is the first in Surface-based
+lineage tailored to actually being content, rather than being simply a
+container for content (like the Window lineage).
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Content
+	    Surface
+        Children:
+            None
+    Related:
+        Animation
+
+
+==== Member Variables ====
+
+Data Type	Name			Details
+-----------------------------------------------
+bool		TransparentSpaces	When 'true', whitespace will not be
+					rendered, effectively making that
+					location appear transparent
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+
+Size
+----
+Size()		Gets the current size of the Image
+Width()		Gets/sets the width of the Image
+Height()	Gets/sets the height of the Image
+Resize()	Sets the size of the Image
+
+Image Manipulation
+------------------
+FlipX() 	Flips the sprite on the X axis
+FlipY() 	Flips the sprite on the Y axis
+Rotate() 	Rotates a sprite in 90 degree increments (negative values 
+		rotate counter-clockwise while positive values rotate
+		clockwise)
+
+
+
+==============================================================================
+
 
 

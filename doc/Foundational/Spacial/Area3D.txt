@@ -1,3 +1,37 @@
-TODO: Write me!
+==============================================================================
+| Class: Area3D								     |
+==============================================================================
+
+==== Overview ====
+
+    A bounding box that represents a space in 3D.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Area2D
+        Children:
+            FixedArea3D
+    Related:
+        None
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+Depth()		Get/set the Z depth of the area (Z)
+ResizeTo()	Resizes the area
+
+
+==============================================================================
+
 
 

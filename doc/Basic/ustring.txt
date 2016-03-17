@@ -1,3 +1,35 @@
-TODO: Write me!
+==============================================================================
+| Class: ustring.txt                                                         |
+==============================================================================
+
+==== Overview ====
+
+    ustring is (ideally) a perfect std::string implementation for uchar.
+ustring is an extension of String< uchar >.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            String< uchar >
+        Children:
+            None
+    Related:
+	astring
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+    None
+
+
+==============================================================================
+
 
 

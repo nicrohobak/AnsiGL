@@ -1,3 +1,40 @@
-TODO: Write me!
+==============================================================================
+| Class: FixedArea3D							     |
+==============================================================================
+
+==== Overview ====
+
+    A 3D area (bounding box), with a point marker that represents its (0,0,0)
+point's location in space.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            FixedArea2D
+        Children:
+            None
+    Related:
+	Point2D
+	Point3D
+        Area2D
+	Area3D
+
+
+==== Member Variables ====
+
+Data Type	Name	Details
+-------------------------------
+
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+
+
+==============================================================================
+
 
 

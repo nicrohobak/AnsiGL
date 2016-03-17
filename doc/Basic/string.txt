@@ -1,3 +1,48 @@
-TODO: Write me!
+==============================================================================
+| Class: String< tCharType >						     |
+==============================================================================
+
+==== Overview ====
+
+    A std::string-esque foundation that allows for potentially elaborate
+glyphs.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            None
+        Children:
+	    ustring
+	    astring
+    Related:
+        achar
+	uchar
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+    (In addition to the std::string functions...)
+
+Name			Details
+-------------------------------
+Render()		Displays the string; children may do more
+str()			Displays the string; children may do more
+NumLines()		Returns the number of newline characters in the string
+RemoveLeadingSpace()	Removes leading whitespace characters
+RemoveTrailingSpace()	Removes trailing whitespace characters
+ToUpper()		Converts the string to uppercase glyphs
+ToLower()		Converts the string to lowercase glyphs
+Capitalize()		Capitalizes the first character in the string
+
+
+==============================================================================
+
 
 

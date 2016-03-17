@@ -1,3 +1,45 @@
-TODO: Write me!
+==============================================================================
+| Class: Point3D							     |
+==============================================================================
+
+==== Overview ====
+
+    A single point in 3D space.  (X,Y,Z)
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Point2D
+        Children:
+            None
+    Related:
+	Area3D
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+Z()		Gets/sets the Z coordinate
+Set()		Sets the X,Y,Z coordinates
+IncZ()		Increments the Z coordinate
+DecZ()		Decrements the Z coordinate
+
+Operators
+---------
+operator+ 	Adds points together
+operator- 	Finds the difference between points
+operator+= 	As expected
+operator-= 	As expected
+
+
+==============================================================================
 
 

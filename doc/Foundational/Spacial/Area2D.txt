@@ -1,28 +1,39 @@
-Class: Area2D
+==============================================================================
+| Class: Area2D                                                              |
+==============================================================================
 
-Overview
+==== Overview ====
 
-A 2-dimensional area.
-Relationships
+    A 2-dimensional area.
+
+
+==== Relationships ====
 
     Inheritance:
         Parents:
             None
         Children:
             FixedArea
+	    Area3D
     Related:
         Screen
         Window
 
 
-Member Variables
+==== Member Variables ====
 
-Data Type 	Name 	Details
-int 		Width 	The width of the area
-int 		Height 	The height of the area
+    None
 
 
-Member Functions
+==== Member Functions ====
 
-(No notable member functions)
+Name		Details
+-----------------------
+Width()		Gets/sets the width of the area (X)
+Height()	Gets/sets the height of the area (Y)
+ResizeTo()	Sets the size of the area (X,Y)
+
+
+==============================================================================
+
 

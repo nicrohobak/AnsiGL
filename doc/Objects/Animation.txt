@@ -1,3 +1,43 @@
-TODO: Write me!
+==============================================================================
+| Class: Animation							     |
+==============================================================================
+
+==== Overview ====
+
+   A Content object that represents a collection of indexed images.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Content
+        Children:
+            None
+    Related:
+        Image
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+Clear()		Clears the contents
+
+CurFrame()	Gets the currently active frame
+AddFrame()	Adds a frame to the animation
+RemoveFrame()	Removes a frame from the animation
+Restart()	Restarts the animation back to the beginning
+Advance()	Advance the animation by a given number of frames (default: 1)
+Rewind()	Rewind the animation by a given number of frames (default: 1)
+
+
+==============================================================================
+
 
 

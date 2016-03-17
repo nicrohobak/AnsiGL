@@ -1,45 +1,48 @@
-Document: TODO
+==============================================================================
+| TODO                                                                       |
+==============================================================================
 
-In Progress
+==== In Progress ====
 
-    An expansion beyond ASCII? Multiple character sets, or possibly UTF-8
-    support? (UTF-8 support added, but not yet checked in (coming soon!))
-    An expansion beyond 16-color ANSI? (Mostly complete along with a color palette system that supports up to 256 colors (also coming soon!))
-
-
-Things that are planned for sure (I think):
-
-TextWindow - A Window with alignment/word-wrap/formatting options for text
+TextWindow  - A Window with alignment/word-wrap/formatting options for text
 InputWindow - A specialized TextWindow for echoing input
-ChatWindow - A TextWindow with an InputWindow attached under it,
-essentially
+ChatWindow  - A TextWindow with an InputWindow attached under it,
+	      essentially
 
-Workspace - A specialized Window for managing multiple Windows within it
-Something akin to the Panel library of ncurses
+Workspace   - A specialized Window for managing multiple Windows within it
+	      Something akin to the Panel library of ncurses
 
 
-Other Misc. Plans:
+==== Other Misc. Plans ====
 
-    Give sprites the ability to pseudo-rotate (0,90,180,270)
-    Animations; probably something like vector< Sprite > with functions to
-    set the current frame, advance frames, etc. Nearly everything but timing
-    Some sort of an optionally stand-alone or easily-integrated timing mechanism for
-    animations
-    Improve rendering efficiency over the network (and more) by adding double-buffering and optionally using VT100 codes to allow for updating only the "dirty" parts of the new render
-    Along with above
-    More "drawing" functions
-        More Primitives (circles, triangles, etc.)
-        Fill functions (wide-scale color manipulation)
-        Line drawing (possibly using a single character or a Sprite as a brush)
-    Menus and other useful "widgets"
-        Menu bars
-        Listbox menu
-        Pull-down menu
-        Buttons
-        Check boxes
-        Radio Buttons
-        Sliders
-        Graphs
-        Dialogs
+    * Give sprites the ability to pseudo-rotate (0,90,180,270)
+
+    * Animations; probably something like vector< Sprite > with functions to
+      set the current frame, advance frames, etc. Nearly everything but timing
+      Some sort of an optionally stand-alone or easily-integrated timing 
+      mechanism for animations
+
+    * Improve rendering efficiency over the network (and more) by adding 
+      double-buffering and optionally using VT100 codes to allow for updating only 
+      the "dirty" parts of the new render
+
+    * More "drawing" functions
+          More Primitives (circles, triangles, etc.)
+          Fill functions (wide-scale color manipulation)
+          Line drawing (possibly using a single character or a Sprite as a 
+	              brush)
+    * Menus and other useful "widgets"
+          Menu bars
+          Listbox menu
+          Pull-down menu
+          Buttons
+          Check boxes
+          Radio Buttons
+          Sliders
+          Graphs
+          Dialogs
+
+
+==============================================================================
 
 

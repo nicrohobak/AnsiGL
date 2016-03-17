@@ -1,32 +1,50 @@
-Class: Point
-Overview
+==============================================================================
+| Class: Point2D                                                             |
+==============================================================================
 
-A Point is a simple 2-dimensional point (typically a position on a Surface.)
-Relationships
+==== Overview ====
+
+    A Point2D (a.k.a. Point) is a simple 2-dimensional point (typically an X,Y
+position on a Surface.)
+
+
+==== Relationships ====
 
     Inheritance:
         Parents:
             None
         Children:
-            None
+            Point3D
     Related:
         Area
         Surface
 
 
-Member Variables
+==== Member Variables ====
 
-Data Type 	Name 	Details
-int 		X 	The X component of the Point
-int 		Y 	The Y component of the Point
+    None
 
 
-Member Functions
+==== Member Functions ====
 
 Name 		Details
+-----------------------
+X()		Gets/sets X coordinate
+Y()		Gets/sets Y coordinate
+Set()		Sets X,Y coordinates
+IncX()		Increments the X coordinate
+IncY()		Increments the Y coordinate
+DecX()		Decrments the X coordinate
+DecY()		Decrments the Y coordinate
+
+Operators
+---------
 operator+ 	Adds points together
 operator- 	Finds the difference between points
 operator+= 	As expected
 operator-= 	As expected
+
+
+==============================================================================
 
 

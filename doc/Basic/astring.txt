@@ -1,12 +1,18 @@
-Class: astring
-Overview
+==============================================================================
+| Class: astring                                                             |
+==============================================================================
 
-astring is (ideally) a perfect std::string implementation for achar. astring is an extension of std::vector< achar > to allow for more std::string-like functionality to be added.
-Relationships
+==== Overview ====
+
+    astring is (ideally) a perfect std::string implementation for achar.
+astring is an extension of String< achar >.
+
+
+==== Relationships ====
 
     Inheritance:
         Parents:
-            std::vector< achar >
+            String< achar >
         Children:
             None
     Related:
@@ -15,15 +21,20 @@ Relationships
 (*Note: Nearly as foundational as achar).
 
 
-Member Variables
+==== Member Variables ====
 
     None
 
 
-Member Functions
+==== Member Functions ====
 
 Name 		Details
-length() 	Returns the length of the string only (std::string::length() and AnsiGL::astring::length() should be equivalent
+-----------------------
 Render() 	"Renders" the astring to a properly ANSI encoded std::string
+str()		Displays the glyphs only; no ANSI
+Format()	Formats the astring (word-wrap, left/right/center, etc.)
+
+
+==============================================================================
 
 

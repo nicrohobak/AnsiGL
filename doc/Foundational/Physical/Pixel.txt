@@ -1,12 +1,19 @@
-Class: Pixel
-Overview
+==============================================================================
+| Class: Pixel                                                               |
+==============================================================================
 
-A Pixel is simply an extension of achar to provide a little more functionality specific to its role as the foundation of all AnsiGL rendering contexts (with the obvious exception of the "basic types" achar and astring).
-Relationships
+==== Overview ====
+
+    A Pixel is effectively an AnsiGL::achar that utilizes a color palette
+instead of storing the color information directly.  This class makes up the
+fundamental rendering unit of AnsiGL::Surface.
+
+
+==== Relationships ====
 
     Inheritance:
         Parents:
-            achar
+            uchar
         Children:
             None
     Related:
@@ -14,19 +21,29 @@ Relationships
         Surface
 
 
-Member Variables
+==== Member Variables ====
+
 Data Type 		Name 		Details
-list< ENUM_ANSICodes > 	CompleteAnsi 	The complete ANSI codes associated with this character (even if the codes were not set with this character!), as opposed to the "current modifier" that achar::Ansi stores
-bool 			EndAnsi 	Serves as a marker to the owner to reset the current ANSI status to default, and begin anew with the CompleteAnsi
+-----------------------------------------------
+int			PaletteIndex	Our current color index
+bool			Bell		Does this pixel have an audible bell
+					when rendered?
 
 
-Member Functions
+==== Member Functions ====
 
 Name 			Details
-CopyCompleteAnsiFrom() 	Copies the CompleteAnsi ANSI from another achar (overwrites)
-ClearAnsi() 		Clears all ANSI codes (CompleteAnsi and achar::Ansi, as well as EndAnsi)
-Clear() 		Clears all ANSI (as above) and sets Ch to a blank char (a space, ' ')
-RenderCompleteAnsi() 	"Renders" only the ANSI codes the terminal expects out of CompleteAnsi
+-------------------------------
+HasAttribute()		Returns 'true' if the achar has the provided attribute
+CopyAttribute()		Copies the attributes from another achar
+AddAttribute()		Adds an attribute
+AddAttributes()		Adds a list of attributes
+RemoveAttribute()	Removes an attribute
+RemoveAttributes()	Removes a list of attributes
 
+Clear() 		Resets the color index and sets the glyph to a space:
+			' '
+
+==============================================================================
 
 

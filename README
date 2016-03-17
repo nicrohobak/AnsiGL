@@ -1,31 +1,42 @@
-AnsiGL -- A string "graphics" library
+==============================================================================
+| AnsiGL -- A string "graphics" library					     |
+==============================================================================
 
 
-AnsiGL is a C++ console text "graphics" API using simply ASCII characters and ANSI escape sequences, and all without the use of any video hardware. It strives to be a simple-to-use text-graphical toolkit have with an intuitive interface for developers, while maintaining a sufficiently high degree of flexibility.
+    AnsiGL is a C++ console text "graphics" API using simply ASCII characters
+and ANSI escape sequences, and all without the use of any video hardware.  It
+strives to be a simple-to-use text-graphical toolkit have with an intuitive
+interface for developers, while maintaining a sufficiently high degree of
+flexibility.
 
-Many comparable APIs tend to either use video hardware, or are simply not as fully-featured as one might hope or expect, at least in the area of visual elements. AnsiGL can serve to bridge that gap easier, and since it "renders" to a std::string (or optionally, an ncurses WINDOW *), integration should be relatively easy with just about any project. Bindings to ncurses are provided to allow for rapid, fully-featured application development with old and familiar friends, along with AnsiGL.
+    Many comparable APIs tend to either use video hardware, or are simply not
+as fully-featured as one might hope or expect, at least in the area of visual
+elements. AnsiGL can serve to bridge that gap easier, and since it "renders"
+to a std::string (or optionally, an ncurses WINDOW *), integration should be
+relatively easy with just about any project. Bindings to ncurses are provided
+to allow for rapid, fully-featured application development with old and
+familiar friends, along with AnsiGL.
 
 
-
-Features
+==== Features ====
 
     * Provides easy-to-use GUI-style features to text-based applications
 
-    * Extremely easy to integrate to any project (ultimately becomes a std::string)
+    * Extremely easy to integrate to any project (ultimately becomes a
+      std::string)
 
-    * 256 color support with ANSI xterm-256color escape codes (can also optionally render to the standard 8 or 16 color ANSI)
+    * 256 color support with ANSI xterm-256color escape codes (can also
+      optionally render to the standard 8 or 16 color ANSI)
 
-    * UTF-8 support, so any glyph can be rendered as long as your terminal will display it (though it is recommended to stay within the ANSI character set for maximum client compatibility)
+    * UTF-8 support, so any glyph can be rendered as long as your terminal
+      will display it (though it is recommended to stay within the ANSI
+      character set for maximum client compatibility)
 
-    * Comes with ncurses support allowing rendering to a WINDOW * (with ncursesw)
-
-
-
-
-TODO: Create proper documentation!
+    * Comes with ncurses support allowing rendering to a WINDOW * (with
+      ncursesw)
 
 
-Things that work:
+==== Things that work ====
 
 uchar       - A unicode-aware 'char', effectively
 ustring     - A std::string-like implementation based on uchar instead of
@@ -58,7 +69,8 @@ Window      - A context with a decorated viewport (Note: This is the only
               the next update though...)
 
 
-ansigl_ncurses
+==== ansigl_ncurses ====
+
 - A separate (optional) extension library to provide better ncurses
   integration (AnsiGL should probably not ever implement input
   handling/etc.)
@@ -77,12 +89,12 @@ ansigl_ncurses
         remove them since they do function appropriately.
 
 
-Known issues:
+==== Known issues ====
 
 - None currently (worth noting here, at least)
 
 
-Things that are planned:
+==== In progress... ===
 
 TextWindow  - A Window with alignment/word-wrap/formatting options for text
 InputWindow - A specialized TextWindow for echoing input
@@ -93,7 +105,8 @@ Desktop     - A specialized Window for managing multiple Windows within it
               Something akin to the Panel library of ncurses
 
 
-Other misc. plans:
+==== Other misc. plans ====
+
 - Animations; probably something like vector< Sprite > with functions to
   set the current frame, advance frames, etc.  Nearly everything but timing.
 - Some sort of an optionally stand-alone or integrated timing mechanism for
@@ -102,14 +115,6 @@ Other misc. plans:
 - Menus and other useful "widgets"
 
 
-
-For the time being, until proper documentation can be created, the
-recomendation is to use the header files for guidance.  This file, along
-with the other "standard" GNU documentation and "official" documentation are
-on the todo list.  They will be started soon and standard practice will be
-to update documentation at the time of changes that cause any documents to
-be out of date.
-
-
+==============================================================================
 
 

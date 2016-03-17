@@ -1,3 +1,50 @@
+==============================================================================
+| AnsiGL Installation Instructions					     |
+==============================================================================
+
+    AnsiGL is distributed with the absolute minimum number of files required
+to build the project in its entirety.  This process makes use of the GNU Build
+System.
+
+
+==== Requirements ====
+
+- A C++14 compiler (like g++)
+
+- GNU Build System
+	* autoconf
+	* automake
+	* libtool
+
+- ncursesw (for UTF-8 support in ncurses)
+
+
+==== Getting Started ====
+
+
+Linux
+-----
+- Open a terminal in your home directory
+
+- Clone the Github repository:
+	git clone git@github.com:nicrohobak/AnsiGL.git
+
+- Change to the new AnsiGL directory:
+	cd AnsiGL
+
+- Use `autoreconf` from the GNU Build System to generate the configure script
+  for the project:
+	autoreconf -i
+
+- Follow the standard GNU Build System installation instructions found below.
+
+
+
+==============================================================================
+| GNU Build System -- Standard Installation Instructions		     |
+==============================================================================
+
+
 Installation Instructions
 *************************
 

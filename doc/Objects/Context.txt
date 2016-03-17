@@ -1,3 +1,60 @@
-TODO: Write me!
+==============================================================================
+| Class: Context							     |
+==============================================================================
+
+==== Overview ====
+
+    A Context object is what holds
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Content
+        Children:
+            Window
+    Related:
+        None
+
+   NOTE: The Context class is inherited from the Content class, giving us
+	 the ability to nest Context objects within one another.
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name			Details
+-------------------------------
+Render()		Renders the Context (and all contents) to std::string
+str()			Same as Render(), but without any ANSI codes
+RenderToSurface()	Renders the Context (and all contents) to a Surface
+
+Viewport
+--------
+CurViewportPos()	Returns the upper-left Point3D of the viewport
+MoveViewportTo()	Moves the viewport within the context
+ResizeViewport()	Resizes the viewport
+
+Content
+-------
+Contains()		Returns a list to the contents of this context object
+AddContent()		Adds content to this context
+RemoveContent()		Removes content
+RemoveContentFrom()	Removes content from a specific depth (more efficient
+			if you have this information available)
+TotalContentSize()	Returns an Area3D of the total size of this context
+			(the bounding box of all of its contents)
+RecalculateTotalContentSize()
+			Force a recalculation of the TotalContentSize()
+
+
+
+==============================================================================
+
 
 

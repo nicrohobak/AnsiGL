@@ -1,56 +1,103 @@
-Class: Surface
-Overview
+==============================================================================
+| Class: Surface                                                             |
+==============================================================================
 
-A Surface is a collection of pixels, arranged logically in a rectangular format akin to any conventional rendering context for any other graphics library. The pixel resolution of AnsiGL is (as expected, I'm sure) a single term character.
-Relationships
+==== Overview ====
+
+    A Surface is a collection of pixels, arranged logically in a rectangular 
+format akin to any conventional rendering context for any other graphics 
+library. The pixel resolution of AnsiGL is (as expected, I'm sure) a single 
+term character.
+
+
+==== Relationships ====
 
     Inheritance:
         Parents:
             None
         Children:
             Sprite -- The Surface lineage dedicated to being content
-            Window -- The Surface lineage dedicated to displaying content (even though they can also be used as content as well)
+            Window -- The Surface lineage dedicated to displaying content 
+		      (even though they can also be used as content as well)
     Related:
         Scanline (typedef of vector< Pixel >)
 
 
-Member Variables
+==== Member Variables ====
 
-Data Type 	Name 		Details
-unsigned int 	TabSize 	The number of spaces that make up a tab character '\t' on this Surface
-bool 		RenderANSI 	
-bool 		UseCLS 		If enabled, an ANSI clear screen code is rendered as the first character
-bool 		UseENDL 	If enabled, a std::endl "\r\n" is sent after each scanline has been rendered (useful when logical screen sizes are smaller than "physical" term size)
-bool 		UseLF 		Like UseENDL, but '\n' instead
-bool 		UseCR 		Like UseENDL, but '\r' instead
+Data Type 		Name 		Details
+------------------------------------------------
+ColorPalette::Ptr	Palette		The current color palette used
+					during rendering
+bool			AutoPalette	On by default -- When on, the
+					Surface will manage its own color
+					palette automatically, adding new
+					colors as necessary
+ENUM_ColorDepth		DesiredDepth	The desired color bit depth:
+					6-Bit: 8 foreground, 8 background
+					7-Bit: 16 foreground, 8 background
+					8-Bit: 256 color mode
+unsigned int 		TabSize 	The number of spaces that make up a
+					tab character '\t' on this Surface
+bool 			RenderANSI 	
+bool 			UseCLS 		If enabled, an ANSI clear screen code
+					is rendered as the first character
+bool 			UseENDL 	If enabled, a std::endl "\r\n" is sent
+					after each scanline has been rendered
+					(useful when logical screen sizes are
+					smaller than "physical" term size)
+bool 			UseLF 		Like UseENDL, but '\n' instead
+bool 			UseCR 		Like UseENDL, but '\r' instead
 
 
-Member Functions
+==== Member Functions ====
 
-Name 		Details
-GetScanline() 	Returns an astring that represents a single scanline
-GetPixel() 	Gets the value of a pixel on the surface
-SetPixel() 	Sets a value of a pixel on the surface (Note: The Draw*() functions are usually preferred to SetPixel()!)
-Size() 		Returns an area that represents the size of the surface
-Resize() 	Resizes the surface to the size of the area given
-Width() 	Gets/sets the width of the surface
-Height() 	Gets/sets the height of the surface
-Clear() 	Clears the surface (ANSI and glyphs)
-HasPoint() 	Checks to see if the provided Point is within the bounds of the Surface
+Name 			Details
+-------------------------------
+GetScanline() 		Returns an astring that represents a single scanline
+GetPixel() 		Gets the value of a pixel on the surface
+SetPixel() 		Sets a value of a pixel on the surface (Note: The
+			Draw*() functions are usually preferred to
+			SetPixel()!)
+Size() 			Returns an area that represents the size of the
+			surface
+Resize() 		Resizes the surface to the size of the area given
+Width() 		Gets/sets the width of the surface
+Height() 		Gets/sets the height of the surface
+Clear() 		Clears the surface (ANSI and glyphs)
+HasPoint() 		Checks to see if the provided Point is within the
+			bounds of the Surface
 
-Rendering Functions 	
-Strings 	
+Palette
+-------
+AddToPalette()		Adds the contents of another color palette to ours,
+			removing duplicates
+FindColorIndex()	Finds the index of a specific color in our palette
+FindColorFromIndex()	Finds the color definition for a given index
+
+
+Rendering (The Draw*() Functions)
+---------------------------------
+
+Strings
+-------
 DrawChar() 	Draws a single character
-DrawString() 	See DrawStringL()
-DrawStringL() 	Draws a string left-justified on the desired position
-DrawStringC() 	Draws a string centered on the desired position
-DrawStringR() 	Draws a string right-justified on the desired position
-DrawVString() 	See DrawVStringT()
-DrawVStringT() 	Draws a string vertically top-aligned on the desired position
-DrawVStringM() 	Draws a string vertically middle-aligned on the desired position
-DrawVStringB() 	Draws a string vertically bottom-aligned on the desired position
+DrawString() 	Prints the contents of the string at the provided location on
+		the Surface
+DrawVString() 	Prints the contents of a string vertically instead
 
-Primitives 	
-DrawBox 	Draws a simple box
+Fills
+-----
+FillGlyph()	Fills an area with a specific glyph
+FillColor()	Fills an area with a specific color
+FillChar()	Fills an area with a specific achar (glyph and color)
+
+Primatives
+----------
+DrawBox()	Draws a simple box with borders
+
+
+==============================================================================
+
 
 
