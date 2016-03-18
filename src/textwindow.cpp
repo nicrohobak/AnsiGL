@@ -9,25 +9,6 @@
 
 namespace AnsiGL
 {
-	TextWindow::TextWindow():
-		_MaxLines(500),
-		_Alignment(TxtAlign_Default),
-		_WordWrap(true),
-		_NewAtBottom(true),
-		ScrollToNew(true)
-	{
-	}
-
-	TextWindow::TextWindow( const astring &windowTitle, const Area2D &windowSize, unsigned int maxLines, ENUM_TxtAlign alignment, bool newAtBottom, const Point3D &viewportPos, bool transparentSpaces ):
-		Window(windowTitle, windowSize, viewportPos, transparentSpaces),
-		_MaxLines(maxLines),
-		_Alignment(alignment),
-		_WordWrap(true),
-		_NewAtBottom(newAtBottom),
-		ScrollToNew(true)
-	{
-	}
-
 	void TextWindow::Width( tSizeType width )
 	{
 		if ( _WordWrap )

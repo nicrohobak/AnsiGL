@@ -19,27 +19,39 @@ namespace AnsiGL
 	const int DEFAULT_MAX_LINES = 1000;
 
 	//
-	// TextWindows take us from simply drawing on a bordered surface to actually placing text into a nice, word-wrapping (etc.) container.  This (and its entire lineage) assume to deal with
+	// TextWindows take us from simply drawing on a bordered surface to actually placing text into a nice, word-wrapping (etc.) container.
 	//
 	class TextWindow : public Window
 	{
 	public:
 		ANSIGL_POINTERS( TextWindow )
 
-	protected:
-		std::list< Text::Ptr >	_Text;				// Lines of text, akin to messages in a chat window
-
-		unsigned int		_MaxLines;
-		ENUM_TxtAlign		_Alignment;
-		bool			_WordWrap;			// Word wrap to keep within the window
-		bool			_NewAtBottom;			// If true, new lines are added at the bottom by default
-
 	public:
 		bool			ScrollToNew;
 
 	public:
-		TextWindow();
-		TextWindow( const astring &windowTitle, const Area2D &windowSize = Area2D(80, 24), unsigned int maxLines = DEFAULT_MAX_LINES, ENUM_TxtAlign alignment = TxtAlign_Default, bool newAtBottom = true, const Point3D &viewportPos = Point3D(), bool transparentSpaces = false );
+		TextWindow():
+			ScrollToNew(true),
+			_MaxLines(500),
+			_Alignment(TxtAlign_Default),
+			_WordWrap(true),
+			_NewAtBottom(true)
+		{
+		}
+
+		TextWindow( const astring &windowTitle, const Area2D &windowSize = Area2D(80, 24), unsigned int maxLines = DEFAULT_MAX_LINES, ENUM_TxtAlign alignment = TxtAlign_Default, bool newAtBottom = true, const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
+			Window(windowTitle, windowSize, viewportPos, transparentSpaces),
+			ScrollToNew(true),
+			_MaxLines(maxLines),
+			_Alignment(alignment),
+			_WordWrap(true),
+			_NewAtBottom(newAtBottom)
+		{
+		}
+
+		virtual ~TextWindow()
+		{
+		}
 
 		virtual void Width( tSizeType width );
 
@@ -63,6 +75,14 @@ namespace AnsiGL
 		virtual void RemoveLine( unsigned int numLines = 1 );
 		virtual void RemoveLineFromTop( unsigned int numLines = 1, unsigned int atLineNum = 0 );
 		virtual void RemoveLineFromBottom( unsigned int numLines = 1, unsigned int atLineNum = 0 );
+
+	protected:
+		std::list< Text::Ptr >	_Text;				// Lines of text, akin to messages in a chat window
+
+		unsigned int			_MaxLines;
+		ENUM_TxtAlign			_Alignment;
+		bool					_WordWrap;			// Word wrap to keep within the window
+		bool					_NewAtBottom;		// If true, new lines are added at the bottom by default
 
 	protected:
 		virtual void resetLineSpacing();			// Resets the spacing between lines

@@ -10,19 +10,6 @@
 
 namespace AnsiGL
 {
-	Clone::Clone()
-	{
-	}
-
-	Clone::Clone( Content::Ptr target ):
-		_Target( target )
-	{
-	}
-
-	Clone::~Clone()
-	{
-	}
-
 	Content::Ptr Clone::Target() const
 	{
 		return _Target.lock();

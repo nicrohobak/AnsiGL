@@ -18,13 +18,19 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Clone )
 
-	protected:
-		Content::wPtr		_Target;
-
 	public:
-		Clone();
-		Clone( Content::Ptr target );
-		~Clone();
+		Clone()
+		{
+		}
+
+		Clone( Content::Ptr target ):
+			_Target( target )
+		{
+		}
+
+		virtual ~Clone()
+		{
+		}
 
 		virtual Content::Ptr Target() const;
 		virtual void Target( Content::Ptr target );
@@ -32,6 +38,9 @@ namespace AnsiGL
 		virtual std::string str();
 		virtual std::string Render() const;
 		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
+
+	protected:
+		Content::wPtr		_Target;
 	};
 }
 

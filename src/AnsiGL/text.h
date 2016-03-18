@@ -48,7 +48,7 @@ namespace AnsiGL
 				Width( width );
 		}
 
-		~Text()
+		virtual ~Text()
 		{
 		}
 

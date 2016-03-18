@@ -21,14 +21,21 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Camera )
 
-	protected:
-		Context::wPtr	_Context;
-		Point3D		_Position;
-
 	public:
-		Camera();
-		Camera( Context::Ptr context, const Area2D &viewportSize = Area2D(), const Point3D &pos = Point3D() );
-		virtual ~Camera();
+		Camera()
+		{
+		}
+
+		Camera( Context::Ptr context, const Area2D &viewportSize = Area2D(), const Point3D &pos = Point3D() ):
+			_Context( context )
+		{
+			Resize( viewportSize );
+			MoveTo( pos );
+		}
+
+		virtual ~Camera()
+		{
+		}
 
 		virtual Point3D CurCameraPos() const;
 		virtual tPointType CameraX() const;
@@ -43,6 +50,10 @@ namespace AnsiGL
 		std::string str();
 		std::string Render() const;
 		void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
+
+	protected:
+		Context::wPtr	_Context;
+		Point3D		_Position;
 	};
 }
 

@@ -11,21 +11,6 @@
 
 namespace AnsiGL
 {
-	Camera::Camera()
-	{
-	}
-
-	Camera::Camera( Context::Ptr context, const Area2D &viewportSize, const Point3D &pos ):
-		_Context( context )
-	{
-		Resize( viewportSize );
-		MoveTo( pos );
-	}
-
-	Camera::~Camera()
-	{
-	}
-
 	Point3D Camera::CurCameraPos() const
 	{
 		return _Position;
