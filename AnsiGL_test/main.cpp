@@ -1,5 +1,6 @@
 #include <ctime>
 #include <iostream>
+#include <random>
 
 #include <AnsiGL/camera.h>
 #include <AnsiGL/clone.h>
@@ -11,8 +12,6 @@
 #include <AnsiGL/window.h>
 #include <AnsiGL/ncurses/ncurses.h>
 
-#include <boost/random/mersenne_twister.hpp>
-#include <boost/random/uniform_int_distribution.hpp>
 
 extern "C"
 {
@@ -21,7 +20,7 @@ extern "C"
 
 
 // Random Number Generator
-boost::random::mt19937 gen;
+std::mt19937 gen;
 
 
 int main()
@@ -180,7 +179,7 @@ int main()
 		case 'c':
 		case 'C':
 			{
-				boost::random::uniform_int_distribution<> NumLines(1, 5);
+				std::uniform_int_distribution<> NumLines(1, 5);
 
 				switch ( NumLines(gen) )
 				{
