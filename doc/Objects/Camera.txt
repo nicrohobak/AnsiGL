@@ -1,0 +1,44 @@
+==============================================================================
+| Class: Camera								     |
+==============================================================================
+
+==== Overview ====
+
+    A camera object that can render a snapshot from a context.  Consider it a
+special 'clone' for a context that has its own independent viewport.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Content
+        Children:
+            None
+    Related:
+        Clone
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+CurCameraPos()	Gets the current camera viewport position
+CameraX()	Gets the current camera viewport X position
+CameraY()	Gets the current camera viewport Y position
+CameraZ()	Gets the current camera viewport Z position
+MoveCameraTo()	Moves the camera viewport to a specific location
+
+GetContext()	Gets the current context we're viewing
+SetContext()	Sets the current context to view
+
+
+==============================================================================
+
+
+

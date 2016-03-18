@@ -4,7 +4,6 @@
 
 ==== In Progress ====
 
-TextWindow  - A Window with alignment/word-wrap/formatting options for text
 InputWindow - A specialized TextWindow for echoing input
 ChatWindow  - A TextWindow with an InputWindow attached under it,
 	      essentially

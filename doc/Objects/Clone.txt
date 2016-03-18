@@ -1,0 +1,37 @@
+==============================================================================
+| Class: Clone								     |
+==============================================================================
+
+==== Overview ====
+
+    A content object that simply copies some other piece of content;
+effectively allowing multiple placements of the same content, without creating
+a full copy.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Content
+        Children:
+            None
+    Related:
+        Camera
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name		Details
+-----------------------
+Target()	Get/set the object we're mimicking
+
+==============================================================================
+
+
+

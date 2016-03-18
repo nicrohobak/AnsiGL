@@ -64,10 +64,12 @@ Context     - A collection of content within a specific space; based upon
 	      Content so rendering contexts can be nested
 
 Image       - A content-based surface
+Animation   - A collection of Images with a video-like interface
+
 Window      - A context with a decorated viewport (Note: This is the only
               "violation" of the 'Things that work' label...  Coming with
               the next update though...)
-
+TextWindow  - A Window with alignment/word-wrap/formatting options for text
 
 ==== ansigl_ncurses ====
 
@@ -96,7 +98,6 @@ Window      - A context with a decorated viewport (Note: This is the only
 
 ==== In progress... ===
 
-TextWindow  - A Window with alignment/word-wrap/formatting options for text
 InputWindow - A specialized TextWindow for echoing input
 ChatWindow  - A TextWindow with an InputWindow attached under it,
               essentially

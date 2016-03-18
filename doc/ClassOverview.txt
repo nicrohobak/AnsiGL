@@ -35,10 +35,19 @@
     Objects:
         Content -- Anything that we might want to display; pure-virtual 
 		   base-class for all objects, derived from Surface
+	    Animation -- A collection of images with video-like controls
             Context -- Anything that can contain content (this itself is 
 		       content, so we can have nested viewports, etc.)
                 Window -- A special context that serves as a viewport over a 
 			  larger logical surface size, with optional borders
+		    TextWindow -- A window that has special handling to
+				  handle text content (like a log window)
+	    Camera --  A separate viewport for a context, contained within an
+		       object that itself is placeable within a context (a
+		       "TV screen" object of sorts)
+	    Clone -- A content object that simply copies some other piece of
+		     content; effectively allowing multiple placements of the
+		     same content, without creating a full copy.
             Image -- An "image" (ANSI/FANSI art, or whatever might constitute 
 		     an image in text); essentially a Content-based Surface
                 Animation -- One of those fancy "moving pictures"...

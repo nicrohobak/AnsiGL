@@ -1,0 +1,54 @@
+==============================================================================
+| Class: TextWindow							     |
+==============================================================================
+
+==== Overview ====
+
+    A specialized Window that stores text on a line-by-line basis.
+TextWindows take us from simply drawing on a bordered surface to actually
+placing text into a nice, word-wrapping (etc.) container.
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            Window
+        Children:
+            None
+    Related:
+        None
+
+
+==== Member Variables ====
+
+Data Type	Name		Details
+---------------------------------------
+bool		ScrollToNew	When 'true' the window automatically scrolls
+				to the newly added line
+
+
+==== Member Functions ====
+
+Name			Details
+-------------------------------
+MaxLines()		Gets/sets line capacity
+WordWrap()		Gets/sets word wrap
+
+AddLine()		Adds a new line of text (to the bottom, by default)
+AddLineAtTop()		Adds a new line to the top of the text window
+AddLineAtBottom()	Adds a new line to the bottom of the text window
+
+InsertLine()		Inserts a line into the middle of the text window
+InsertLineFromTop()	Inserts a line in the middle, counting from the top
+InsertLineFromBottom()	Inserts a line in the middle, counting from the bottom
+
+RemoveLine()		Removes a line (from the top, by default)
+RemoveLineFromTop()	Removes a line from the top of the text window
+RemoveLineFromBottom()	Removes a line from the bottom of the text window
+
+
+==============================================================================
+
+
+
