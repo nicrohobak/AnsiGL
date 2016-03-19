@@ -31,21 +31,26 @@ namespace AnsiGL
 
 	public:
 		TextWindow():
-			ScrollToNew(true),
-			_MaxLines(500),
-			_Alignment(TxtAlign_Default),
-			_WordWrap(true),
-			_NewAtBottom(true)
+			ScrollToNew( true ),
+			_MaxLines( 500 ),
+			_Alignment( TxtAlign_Default ),
+			_WordWrap( true ),
+			_NewAtBottom( true )
 		{
 		}
 
-		TextWindow( const astring &windowTitle, const Area2D &windowSize = Area2D(80, 24), unsigned int maxLines = DEFAULT_MAX_LINES, ENUM_TxtAlign alignment = TxtAlign_Default, bool newAtBottom = true, const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
+		TextWindow( const astring &windowTitle,
+					const Area2D &windowSize = Area2D(80, 24),
+					unsigned int maxLines = DEFAULT_MAX_LINES,
+					ENUM_TxtAlign alignment = TxtAlign_Default,
+					bool newAtBottom = true,
+					const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
 			Window(windowTitle, windowSize, viewportPos, transparentSpaces),
-			ScrollToNew(true),
-			_MaxLines(maxLines),
-			_Alignment(alignment),
-			_WordWrap(true),
-			_NewAtBottom(newAtBottom)
+			ScrollToNew( true ),
+			_MaxLines( maxLines ),
+			_Alignment( alignment ),
+			_WordWrap( true ),
+			_NewAtBottom( newAtBottom )
 		{
 		}
 
@@ -54,6 +59,8 @@ namespace AnsiGL
 		}
 
 		virtual void Width( tSizeType width );
+
+		virtual void Clear();
 
 		unsigned int MaxLines() const;
 		void MaxLines( unsigned int numLines );
@@ -77,15 +84,18 @@ namespace AnsiGL
 		virtual void RemoveLineFromBottom( unsigned int numLines = 1, unsigned int atLineNum = 0 );
 
 	protected:
-		std::list< Text::Ptr >	_Text;				// Lines of text, akin to messages in a chat window
+		std::list< Text::Ptr >	_Text;					// Lines of text, akin to messages in a chat window
 
 		unsigned int			_MaxLines;
 		ENUM_TxtAlign			_Alignment;
-		bool					_WordWrap;			// Word wrap to keep within the window
-		bool					_NewAtBottom;		// If true, new lines are added at the bottom by default
+		ENUM_ColorDepth			_ColorDepth;
+		bool					_WordWrap;				// Word wrap to keep within the window
+		bool					_NewAtBottom;			// If true, new lines are added at the bottom by default
 
 	protected:
-		virtual void resetLineSpacing();			// Resets the spacing between lines
+		virtual void resetLineSpacing();				// Resets the spacing between lines
+
+		virtual void scrollToLine( Text::Ptr line );	// Scrolls to the given line (provided Text::Ptr MUST be one of our own!)
 	};
 }
 

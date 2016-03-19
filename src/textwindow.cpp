@@ -27,6 +27,12 @@ namespace AnsiGL
 		Window::Width( width );
 	}
 
+	void TextWindow::Clear()
+	{
+		_Text.clear();
+		Window::Clear();
+	}
+
 	unsigned int TextWindow::MaxLines() const
 	{
 		return _MaxLines;
@@ -110,14 +116,17 @@ namespace AnsiGL
 		Text::Ptr NewLine;
 
 		if ( _WordWrap )
-			NewLine = Text::Ptr( new Text(line, Window::_Contents->Width(), _Alignment) );
+			NewLine = std::make_shared< Text >( line, Window::_Contents->Width(), _Alignment, ColorDepth_Default );
 		else
-			NewLine = Text::Ptr( new Text(line, line.length(), _Alignment) );
+			NewLine = std::make_shared< Text >( line, line.length(), _Alignment, ColorDepth_Default );
 
 		_Text.push_front( NewLine );
 		Window::_Contents->AddContent( NewLine );
 
 		resetLineSpacing();
+
+		if ( ScrollToNew )
+			scrollToLine( NewLine );
 	}
 
 	void TextWindow::AddLineAtBottom( const astring &line )
@@ -125,12 +134,15 @@ namespace AnsiGL
 		if ( line.empty() )
 			return;
 
-		Text::Ptr NewLine = Text::Ptr( new Text(line, Window::_Contents->Width(), _Alignment) );
+		Text::Ptr NewLine = std::make_shared< Text >( line, Window::_Contents->Width(), _Alignment, ColorDepth_Default );
 
 		_Text.push_back( NewLine );
 		Window::_Contents->AddContent( NewLine );
 
 		resetLineSpacing();
+
+		if ( ScrollToNew )
+			scrollToLine( NewLine );
 	}
 
 	void TextWindow::InsertLine( const astring &line, unsigned int atLineNum )
@@ -143,14 +155,60 @@ namespace AnsiGL
 
 	void TextWindow::InsertLineFromTop( const astring &line, unsigned int atLineNum )
 	{
-		// TODO: Write Me
+		Text::Ptr NewLine = std::make_shared< Text >( line, Window::_Contents->Width(), _Alignment, ColorDepth_Default );
+
+		unsigned int CurLine = 0;
+		bool Inserted = false;
+
+		// Find the location to insert
+		for ( auto l = _Text.begin(), l_end = _Text.end(); l != l_end; ++l )
+		{
+			if ( ++CurLine >= atLineNum )
+			{
+				_Text.insert( l, NewLine );
+				Inserted = true;
+				break;
+			}
+		}
+
+		// If it wasn't inserted above, we probably ran out of content...just add it to the bottom
+		if ( !Inserted )
+			_Text.push_back( NewLine );
+
+		Window::_Contents->AddContent( NewLine );
 		resetLineSpacing();
+
+		if ( ScrollToNew )
+			scrollToLine( NewLine );
 	}
 
 	void TextWindow::InsertLineFromBottom( const astring &line, unsigned int atLineNum )
 	{
-		// TODO: Write Me
+		Text::Ptr NewLine = std::make_shared< Text >( line, Window::_Contents->Width(), _Alignment, ColorDepth_Default );
+
+		unsigned int CurLine = 0;
+		bool Inserted = false;
+
+		// Find the location to insert
+		for ( auto l = _Text.rbegin(), l_end = _Text.rend(); l != l_end; ++l )
+		{
+			if ( ++CurLine >= atLineNum )
+			{
+				_Text.insert( l.base(), NewLine );
+				Inserted = true;
+				break;
+			}
+		}
+
+		// If it wasn't inserted above, we probably ran out of content...just add it to the top
+		if ( !Inserted )
+			_Text.push_front( NewLine );
+
+		Window::_Contents->AddContent( NewLine );
 		resetLineSpacing();
+
+		if ( ScrollToNew )
+			scrollToLine( NewLine );
 	}
 
 	void TextWindow::RemoveLine( unsigned int numLines )
@@ -163,51 +221,87 @@ namespace AnsiGL
 
 	void TextWindow::RemoveLineFromTop( unsigned int numLines, unsigned int atLineNum )
 	{
-		// TODO: Write Me
+		unsigned int CurLine = 0;
+
+		// Find the location to remove
+		for ( auto l = _Text.begin(), l_end = _Text.end(); l != l_end; ++l )
+		{
+			if ( ++CurLine > atLineNum )
+			{
+				for ( unsigned int DelCount = 0; DelCount < numLines; ++DelCount )
+				{
+					if ( l == l_end )
+						break;
+
+					Window::_Contents->RemoveContent( *l );
+					_Text.erase( l );
+					++l;
+				}
+
+				resetLineSpacing();
+				break;
+			}
+		}
 	}
 
 	void TextWindow::RemoveLineFromBottom( unsigned int numLines, unsigned int atLineNum )
 	{
-		// TODO: Write Me
+		unsigned int CurLine = 0;
+
+		// Find the location to remove
+		for ( auto l = _Text.rbegin(), l_end = _Text.rend(); l != l_end; ++l )
+		{
+			if ( ++CurLine > atLineNum )
+			{
+				for ( unsigned int DelCount = 0; DelCount < numLines; ++DelCount )
+				{
+					if ( l == l_end )
+						break;
+
+					Window::_Contents->RemoveContent( *l );
+					_Text.erase( (++l).base() );
+					++l;
+				}
+
+				resetLineSpacing();
+				break;
+			}
+		}
 	}
 
 	void TextWindow::resetLineSpacing()
 	{
 		Point2D CurPoint( 0, 0 );
 
-		if ( 1 ) //m_NewAtBottom )
+		if ( 1 ) //_NewAtBottom )
 		{
-			std::list< Text::Ptr >::iterator CurLine;
-
-			for ( CurLine = _Text.begin(); CurLine != _Text.end(); ++CurLine )
+			for ( auto l = _Text.begin(), l_end = _Text.end(); l != l_end; ++l )
 			{
-				(*CurLine)->MoveTo( CurPoint );
-				CurPoint.Y( CurPoint.Y() + (*CurLine)->Height() );
+				(*l)->MoveTo( CurPoint );
+				CurPoint.Y( CurPoint.Y() + (*l)->Height() );
 			}
 		}
 		else
 		{
-			std::list< Text::Ptr >::reverse_iterator CurLine;
-
-			for ( CurLine = _Text.rbegin(); CurLine != _Text.rend(); ++CurLine )
+			for ( auto l = _Text.rbegin(), l_end = _Text.rend(); l != l_end; ++l )
 			{
-				(*CurLine)->MoveTo( CurPoint );
-				CurPoint.Y( CurPoint.Y() + (*CurLine)->Height() );
+				(*l)->MoveTo( CurPoint );
+				CurPoint.Y( CurPoint.Y() + (*l)->Height() );
 			}
 		}
 
 		RecalculateTotalContentSize();
+	}
 
-		if ( ScrollToNew )
-		{
-			if ( _NewAtBottom )
-			{
-				CurPoint.Y( CurPoint.Y() - Window::_Contents->Height() );
-				MoveViewportTo( CurPoint );
-			}
-			else
-				MoveViewportTo( Point3D(0, 0, 0) );
-		}
+	void TextWindow::scrollToLine( Text::Ptr line )
+	{
+		if ( !line )
+			return;
+
+		if ( _NewAtBottom )
+			MoveViewportTo( Point2D(0, (line->Y() + line->Height()) - _Contents->Height()) );
+		else
+			MoveViewportTo( Point2D(0, line->Y()) );
 	}
 }
 
