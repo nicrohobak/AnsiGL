@@ -27,7 +27,7 @@ namespace AnsiGL
 	void Window::Title( const astring &title )
 	{
 		_Title->Value( title );
-		_Title->Width( title.length() + 2 );
+		_Title->Width( title.length() );
 		_Title->Offset.X( _Title->Width() / 2 );	// Offset it so the origin is effectively in the center
 	}
 

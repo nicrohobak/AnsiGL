@@ -137,7 +137,7 @@ int main()
 	//TestWindow->TransparentSpaces = true;
 	TestWindow->Resize( AnsiGL::Area2D(40, 12) );			// Sets the window size based on the total size of the window
 //    TestWindow->SetContentSize( AnsiGL::Area2D(40,12) );	// Sets the window size based on the size of the content rather than the borders -- Helps with placement in quick situations
-	TestWindow->Title( AnsiGL::astring("Test Window") );
+	TestWindow->Title( AnsiGL::astring("| Test Window |") );
 	TestWindow->StatusText( AnsiGL::astring("^{8k}Status text is cool!") );
 	MyContext->AddContent( TestWindow, AnsiGL::Point3D(40, 0, 5) );
 
@@ -166,8 +166,8 @@ int main()
 	TestCamera->MoveCameraTo( AnsiGL::Point3D(5, 5, 0) );
 	MyContext->AddContent( TestCamera, AnsiGL::Point3D(15, 28, 6) );
 
-	//AnsiGL::TextWindow::Ptr TestTextWindow = std::make_shared< AnsiGL::TextWindow >( AnsiGL::astring("Text"), AnsiGL::Area2D(50, 15), 500, AnsiGL::TxtAlign_Default, true, AnsiGL::Point2D(0, 1) );
-	AnsiGL::InputWindow::Ptr TestTextWindow = std::make_shared< AnsiGL::InputWindow >( AnsiGL::astring("Text"), AnsiGL::Area2D(50, 15), 500, AnsiGL::TxtAlign_Default, true, AnsiGL::Point2D(0, 1) );
+	//AnsiGL::TextWindow::Ptr TestTextWindow = std::make_shared< AnsiGL::TextWindow >( AnsiGL::astring("| Text |"), AnsiGL::Area2D(50, 15), 500, AnsiGL::TxtAlign_Default, true, AnsiGL::Point2D(0, 1) );
+	AnsiGL::InputWindow::Ptr TestTextWindow = std::make_shared< AnsiGL::InputWindow >( AnsiGL::astring("| Input |"), AnsiGL::Area2D(50, 15), 500, AnsiGL::TxtAlign_Default, true, AnsiGL::Point2D(0, 1) );
 	TestTextWindow->WordWrap( false );
 	MyContext->AddContent( TestTextWindow, AnsiGL::Point3D(3, 7, 2) );
 
