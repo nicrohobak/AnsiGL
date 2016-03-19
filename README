@@ -66,10 +66,10 @@ Context     - A collection of content within a specific space; based upon
 Image       - A content-based surface
 Animation   - A collection of Images with a video-like interface
 
-Window      - A context with a decorated viewport (Note: This is the only
-              "violation" of the 'Things that work' label...  Coming with
-              the next update though...)
+Window      - A context with a decorated viewport
 TextWindow  - A Window with alignment/word-wrap/formatting options for text
+InputWindow - A TextWindow that has a text input bar at the bottom
+
 
 ==== ansigl_ncurses ====
 
@@ -98,22 +98,14 @@ TextWindow  - A Window with alignment/word-wrap/formatting options for text
 
 ==== In progress... ===
 
-InputWindow - A specialized TextWindow for echoing input
-ChatWindow  - A TextWindow with an InputWindow attached under it,
-              essentially
-
-Desktop     - A specialized Window for managing multiple Windows within it
-              Something akin to the Panel library of ncurses
+- Menus and other useful "widgets"
 
 
 ==== Other misc. plans ====
 
-- Animations; probably something like vector< Sprite > with functions to
-  set the current frame, advance frames, etc.  Nearly everything but timing.
+- More "drawing" functions
 - Some sort of an optionally stand-alone or integrated timing mechanism for
   animations?
-- More "drawing" functions
-- Menus and other useful "widgets"
 
 
 ==============================================================================

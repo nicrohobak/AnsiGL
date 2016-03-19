@@ -42,6 +42,8 @@
 			  larger logical surface size, with optional borders
 		    TextWindow -- A window that has special handling to
 				  handle text content (like a log window)
+			InputWindow -- A TextWindow that has a text input bar
+				       at the bottom
 	    Camera --  A separate viewport for a context, contained within an
 		       object that itself is placeable within a context (a
 		       "TV screen" object of sorts)
