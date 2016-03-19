@@ -11,20 +11,6 @@
 
 namespace AnsiGL
 {
-	ContentMarker::ContentMarker()
-	{
-	}
-
-	ContentMarker::ContentMarker( Content::Ptr content, const Point3D &pos ):
-		Point3D(pos),
-		_Content(content)
-	{
-	}
-
-	ContentMarker::~ContentMarker()
-	{
-	}
-
 	Content::Ptr ContentMarker::Target() const
 	{
 		return _Content;
@@ -36,20 +22,9 @@ namespace AnsiGL
 	}
 
 
-	Context::Context():
-		_NeedsSizeRecalc(true)
+	void Context::Clear()
 	{
-	}
-
-	Context::Context( const Area2D &viewportSize, const Point3D &viewportPos ):
-		_NeedsSizeRecalc(true)
-	{
-		Resize( viewportSize );
-		_ViewportPos = viewportPos;
-	}
-
-	Context::~Context()
-	{
+		_Contents.clear();
 	}
 
 	const Point3D &Context::CurViewportPos() const

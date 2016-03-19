@@ -26,9 +26,19 @@ namespace AnsiGL
 		ANSIGL_POINTERS_AND_LISTS( ContentMarker )
 
 	public:
-		ContentMarker();
-		ContentMarker( Content::Ptr content, const Point3D &pos = Point3D() );
-		virtual ~ContentMarker();
+		ContentMarker()
+		{
+		}
+
+		ContentMarker( Content::Ptr content, const Point3D &pos = Point3D() ):
+			Point3D(pos),
+			_Content(content)
+		{
+		}
+
+		virtual ~ContentMarker()
+		{
+		}
 
 		Content::Ptr Target() const;
 		void Target( Content::Ptr content );
@@ -58,9 +68,23 @@ namespace AnsiGL
 		typedef ContentMarker::List::const_reverse_iterator	const_reverse_content_iterator;
 
 	public:
-		Context();
-		Context( const Area2D &viewportSize, const Point3D &viewportPos = Point3D() );
-		virtual ~Context();
+		Context():
+			_NeedsSizeRecalc(true)
+		{
+		}
+
+		Context( const Area2D &viewportSize, const Point3D &viewportPos = Point3D() ):
+			_NeedsSizeRecalc(true)
+		{
+			Resize( viewportSize );
+			_ViewportPos = viewportPos;
+		}
+
+		virtual ~Context()
+		{
+		}
+
+		virtual void Clear();
 
 		virtual const Point3D &CurViewportPos() const;
 		virtual void MoveViewportTo( const Point3D &pos );
