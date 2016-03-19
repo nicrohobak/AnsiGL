@@ -12,6 +12,31 @@
 
 namespace AnsiGL
 {
+	bool InputWindow::Enabled() const
+	{
+		return _Enabled;
+	}
+
+	void InputWindow::Enabled( bool enabled )
+	{
+		_Enabled = enabled;
+
+		if ( _Enabled )
+		{
+			_Input->Visible( true );
+			_Prompt->Visible( true );
+
+			if ( !_Input->empty() )
+				_Cursor->Visible( true );
+		}
+		else
+		{
+			_Input->Visible( false );
+			_Cursor->Visible( false );
+			_Prompt->Visible( false );
+		}
+	}
+
 	void InputWindow::Clear()
 	{
 		this->ClearInput();
@@ -38,6 +63,9 @@ namespace AnsiGL
 
 	void InputWindow::InputChar( const achar &ch )
 	{
+		if ( !_Enabled )
+			return;
+
 		achar NewCh = ch;
 		char Glyph = NewCh.Glyph().c_str()[0];
 
@@ -51,10 +79,6 @@ namespace AnsiGL
 			case 8:
 			case 127:
 				_Input->pop_back();
-				break;
-
-			case '\n':
-				this->ClearInput();
 				break;
 
 			default:
@@ -74,6 +98,9 @@ namespace AnsiGL
 
 	void InputWindow::InputLine( const astring &line )
 	{
+		if ( !_Enabled )
+			return;
+
 		*_Input << line;
 		this->updateWindow();
 	}

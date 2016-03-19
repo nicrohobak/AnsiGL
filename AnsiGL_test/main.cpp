@@ -325,14 +325,17 @@ int main()
 
 			case '\n':
 			{
-				AnsiGL::astring TxtMsg( "Input) " );
-				TxtMsg << TestTextWindow->CurInput().Value();
-				TestTextWindow->AddLine( TxtMsg );
-				TestTextWindow->ClearInput();
+				if ( TestTextWindow->Enabled() )
+				{
+					AnsiGL::astring TxtMsg( "Input) " );
+					TxtMsg << TestTextWindow->CurInput().Value();
+					TestTextWindow->AddLine( TxtMsg );
+					TestTextWindow->ClearInput();
 
-				std::stringstream CounterLine;
-				CounterLine << "Line Count: " << ++CurLineCount;
-				LineCounter->Value( CounterLine.str() );
+					std::stringstream CounterLine;
+					CounterLine << "Line Count: " << ++CurLineCount;
+					LineCounter->Value( CounterLine.str() );
+				}
 				break;
 			}
 

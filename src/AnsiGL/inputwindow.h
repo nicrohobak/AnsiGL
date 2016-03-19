@@ -20,6 +20,7 @@ namespace AnsiGL
 
 	public:
 		InputWindow():
+			_Enabled( true ),
 			_Input( std::make_shared< Text >("") ),
 			_Cursor( std::make_shared< Text >("_") ),
 			_Prompt( std::make_shared< Text >(">") )
@@ -38,6 +39,7 @@ namespace AnsiGL
 					 bool newAtBottom = true,
 					 const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
 			TextWindow( windowTitle, windowSize, maxLines, alignment, newAtBottom, viewportPos, transparentSpaces ),
+			_Enabled( true ),
 			_Input( std::make_shared< Text >("") ),
 			_Cursor( std::make_shared< Text >("_") ),
 			_Prompt( std::make_shared< Text >(">") )
@@ -53,6 +55,9 @@ namespace AnsiGL
 		{
 		}
 
+		virtual bool Enabled() const;
+		virtual void Enabled( bool enabled );
+
 		virtual void Clear();
 		virtual void ClearContents();
 		virtual void ClearInput();
@@ -63,9 +68,11 @@ namespace AnsiGL
 		virtual void InputLine( const astring &line );		// Appends a line to the input
 
 	protected:
-		Text::Ptr		_Input;
-		Text::Ptr		_Cursor;
-		Text::Ptr		_Prompt;
+		bool		_Enabled;
+
+		Text::Ptr	_Input;
+		Text::Ptr	_Cursor;
+		Text::Ptr	_Prompt;
 
 	protected:
 		virtual void updateWindow();
