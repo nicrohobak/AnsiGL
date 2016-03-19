@@ -41,16 +41,19 @@ namespace AnsiGL
 	void Text::Append( const astring &text )
 	{
 		_Text.append( text );
+		format();
 	}
 
 	void Text::Append( const ustring &text )
 	{
 		_Text.append( astring(text) );
+		format();
 	}
 
 	void Text::Append( const std::string &text )
 	{
 		_Text.append( astring(text) );
+		format();
 	}
 
 	void Text::Clear()
@@ -103,7 +106,7 @@ namespace AnsiGL
 
 	std::string Text::Render() const
 	{
-		return _FormattedText.Render( ColorDepth_Default );
+		return _FormattedText.Render( _ColorDepth );
 	}
 
 	void Text::RenderToSurface( Surface::Ptr dest, const Point2D &pos ) const
@@ -112,6 +115,84 @@ namespace AnsiGL
 			return;
 
 		dest->DrawString( _FormattedText, pos, TransparentSpaces );
+	}
+
+	Text &Text::operator<<( void *val )
+	{
+		return addToStream< void * >( val );
+	}
+
+	Text &Text::operator<<( bool val )
+	{
+		return addToStream< bool >( val );
+	}
+
+	Text &Text::operator<<( char val )
+	{
+		return addToStream< char >( val );
+	}
+
+	Text &Text::operator<<( unsigned char val )
+	{
+		return addToStream< unsigned char >( val );
+	}
+
+	Text &Text::operator<<( short val )
+	{
+		return addToStream< short >( val );
+	}
+
+	Text &Text::operator<<( unsigned short val )
+	{
+		return addToStream< unsigned short >( val );
+	}
+
+	Text &Text::operator<<( int val )
+	{
+		return addToStream< int >( val );
+	}
+
+	Text &Text::operator<<( unsigned int val )
+	{
+		return addToStream< unsigned int >( val );
+	}
+
+	Text &Text::operator<<( long val )
+	{
+		return addToStream< long >( val );
+	}
+
+	Text &Text::operator<<( unsigned long val )
+	{
+		return addToStream< unsigned long >( val );
+	}
+
+	Text &Text::operator<<( float val )
+	{
+		return addToStream< float >( val );
+	}
+
+	Text &Text::operator<<( double val )
+	{
+		return addToStream< double >( val );
+	}
+
+	Text &Text::operator<<( const char *right )
+	{
+		this->Append( std::string(right) );
+		return *this;
+	}
+
+	Text &Text::operator<<( const std::string &right )
+	{
+		this->Append( right );
+		return *this;
+	}
+
+	Text &Text::operator<<( const ustring &right )
+	{
+		this->Append( right );
+		return *this;
 	}
 
 	void Text::format()

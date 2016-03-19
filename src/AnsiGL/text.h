@@ -24,23 +24,74 @@ namespace AnsiGL
 
 	public:
 		Text():
-			AutoHeight(true),
-			TransparentSpaces(false),
-			_Text("Default Text"),
-			_Alignment(TxtAlign_Default)
+			AutoHeight( true ),
+			TransparentSpaces( false ),
+			_Alignment( TxtAlign_Default ),
+			_ColorDepth( ColorDepth_Default )
 		{
 			Resize( Area2D(12, 1) );				// Size for "Default Text"
 		}
 
+		Text( tSizeType width,						// A width of 0 is unlimited
+			  ENUM_TxtAlign alignment		= TxtAlign_Default,
+			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
+			  bool transparentSpaces		= false,
+			  bool autoHeight				= true ):
+			AutoHeight( autoHeight ),
+			TransparentSpaces( transparentSpaces ),
+			_Alignment( alignment ),
+			_ColorDepth( colorDepth )
+		{
+			Width( width );
+		}
+
 		Text( const astring &text,
+			  tSizeType width				= 0,	// A width of 0 is unlimited
+			  ENUM_TxtAlign alignment		= TxtAlign_Default,
+			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
+			  bool transparentSpaces		= false,
+			  bool autoHeight				= true ):
+			AutoHeight( autoHeight ),
+			TransparentSpaces( transparentSpaces ),
+			_Text( text ),
+			_Alignment( alignment ),
+			_ColorDepth( colorDepth )
+		{
+			if ( width == 0 )
+				Width( text.length() );
+			else
+				Width( width );
+		}
+
+		Text( const ustring &text,
 			  tSizeType width			= 0,		// A width of 0 is unlimited
 			  ENUM_TxtAlign alignment	= TxtAlign_Default,
+			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
 			  bool transparentSpaces	= false,
 			  bool autoHeight			= true ):
-			AutoHeight(autoHeight),
-			TransparentSpaces(transparentSpaces),
-			_Text(text),
-			_Alignment(alignment)
+			AutoHeight( autoHeight ),
+			TransparentSpaces( transparentSpaces ),
+			_Text( astring(text) ),
+			_Alignment( alignment ),
+			_ColorDepth( colorDepth )
+		{
+			if ( width == 0 )
+				Width( text.length() );
+			else
+				Width( width );
+		}
+
+		Text( const std::string &text,
+			  tSizeType width				= 0,	// A width of 0 is unlimited
+			  ENUM_TxtAlign alignment		= TxtAlign_Default,
+			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
+			  bool transparentSpaces		= false,
+			  bool autoHeight				= true ):
+			AutoHeight( autoHeight ),
+			TransparentSpaces( transparentSpaces ),
+			_Text( astring(text) ),
+			_Alignment( alignment ),
+			_ColorDepth( colorDepth )
 		{
 			if ( width == 0 )
 				Width( text.length() );
@@ -77,13 +128,39 @@ namespace AnsiGL
 		virtual std::string Render() const;
 		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
 
+		Text &operator<<( void *val );
+		Text &operator<<( bool val );
+		Text &operator<<( char val );
+		Text &operator<<( unsigned char val );
+		Text &operator<<( short val );
+		Text &operator<<( unsigned short val );
+		Text &operator<<( int val );
+		Text &operator<<( unsigned int val );
+		Text &operator<<( long val );
+		Text &operator<<( unsigned long val );
+		Text &operator<<( float val );
+		Text &operator<<( double val );
+		Text &operator<<( const char *right );
+		Text &operator<<( const std::string &right );
+		Text &operator<<( const ustring &right );
+
 	protected:
 		astring			_Text;
 		astring			_FormattedText;
 
 		ENUM_TxtAlign	_Alignment;
+		ENUM_ColorDepth	_ColorDepth;
 
 	protected:
+		template <typename tDataType>
+		Text &addToStream( tDataType val )
+		{
+			std::stringstream Buffer("");
+			Buffer << val;
+			this->Append( Buffer.str() );
+			return (*this);
+		}
+
 		void format();
 	};
 }
