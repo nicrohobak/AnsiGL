@@ -13,70 +13,10 @@
 
 namespace AnsiGL
 {
-	Window::Window():
-		_Layout( new Context() ),
-		_Title( new Text() ),
-		_StatusText( new Text(astring("")) ),
-		_Contents( new Context() ),
-		_Borders( new Image() ),
-		_VerticalScrollbar( new Image() ),
-		_HorizontalScrollbar( new Image() ),
-		TransparentSpaces( TRANSPARENT_DEFAULT )
+	void Window::Clear()
 	{
-		_Layout->AddContent( _Contents, Point3D(0, 0, 3) );
-		_Layout->AddContent( _StatusText, Point3D(0, 0, 2) );
-		_Layout->AddContent( _Borders, Point3D(0, 0, 1) );
-		_Layout->AddContent( _Title, Point3D(0, 0, 0) );
-		_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 0) );
-		_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 0) );
-
-		_VerticalScrollbar->Width( 1 );
-		_HorizontalScrollbar->Height( 1 );
-		_VerticalScrollbar->TransparentSpaces = true;
-		_HorizontalScrollbar->TransparentSpaces = true;
-
-		_Borders->TransparentSpaces = true;
-		_Title->Align( TxtAlign_Center );
-		_Title->TransparentSpaces = false;
-		Title( astring("Window Title") );
-		_StatusText->TransparentSpaces = false;
-	}
-
-	Window::Window( const astring &windowTitle, const Area2D &windowSize, const Point3D &viewportPos, bool transparentSpaces ):
-		_Layout( new Context() ),
-		_Title( new Text() ),
-		_StatusText( new Text(astring("")) ),
-		_Contents( new Context() ),
-		_Borders( new Image() ),
-		_VerticalScrollbar( new Image() ),
-		_HorizontalScrollbar( new Image() ),
-		TransparentSpaces( transparentSpaces )
-	{
-		_Layout->AddContent( _Contents, Point3D(0, 0, 3) );
-		_Layout->AddContent( _StatusText, Point3D(0, 0, 2) );
-		_Layout->AddContent( _Borders, Point3D(0, 0, 1) );
-		_Layout->AddContent( _Title, Point3D(0, 0, 0) );
-		_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 0) );
-		_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 0) );
-
-		_VerticalScrollbar->Width( 1 );
-		_HorizontalScrollbar->Height( 1 );
-		_VerticalScrollbar->TransparentSpaces = true;
-		_HorizontalScrollbar->TransparentSpaces = true;
-
-		Resize( windowSize );
-
-		_Borders->TransparentSpaces = true;
-		_Title->Align( TxtAlign_Center );
-		_Title->TransparentSpaces = false;
-		Title( windowTitle );
-		_StatusText->TransparentSpaces = false;
-
-		MoveViewportTo( viewportPos );
-	}
-
-	Window::~Window()
-	{
+		_Contents->Clear();
+		this->RecalculateTotalContentSize();
 	}
 
 	const astring &Window::Title() const
@@ -88,7 +28,7 @@ namespace AnsiGL
 	{
 		_Title->Value( title );
 		_Title->Width( title.length() + 2 );
-		_Title->Offset.X( (_Title->Width() + 2) / 2 );	// Offset it so the origin is effectively in the center
+		_Title->Offset.X( _Title->Width() / 2 );	// Offset it so the origin is effectively in the center
 	}
 
 	const astring &Window::StatusText() const
