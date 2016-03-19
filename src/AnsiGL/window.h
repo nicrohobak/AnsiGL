@@ -27,20 +27,20 @@ namespace AnsiGL
 	public:
 		Window():
 			TransparentSpaces( TRANSPARENT_DEFAULT ),
-			_Layout( new Context() ),
-			_Title( new Text() ),
-			_StatusText( new Text(astring("")) ),
-			_Contents( new Context() ),
-			_Borders( new Image() ),
-			_VerticalScrollbar( new Image() ),
-			_HorizontalScrollbar( new Image() )
+			_Layout( std::make_shared< Context >() ),
+			_Title( std::make_shared< Text >() ),
+			_StatusText( std::make_shared< Text >(astring("")) ),
+			_Contents( std::make_shared< Context >() ),
+			_Borders( std::make_shared< Image >() ),
+			_VerticalScrollbar( std::make_shared< Image >() ),
+			_HorizontalScrollbar( std::make_shared< Image >() )
 		{
-			_Layout->AddContent( _Contents, Point3D(0, 0, 3) );
-			_Layout->AddContent( _StatusText, Point3D(0, 0, 2) );
-			_Layout->AddContent( _Borders, Point3D(0, 0, 1) );
-			_Layout->AddContent( _Title, Point3D(0, 0, 0) );
-			_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 0) );
-			_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 0) );
+			_Layout->AddContent( _Title, Point3D(0, 0, 2) );
+			_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 4) );
+			_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 4) );
+			_Layout->AddContent( _Borders, Point3D(0, 0, 6) );
+			_Layout->AddContent( _StatusText, Point3D(0, 0, 8) );
+			_Layout->AddContent( _Contents, Point3D(0, 0, 10) );
 
 			_VerticalScrollbar->Width( 1 );
 			_HorizontalScrollbar->Height( 1 );
@@ -50,41 +50,41 @@ namespace AnsiGL
 			_Borders->TransparentSpaces = true;
 			_Title->Align( TxtAlign_Center );
 			_Title->TransparentSpaces = false;
-			Title( astring("Window Title") );
+			this->Title( astring("Window Title") );
 			_StatusText->TransparentSpaces = false;
 		}
 
 		Window( const astring &windowTitle, const Area2D &windowSize = Area2D(80, 24), const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
 			TransparentSpaces( transparentSpaces ),
-			_Layout( new Context() ),
-			_Title( new Text() ),
-			_StatusText( new Text(astring("")) ),
-			_Contents( new Context() ),
-			_Borders( new Image() ),
-			_VerticalScrollbar( new Image() ),
-			_HorizontalScrollbar( new Image() )
+			_Layout( std::make_shared< Context >() ),
+			_Title( std::make_shared< Text >() ),
+			_StatusText( std::make_shared< Text >(astring("")) ),
+			_Contents( std::make_shared< Context >() ),
+			_Borders( std::make_shared< Image >() ),
+			_VerticalScrollbar( std::make_shared< Image >() ),
+			_HorizontalScrollbar( std::make_shared< Image >() )
 		{
-			_Layout->AddContent( _Contents, Point3D(0, 0, 3) );
-			_Layout->AddContent( _StatusText, Point3D(0, 0, 2) );
-			_Layout->AddContent( _Borders, Point3D(0, 0, 1) );
-			_Layout->AddContent( _Title, Point3D(0, 0, 0) );
-			_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 0) );
-			_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 0) );
+			_Layout->AddContent( _Title, Point3D(0, 0, 2) );
+			_Layout->AddContent( _VerticalScrollbar, Point3D(0, 0, 4) );
+			_Layout->AddContent( _HorizontalScrollbar, Point3D(0, 0, 4) );
+			_Layout->AddContent( _Borders, Point3D(0, 0, 6) );
+			_Layout->AddContent( _StatusText, Point3D(0, 0, 8) );
+			_Layout->AddContent( _Contents, Point3D(0, 0, 10) );
 
 			_VerticalScrollbar->Width( 1 );
 			_HorizontalScrollbar->Height( 1 );
 			_VerticalScrollbar->TransparentSpaces = true;
 			_HorizontalScrollbar->TransparentSpaces = true;
 
-			Resize( windowSize );
+			this->Resize( windowSize );
 
 			_Borders->TransparentSpaces = true;
 			_Title->Align( TxtAlign_Center );
 			_Title->TransparentSpaces = false;
-			Title( windowTitle );
+			this->Title( windowTitle );
 			_StatusText->TransparentSpaces = false;
 
-			MoveViewportTo( viewportPos );
+			this->MoveViewportTo( viewportPos );
 		}
 
 		virtual ~Window()
@@ -142,7 +142,7 @@ namespace AnsiGL
 		Image::Ptr		_HorizontalScrollbar;
 
 	protected:
-		void updateWindow();
+		virtual void updateWindow();
 		void updateWindowBorders();
 		void updateScrollbars();
 		void updateScrollbarSize();

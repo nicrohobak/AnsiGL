@@ -269,7 +269,7 @@ namespace AnsiGL
 				const Pixel *CurSrcPixel = &_Pixels[Src.Y()][Src.X()];
 				Pixel *CurDestPixel = &(dest->_Pixels[Dest.Y()][Dest.X()]);
 
-				if ( !transparentSpaces || (transparentSpaces && !_Pixels[Src.Y()][Src.X()].IsSpace()) )
+				if ( !transparentSpaces || (transparentSpaces && !CurSrcPixel->IsSpace()) )
 				{
 					*CurDestPixel = *CurSrcPixel;
 

@@ -50,7 +50,7 @@ namespace AnsiGL
 	void Window::Width( tSizeType width )
 	{
 		Content::Width( width );
-		updateWindow();
+		this->updateWindow();
 	}
 
 	const tSizeType Window::Height() const
@@ -61,13 +61,13 @@ namespace AnsiGL
 	void Window::Height( tSizeType height )
 	{
 		Content::Height( height );
-		updateWindow();
+		this->updateWindow();
 	}
 
 	void Window::Resize( const Area2D &size )
 	{
 		Content::Resize( size );
-		updateWindow();
+		this->updateWindow();
 	}
 
 	void Window::SetContentWidth( tSizeType width )
@@ -85,7 +85,7 @@ namespace AnsiGL
 		// This also cheats by adding the borders...
 		Content::Width( size.Width() + 2 );
 		Content::Height( size.Height() + 2 );
-		updateWindow();
+		this->updateWindow();
 	}
 
 	const Point3D &Window::CurViewportPos() const
@@ -162,19 +162,19 @@ namespace AnsiGL
 			return;
 
 		_Contents->AddContent( content, pos );
-		updateWindow();
+		this->updateWindow();
 	}
 
 	void Window::RemoveContent( Content::Ptr content )
 	{
 		_Contents->RemoveContent( content );
-		updateWindow();
+		this->updateWindow();
 	}
 
 	void Window::RemoveContentFrom( tPointType depth, Content::Ptr content )
 	{
 		_Contents->RemoveContentFrom( depth, content );
-		updateWindow();
+		this->updateWindow();
 	}
 
 	void Window::RecalculateTotalContentSize()

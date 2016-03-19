@@ -16,15 +16,59 @@ namespace AnsiGL
 	class InputWindow : public TextWindow
 	{
 	public:
-		// Need to add something for the input portion itself, or this should literally be only the input portion and nothing else with another class defined that is a combination of a TextWindow and an InputWindow into a InputTextWindow or something similar...
-		// Probably need to implement a cursor of some kind...if it could be expanded to also act as a menu cursor, that would be ideal
-		//
+		ANSIGL_POINTERS( InputWindow )
 
 	public:
-		InputWindow();
+		InputWindow():
+			_Input( std::make_shared< Text >("") ),
+			_Cursor( std::make_shared< Text >("_") ),
+			_Prompt( std::make_shared< Text >(">") )
+		{
+			_Input->Width( _Layout->Width() - 2 );
+			_Layout->AddContent( _Input, Point3D(0, 0, 5) );
+			_Layout->AddContent( _Cursor, Point3D(0, _Layout->Height() - 1, 5) );
+			_Layout->AddContent( _Prompt, Point3D(0, _Layout->Height() - 1, 5) );
+			this->updateWindow();
+		}
 
-		virtual std::string Render();
-		virtual void RenderToSurface( Surface *dest, const Point &pos = Point(), bool transparentSpaces = TransparentSpacesDefault );
+		InputWindow( const astring &windowTitle,
+					 const Area2D &windowSize = Area2D(80, 24),
+					 unsigned int maxLines = DEFAULT_MAX_LINES,
+					 ENUM_TxtAlign alignment = TxtAlign_Default,
+					 bool newAtBottom = true,
+					 const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
+			TextWindow( windowTitle, windowSize, maxLines, alignment, newAtBottom, viewportPos, transparentSpaces ),
+			_Input( std::make_shared< Text >("") ),
+			_Cursor( std::make_shared< Text >("_") ),
+			_Prompt( std::make_shared< Text >(">") )
+		{
+			_Input->Width( _Layout->Width() - 2 );
+			_Layout->AddContent( _Input, Point3D(0, 0, 5) );
+			_Layout->AddContent( _Cursor, Point3D(0, _Layout->Height() - 1, 5) );
+			_Layout->AddContent( _Prompt, Point3D(0, _Layout->Height() - 1, 5) );
+			this->updateWindow();
+		}
+
+		virtual ~InputWindow()
+		{
+		}
+
+		virtual void Clear();
+		virtual void ClearContents();
+		virtual void ClearInput();
+
+		virtual const Text &CurInput() const;
+
+		virtual void InputChar( const achar &ch );			// Adds a character to the input
+		virtual void InputLine( const astring &line );		// Appends a line to the input
+
+	protected:
+		Text::Ptr		_Input;
+		Text::Ptr		_Cursor;
+		Text::Ptr		_Prompt;
+
+	protected:
+		virtual void updateWindow();
 	};
 }
 

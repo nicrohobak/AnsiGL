@@ -6,9 +6,10 @@
 #include <AnsiGL/clone.h>
 #include <AnsiGL/context.h>
 #include <AnsiGL/image.h>
+#include <AnsiGL/inputwindow.h>
 #include <AnsiGL/surface.h>
 #include <AnsiGL/text.h>
-#include <AnsiGL/textwindow.h>
+//#include <AnsiGL/textwindow.h>
 #include <AnsiGL/window.h>
 #include <AnsiGL/ncurses/ncurses.h>
 
@@ -165,7 +166,8 @@ int main()
 	TestCamera->MoveCameraTo( AnsiGL::Point3D(5, 5, 0) );
 	MyContext->AddContent( TestCamera, AnsiGL::Point3D(15, 28, 6) );
 
-	AnsiGL::TextWindow::Ptr TestTextWindow = std::make_shared< AnsiGL::TextWindow >( AnsiGL::astring("Text"), AnsiGL::Area2D(50, 15), 500, AnsiGL::TxtAlign_Default, true, AnsiGL::Point2D(0, 1) );
+	//AnsiGL::TextWindow::Ptr TestTextWindow = std::make_shared< AnsiGL::TextWindow >( AnsiGL::astring("Text"), AnsiGL::Area2D(50, 15), 500, AnsiGL::TxtAlign_Default, true, AnsiGL::Point2D(0, 1) );
+	AnsiGL::InputWindow::Ptr TestTextWindow = std::make_shared< AnsiGL::InputWindow >( AnsiGL::astring("Text"), AnsiGL::Area2D(50, 15), 500, AnsiGL::TxtAlign_Default, true, AnsiGL::Point2D(0, 1) );
 	TestTextWindow->WordWrap( false );
 	MyContext->AddContent( TestTextWindow, AnsiGL::Point3D(3, 7, 2) );
 
@@ -180,11 +182,11 @@ int main()
 	// Perform the main ncurses loop
 	do
 	{
-		AnsiGL::Point3D CurContextPos = MySecondContext->CurPos();
-		AnsiGL::Point3D CurViewportPos = TestWindow->CurViewportPos();
-		AnsiGL::Point3D CurCameraViewPos = TestCamera->CurCameraPos();
-		AnsiGL::Point3D CurCameraPos = TestCamera->CurPos();
-		AnsiGL::Point3D CurTextViewPos = TestTextWindow->CurViewportPos();
+		AnsiGL::Point3D CurContextPos		= MySecondContext->CurPos();
+		AnsiGL::Point3D CurViewportPos		= TestWindow->CurViewportPos();
+		AnsiGL::Point3D CurCameraViewPos	= TestCamera->CurCameraPos();
+		AnsiGL::Point3D CurCameraPos		= TestCamera->CurPos();
+		AnsiGL::Point3D CurTextViewPos		= TestTextWindow->CurViewportPos();
 
 		bool Exit = false;
 
@@ -315,6 +317,27 @@ int main()
 
 			case 'q':
 				Exit = true;
+				break;
+
+			case KEY_BACKSPACE:
+				TestTextWindow->InputChar( (char)127 );
+				break;
+
+			case '\n':
+			{
+				AnsiGL::astring TxtMsg( "Input) " );
+				TxtMsg << TestTextWindow->CurInput().Value();
+				TestTextWindow->AddLine( TxtMsg );
+				TestTextWindow->ClearInput();
+
+				std::stringstream CounterLine;
+				CounterLine << "Line Count: " << ++CurLineCount;
+				LineCounter->Value( CounterLine.str() );
+				break;
+			}
+
+			default:
+				TestTextWindow->InputChar( ch );
 				break;
 		}
 

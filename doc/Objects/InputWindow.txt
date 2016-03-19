@@ -1,0 +1,44 @@
+==============================================================================
+| Class: InputWindow							     |
+==============================================================================
+
+==== Overview ====
+
+    A specialized TextWindow that has a text input bar at the bottom (like a
+chat window).
+
+
+==== Relationships ====
+
+    Inheritance:
+        Parents:
+            TextWindow
+        Children:
+            None
+    Related:
+        Text
+
+
+==== Member Variables ====
+
+    None
+
+
+==== Member Functions ====
+
+Name			Details
+-------------------------------
+Clear()			Clears the window contents and input contents
+ClearContent()		Clears the window contents
+ClearInput()		Clears the input contents
+
+CurInput()		Gets the current line of input
+
+InputChar()		Inputs one character
+InputLine()		Inputs one line
+
+
+==============================================================================
+
+
+

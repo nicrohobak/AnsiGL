@@ -26,10 +26,12 @@ namespace AnsiGL
 		Text():
 			AutoHeight( true ),
 			TransparentSpaces( false ),
+			_Text( "" ),
 			_Alignment( TxtAlign_Default ),
 			_ColorDepth( ColorDepth_Default )
 		{
-			Resize( Area2D(12, 1) );				// Size for "Default Text"
+			Resize( Area2D(1, 1) );
+			format();
 		}
 
 		Text( tSizeType width,						// A width of 0 is unlimited
@@ -39,10 +41,12 @@ namespace AnsiGL
 			  bool autoHeight				= true ):
 			AutoHeight( autoHeight ),
 			TransparentSpaces( transparentSpaces ),
+			_Text( "" ),
 			_Alignment( alignment ),
 			_ColorDepth( colorDepth )
 		{
 			Width( width );
+			format();
 		}
 
 		Text( const astring &text,
@@ -61,14 +65,16 @@ namespace AnsiGL
 				Width( text.length() );
 			else
 				Width( width );
+
+			format();
 		}
 
 		Text( const ustring &text,
-			  tSizeType width			= 0,		// A width of 0 is unlimited
-			  ENUM_TxtAlign alignment	= TxtAlign_Default,
+			  tSizeType width				= 0,		// A width of 0 is unlimited
+			  ENUM_TxtAlign alignment		= TxtAlign_Default,
 			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
-			  bool transparentSpaces	= false,
-			  bool autoHeight			= true ):
+			  bool transparentSpaces		= false,
+			  bool autoHeight				= true ):
 			AutoHeight( autoHeight ),
 			TransparentSpaces( transparentSpaces ),
 			_Text( astring(text) ),
@@ -79,6 +85,8 @@ namespace AnsiGL
 				Width( text.length() );
 			else
 				Width( width );
+
+			format();
 		}
 
 		Text( const std::string &text,
@@ -97,6 +105,8 @@ namespace AnsiGL
 				Width( text.length() );
 			else
 				Width( width );
+
+			format();
 		}
 
 		virtual ~Text()
@@ -112,11 +122,18 @@ namespace AnsiGL
 		void Append( const astring &text );
 		void Append( const ustring &text );
 		void Append( const std::string &text );
+		void Append( const achar &ch );
+
+		bool empty() const;
+		void push_back( const achar &ch );
+		void pop_back();
 
 		void Clear();
 
 		ENUM_TxtAlign Align() const;
 		void Align( ENUM_TxtAlign align );
+
+		virtual tSizeType Length() const;			// Length of the string, rather than the width of the window
 
 		virtual const tSizeType Width() const;
 		virtual void Width( tSizeType width );
@@ -143,6 +160,8 @@ namespace AnsiGL
 		Text &operator<<( const char *right );
 		Text &operator<<( const std::string &right );
 		Text &operator<<( const ustring &right );
+		Text &operator<<( const achar &right );
+		Text &operator<<( const astring &right );
 
 	protected:
 		astring			_Text;

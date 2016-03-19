@@ -12,18 +12,89 @@
 
 namespace AnsiGL
 {
-	InputWindow::InputWindow()
+	void InputWindow::Clear()
 	{
+		this->ClearInput();
+		this->ClearContents();
 	}
 
-	std::string InputWindow::Render()
+	void InputWindow::ClearContents()
 	{
-		return TextWindow::Render();
+		TextWindow::Clear();
 	}
 
-	void InputWindow::RenderToSurface( Surface *dest, const Point &pos, bool transparentSpaces )
+	void InputWindow::ClearInput()
 	{
-		TextWindow::RenderToSurface( dest, pos, transparentSpaces );
+		_Input->Clear();
+		_Cursor->MoveTo( Point2D(0, _Layout->Height() - 1) );
+		_Cursor->Visible( false );
+		this->updateWindow();
+	}
+
+	const Text &InputWindow::CurInput() const
+	{
+		return *_Input;
+	}
+
+	void InputWindow::InputChar( const achar &ch )
+	{
+		achar NewCh = ch;
+		char Glyph = NewCh.Glyph().c_str()[0];
+
+		switch ( Glyph )
+		{
+			// Skip if it's NULL
+			case 0:
+				return;
+
+			// Backspace / delete
+			case 8:
+			case 127:
+				_Input->pop_back();
+				break;
+
+			case '\n':
+				this->ClearInput();
+				break;
+
+			default:
+				NewCh.Color.FG = AnsiGL::ANSI_FG_Black;
+				NewCh.Color.BG = AnsiGL::ANSI_BG_White;
+				*_Input << NewCh;
+				break;
+		}
+	
+		if ( _Input->empty() )
+			_Cursor->Visible( false );
+		else
+			_Cursor->Visible( true );
+
+		this->updateWindow();
+	}
+
+	void InputWindow::InputLine( const astring &line )
+	{
+		*_Input << line;
+		this->updateWindow();
+	}
+
+	void InputWindow::updateWindow()
+	{
+		int ExtraLineSpacing = 0;
+
+		if ( !(_Input->Length() % _Contents->Width()) )
+			++ExtraLineSpacing;
+
+		// Put the input at the bottom of the window, on top of the border
+		_Input->MoveTo( Point2D(1, _Layout->Height() - _Input->Height() - ExtraLineSpacing) );
+
+		// And move our cursor to where it's needed
+		unsigned int CursorX = 0;
+
+		if ( !_Input->empty() )
+			CursorX = (_Input->Length() % _Input->Width()) + 1;
+
+		_Cursor->MoveTo( Point2D(CursorX, _Layout->Height() - 1) );
 	}
 }
 

@@ -13,6 +13,7 @@ libAnsiGL_la_SOURCES =  achar.cpp		\
 			content.cpp		\
 			context.cpp		\
 			image.cpp		\
+			inputwindow.cpp		\
 			pixel.cpp		\
 			point.cpp		\
 			string.cpp		\
@@ -22,7 +23,6 @@ libAnsiGL_la_SOURCES =  achar.cpp		\
 			uchar.cpp		\
 			window.cpp
 
-#			inputwindow.cpp		
 
 
 #libAnsiGL_la_CXXFLAGS = $(INCLUDE_DIRS) -std=c++14 -pedantic -Wall -pg
@@ -40,6 +40,7 @@ library_include_HEADERS =	AnsiGL/achar.h		\
 				AnsiGL/context.h	\
 				AnsiGL/defines.h	\
 				AnsiGL/image.h		\
+				AnsiGL/inputwindow.h	\
 				AnsiGL/pixel.h		\
 				AnsiGL/point.h		\
 				AnsiGL/string.h		\
@@ -48,9 +49,6 @@ library_include_HEADERS =	AnsiGL/achar.h		\
 				AnsiGL/textwindow.h	\
 				AnsiGL/uchar.h		\
 				AnsiGL/window.h
-
-
-#				AnsiGL/inputwindow.h		
 
 
 

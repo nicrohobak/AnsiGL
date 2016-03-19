@@ -56,9 +56,38 @@ namespace AnsiGL
 		format();
 	}
 
+	void Text::Append( const achar &ch )
+	{
+		_Text.push_back( ch );
+		format();
+	}
+
+	bool Text::empty() const
+	{
+		return _Text.empty();
+	}
+
+	void Text::push_back( const achar &ch )
+	{
+		Append( ch );
+	}
+
+	void Text::pop_back()
+	{
+		if ( _Text.empty() )
+			return;
+
+		_Text.pop_back();
+		format();
+	}
+
 	void Text::Clear()
 	{
 		_Text.clear();
+		_FormattedText.clear();
+
+		if ( AutoHeight )
+			Content::Height( 0 );
 	}
 
 	ENUM_TxtAlign Text::Align() const
@@ -70,6 +99,11 @@ namespace AnsiGL
 	{
 		_Alignment = align;
 		format();
+	}
+
+	tSizeType Text::Length() const
+	{
+		return _Text.length();
 	}
 
 	const tSizeType Text::Width() const
@@ -190,6 +224,18 @@ namespace AnsiGL
 	}
 
 	Text &Text::operator<<( const ustring &right )
+	{
+		this->Append( right );
+		return *this;
+	}
+
+	Text &Text::operator<<( const achar &right )
+	{
+		this->Append( right );
+		return *this;
+	}
+
+	Text &Text::operator<<( const astring &right )
 	{
 		this->Append( right );
 		return *this;
