@@ -23,43 +23,43 @@ namespace AnsiGL
 	void Text::Value( const astring &text )
 	{
 		_Text = text;
-		format();
+		this->format();
 	}
 
 	void Text::Value( const ustring &text )
 	{
 		_Text = astring( text );
-		format();
+		this->format();
 	}
 
 	void Text::Value( const std::string &text )
 	{
 		_Text = astring( text );
-		format();
+		this->format();
 	}
 
 	void Text::Append( const astring &text )
 	{
 		_Text.append( text );
-		format();
+		this->format();
 	}
 
 	void Text::Append( const ustring &text )
 	{
 		_Text.append( astring(text) );
-		format();
+		this->format();
 	}
 
 	void Text::Append( const std::string &text )
 	{
 		_Text.append( astring(text) );
-		format();
+		this->format();
 	}
 
 	void Text::Append( const achar &ch )
 	{
 		_Text.push_back( ch );
-		format();
+		this->format();
 	}
 
 	bool Text::empty() const
@@ -78,7 +78,7 @@ namespace AnsiGL
 			return;
 
 		_Text.pop_back();
-		format();
+		this->format();
 	}
 
 	void Text::Clear()
@@ -98,7 +98,7 @@ namespace AnsiGL
 	void Text::Align( ENUM_TxtAlign align )
 	{
 		_Alignment = align;
-		format();
+		this->format();
 	}
 
 	tSizeType Text::Length() const
@@ -114,7 +114,7 @@ namespace AnsiGL
 	void Text::Width( tSizeType width )
 	{
 		Content::Width( width );
-		format();
+		this->format();
 	}
 
 	const tSizeType Text::Height() const
@@ -130,7 +130,7 @@ namespace AnsiGL
 	void Text::Resize( const Area2D &size )
 	{
 		Content::Resize( size );
-		format();
+		this->format();
 	}
 
 	std::string Text::str()

@@ -30,8 +30,8 @@ namespace AnsiGL
 			_Alignment( TxtAlign_Default ),
 			_ColorDepth( ColorDepth_Default )
 		{
-			Resize( Area2D(1, 1) );
-			format();
+			this->Resize( Area2D(1, 1) );
+			this->format();
 		}
 
 		Text( tSizeType width,						// A width of 0 is unlimited
@@ -45,8 +45,8 @@ namespace AnsiGL
 			_Alignment( alignment ),
 			_ColorDepth( colorDepth )
 		{
-			Width( width );
-			format();
+			this->Width( width );
+			this->format();
 		}
 
 		Text( const astring &text,
@@ -62,11 +62,11 @@ namespace AnsiGL
 			_ColorDepth( colorDepth )
 		{
 			if ( width == 0 )
-				Width( text.length() );
+				this->Width( text.length() );
 			else
-				Width( width );
+				this->Width( width );
 
-			format();
+			this->format();
 		}
 
 		Text( const ustring &text,
@@ -82,11 +82,11 @@ namespace AnsiGL
 			_ColorDepth( colorDepth )
 		{
 			if ( width == 0 )
-				Width( text.length() );
+				this->Width( text.length() );
 			else
-				Width( width );
+				this->Width( width );
 
-			format();
+			this->format();
 		}
 
 		Text( const std::string &text,
@@ -102,11 +102,11 @@ namespace AnsiGL
 			_ColorDepth( colorDepth )
 		{
 			if ( width == 0 )
-				Width( text.length() );
+				this->Width( text.length() );
 			else
-				Width( width );
+				this->Width( width );
 
-			format();
+			this->format();
 		}
 
 		virtual ~Text()
@@ -180,7 +180,7 @@ namespace AnsiGL
 			return (*this);
 		}
 
-		void format();
+		virtual void format();
 	};
 }
 
