@@ -15,34 +15,10 @@
 
 namespace AnsiGL
 {
-	//
-	// ncurses has color limitations in terms of how many can be displayed at one time.
-	// This is a palette to allow ncurses COLOR_PAIR()'s to be created on-the-fly.
-	//
-	// NOTE: Be warned!  In ncurses mode there are limitations based on your terminal type!
-	//       If things aren't acting as expected, verify capabilities with terminfo!
-	//
-	std::map< ColorDef::Ptr, int > Ncurses_ColorPalette;
-
-	const short DEFAULT_COLOR_PAIR = 1;
+	ncurses::tColorPalette ncurses::ColorPalette;
 
 
-	void StartNcurses( bool setLocale )
-	{
-		if ( setLocale )
-			setlocale( LC_ALL, "" );
-
-		initscr();
-		start_color();
-	}
-
-	void StopNcurses()
-	{
-		endwin();
-	}
-
-
-	int NcursesColorPair( const ColorDef &color )
+	int ncurses::ColorPair( const ColorDef &color )
 	{
 		// The offset needed since we're a 1-based count instead of a 0-based count like size(), since ncurses reserves COLOR_PAIR(0)
 		const int COLOR_PAIR_OFFSET = 1;
@@ -54,7 +30,7 @@ namespace AnsiGL
 		// Try to find the color first...if it doesn't exist, then add it and return that index
 		std::map< ColorDef::Ptr, int >::iterator CurColor;
 
-		for ( CurColor = Ncurses_ColorPalette.begin(); CurColor != Ncurses_ColorPalette.end(); ++CurColor )
+		for ( CurColor = ColorPalette.begin(); CurColor != ColorPalette.end(); ++CurColor )
 		{
 			// If we find a match, return it
 			if ( (*CurColor->first) == color )
@@ -62,11 +38,11 @@ namespace AnsiGL
 		}
 
 		// If we've already exceed the ncurses COLOR_PAIR limit, then just return the default color to show it wasn't found since we can't create a new color pair
-		if ( (int)Ncurses_ColorPalette.size() >= COLOR_PAIRS )
+		if ( (int)ColorPalette.size() >= COLOR_PAIRS )
 			return DEFAULT_COLOR_PAIR;
 
 		// If we get here, we didn't find the color pair...so lets create one for it and return that
-		int NewColorPair = Ncurses_ColorPalette.size() + COLOR_PAIR_OFFSET;
+		int NewColorPair = ColorPalette.size() + COLOR_PAIR_OFFSET;
 
 		// Make a copy of this ColorDef, just so our ncurses definitions won't change unexpectedly as the original color gets modified elsewhere (this lets printed things stay printed in the same colors on-screen even if you change your working color palette)
 		ColorDef::Ptr NewColor = ColorDef::Ptr( new ColorDef(color) );
@@ -86,15 +62,15 @@ namespace AnsiGL
 		if ( BGIndex >= 8 && BGIndex <= 15 )
 			BGIndex -= 8;
 
-		// Now that we've setup our Ncurses_ColorPalette with this color pair, we can set the actual ncurses color pair definition and our palette
+		// Now that we've setup our ColorPalette with this color pair, we can set the actual ncurses color pair definition and our palette
 		init_pair( NewColorPair, FGIndex, BGIndex );
 
-		Ncurses_ColorPalette[ NewColor ] = NewColorPair;
+		ColorPalette[ NewColor ] = NewColorPair;
 		return NewColorPair;
 	}
 
 
-	void RenderSurfaceToNcurses( Surface::Ptr src, WINDOW *dest, Point pos, bool transparentSpaces )
+	void ncurses::RenderSurface( Surface::Ptr src, WINDOW *dest, Point pos, bool transparentSpaces )
 	{
 		if ( !src || !dest )
 			return;
@@ -151,11 +127,11 @@ namespace AnsiGL
 					}
 
 					cchar_t NcursesGlyph;
-					//setcchar( &NcursesGlyph, WideGlyph, NcursesAttributes(CurChar), COLOR_PAIR( NcursesColorPair(CurChar.Color) ), NULL );	// ncurses bug?  This should work, it seems like...but it definitely does not yield expected results.
+					//setcchar( &NcursesGlyph, WideGlyph, Attributes(CurChar), COLOR_PAIR( ColorPair(CurChar.Color) ), NULL );	// ncurses bug?  This should work, it seems like...but it definitely does not yield expected results.
 
 					// This work-around gets much closer to the correct rendering...
-					setcchar( &NcursesGlyph, WideGlyph, NcursesAttributes(CurChar), 0, NULL );
-					NcursesGlyph.attr |= COLOR_PAIR( NcursesColorPair(CurChar.Color) );
+					setcchar( &NcursesGlyph, WideGlyph, Attributes(CurChar), 0, NULL );
+					NcursesGlyph.attr |= COLOR_PAIR( ColorPair(CurChar.Color) );
 
 					FGColor = CurChar.Color.FG.Color();
 
@@ -176,7 +152,7 @@ namespace AnsiGL
 		wattrset( dest, A_NORMAL );	// wattrset() instead of wattron()!
 	}
 
-	attr_t NcursesAttributes( const achar &ach )
+	attr_t ncurses::Attributes( const achar &ach )
 	{
 		attr_t Attributes = A_NORMAL;
 
