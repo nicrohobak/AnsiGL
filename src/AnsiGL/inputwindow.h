@@ -22,7 +22,7 @@ namespace AnsiGL
 		InputWindow():
 			_Enabled( true ),
 			_Input( std::make_shared< Text >("") ),
-			_Cursor( std::make_shared< Text >("_") ),
+			_Cursor( std::make_shared< Text >("^:_") ),			// Blinky cursor...
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );
@@ -41,7 +41,7 @@ namespace AnsiGL
 			TextWindow( windowTitle, windowSize, maxLines, alignment, newAtBottom, viewportPos, transparentSpaces ),
 			_Enabled( true ),
 			_Input( std::make_shared< Text >("") ),
-			_Cursor( std::make_shared< Text >("_") ),
+			_Cursor( std::make_shared< Text >("^:_") ),			// Blinky cursor...
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );

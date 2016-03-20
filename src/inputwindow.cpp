@@ -24,10 +24,8 @@ namespace AnsiGL
 		if ( _Enabled )
 		{
 			_Input->Visible( true );
+			_Cursor->Visible( true );
 			_Prompt->Visible( true );
-
-			if ( !_Input->empty() )
-				_Cursor->Visible( true );
 		}
 		else
 		{
@@ -52,7 +50,6 @@ namespace AnsiGL
 	{
 		_Input->Clear();
 		_Cursor->MoveTo( Point2D(0, _Layout->Height() - 1) );
-		_Cursor->Visible( false );
 		this->updateWindow();
 	}
 
@@ -87,11 +84,6 @@ namespace AnsiGL
 				*_Input << NewCh;
 				break;
 		}
-	
-		if ( _Input->empty() )
-			_Cursor->Visible( false );
-		else
-			_Cursor->Visible( true );
 
 		this->updateWindow();
 	}
@@ -116,12 +108,7 @@ namespace AnsiGL
 		_Input->MoveTo( Point2D(1, _Layout->Height() - _Input->Height() - ExtraLineSpacing) );
 
 		// And move our cursor to where it's needed
-		unsigned int CursorX = 0;
-
-		if ( !_Input->empty() )
-			CursorX = (_Input->Length() % _Input->Width()) + 1;
-
-		_Cursor->MoveTo( Point2D(CursorX, _Layout->Height() - 1) );
+		_Cursor->MoveTo( Point2D((_Input->Length() % _Input->Width()) + 1, _Layout->Height() - 1) );
 	}
 }
 
