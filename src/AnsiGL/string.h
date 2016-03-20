@@ -206,6 +206,42 @@ namespace AnsiGL
 			_String.insert( pos, first, last );
 		}
 
+		// -1 = npos...a.k.a. "the whole string"
+		tString &erase( size_t pos = 0, size_t len = -1 )
+		{
+			size_t p = 0;			// Position counter
+			for ( auto c = _String.begin(), c_end = _String.end(); c != c_end; ++c, ++p )
+			{
+				if ( p >= pos )
+				{
+					size_t l = 0;	// Length counter
+					for ( auto h = c; h != c_end; ++h, ++l )
+					{
+						if ( l >= len )
+						{
+							// Erase from the character 'c' we found first, to the character 'h' we found now
+							erase( c, h );
+							break;
+						}
+					}
+
+					break;
+				}
+			}
+
+			return (*this);
+		}
+
+		iterator erase( const_iterator pos )
+		{
+			return _String.erase( pos );
+		}
+
+		iterator erase( const_iterator first, const_iterator last )
+		{
+			return _String.erase( first, last );
+		}
+
 		size_t length() const
 		{
 			return _String.size();
