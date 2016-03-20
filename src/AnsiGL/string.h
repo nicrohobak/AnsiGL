@@ -40,19 +40,22 @@ namespace AnsiGL
 	};
 
 
-	template < class tCharType >
+	template <typename tCharType>
 	class String
 	{
 	public:
-		ANSIGL_POINTERS( String<tCharType> )
+		typedef String< tCharType >							tString;
 
-		typedef typename std::vector< tCharType >::iterator			iterator;
-		typedef typename std::vector< tCharType >::reverse_iterator		reverse_iterator;
-		typedef typename std::vector< tCharType >::const_iterator		const_iterator;
-		typedef typename std::vector< tCharType >::const_reverse_iterator	const_reverse_iterator;
+		ANSIGL_POINTERS( tString )
+
+		typedef typename std::vector< tCharType >			tVector;
+		typedef typename tVector::iterator					iterator;
+		typedef typename tVector::reverse_iterator			reverse_iterator;
+		typedef typename tVector::const_iterator			const_iterator;
+		typedef typename tVector::const_reverse_iterator	const_reverse_iterator;
 
 	protected:
-		std::vector< tCharType >	_String;
+		tVector		_String;
 
 	public:
 		String()
@@ -88,12 +91,12 @@ namespace AnsiGL
 			return _String[pos];
 		}
 
-		String< tCharType > &operator+=( const String< tCharType > &right )
+		tString &operator+=( const tString &right )
 		{
 			if ( right.empty() )
 				return (*this);
 
-			typename String< tCharType >::const_iterator CurChar;
+			const_iterator CurChar;
 
 			for ( CurChar = right.begin(); CurChar != right.end(); ++CurChar )
 				push_back( *CurChar );
@@ -101,12 +104,12 @@ namespace AnsiGL
 			return (*this);
 		}
 
-		bool operator==( const String< tCharType > &right ) const
+		bool operator==( const tString &right ) const
 		{
 			if ( length() != right.length() )
 				return false;
 
-			typename String< tCharType >::const_iterator LeftCh, RightCh;
+			const_iterator LeftCh, RightCh;
 
 			for ( LeftCh = begin(), RightCh = right.begin(); LeftCh != end() && RightCh != right.end(); ++LeftCh, ++RightCh )
 			{
@@ -117,7 +120,7 @@ namespace AnsiGL
 			return true;
 		}
 
-		bool operator!=( const String< tCharType > &right ) const
+		bool operator!=( const tString &right ) const
 		{
 			return !((*this) == right);
 		}
@@ -162,17 +165,17 @@ namespace AnsiGL
 			return _String.rend();
 		}
 
-		void append( const String< tCharType > &str )
+		void append( const tString &str )
 		{
 			(*this) += str;
 		}
 
-		void assign( const String< tCharType > &str )
+		void assign( const tString &str )
 		{
 			(*this) = str;
 		}
 
-		bool compare( const String< tCharType > &right ) const		// Like std::string::compare, these return true if different
+		bool compare( const tString &right ) const		// Like std::string::compare, these return true if different
 		{
 			return !((*this) == right);
 		}
@@ -222,18 +225,18 @@ namespace AnsiGL
 		// Functions for std::string conversions/compatibility
 		//
 		// NOTE: Just about every derived class will need to have its own version of these function...any derived classes that have 'encoding' within the std::string type, for sure
-		String< tCharType > &operator=( const char *right )
+		tString &operator=( const char *right )
 		{
 			clear();
 
 			if ( !right || right[0] == '\0' )
 				return (*this);
 
-			(*this) = String< tCharType >( right );
+			(*this) = tString( right );
 			return (*this);
 		}
 
-		String< tCharType > &operator=( const std::string &right )
+		tString &operator=( const std::string &right )
 		{
 			clear();
 
@@ -248,86 +251,86 @@ namespace AnsiGL
 			return (*this);
 		}
 
-		String< tCharType > &operator+=( const char *right )
+		tString &operator+=( const char *right )
 		{
 			if ( !right || right[0] == '\0' )
 				return (*this);
 
-			(*this) += String< tCharType >( right );
+			(*this) += tString( right );
 			return (*this);
 		}
 
-		String< tCharType > &operator+=( const std::string &right )
+		tString &operator+=( const std::string &right )
 		{
 			if ( right.empty() )
 				return (*this);
 
-			(*this) += String< tCharType >( right );
+			(*this) += tString( right );
 			return (*this);
 		}
 
 		// Streamify these strings
-		String< tCharType > &operator<<( bool val )
+		tString &operator<<( bool val )
 		{
 			return addToStream< bool >( val );
 		}
 
-		String< tCharType > &operator<<( char val )
+		tString &operator<<( char val )
 		{
 			return addToStream< char >( val );
 		}
 
-		String< tCharType > &operator<<( unsigned char val )
+		tString &operator<<( unsigned char val )
 		{
 			return addToStream< unsigned char >( val );
 		}
 
-		String< tCharType > &operator<<( short val )
+		tString &operator<<( short val )
 		{
 			return addToStream< short >( val );
 		}
 
-		String< tCharType > &operator<<( unsigned short val )
+		tString &operator<<( unsigned short val )
 		{
 			return addToStream< unsigned short >( val );
 		}
 
-		String< tCharType > &operator<<( int val )
+		tString &operator<<( int val )
 		{
 			return addToStream< int >( val );
 		}
 
-		String< tCharType > &operator<<( unsigned int val )
+		tString &operator<<( unsigned int val )
 		{
 			return addToStream< unsigned int >( val );
 		}
 
-		String< tCharType > &operator<<( long val )
+		tString &operator<<( long val )
 		{
 			return addToStream< long >( val );
 		}
 
-		String< tCharType > &operator<<( unsigned long val )
+		tString &operator<<( unsigned long val )
 		{
 			return addToStream< unsigned long >( val );
 		}
 
-		String< tCharType > &operator<<( float val )
+		tString &operator<<( float val )
 		{
 			return addToStream< float >( val );
 		}
 
-		String< tCharType > &operator<<( double val )
+		tString &operator<<( double val )
 		{
 			return addToStream< double >( val );
 		}
 
-		String< tCharType > &operator<<( const char *right )
+		tString &operator<<( const char *right )
 		{
 			return ((*this) += right);
 		}
 
-		String< tCharType > &operator<<( const std::string &right )
+		tString &operator<<( const std::string &right )
 		{
 			return ((*this) += right);
 		}
@@ -338,7 +341,7 @@ namespace AnsiGL
 			if ( length() != right.length() )
 				return false;
 
-			String< tCharType >::const_iterator CurChar;
+			const_iterator CurChar;
 			std::string::const_iterator CurOther;
 
 			for ( CurChar = begin(), CurOther = right.begin(); CurChar != end() && CurOther != right.end(); ++CurChar, ++CurOther )
@@ -371,7 +374,7 @@ namespace AnsiGL
 		virtual std::string Render() const				// Renders to a standard std::string
 		{
 			std::stringstream RenderedStr("");
-			typename String< tCharType >::const_iterator CurChar;
+			const_iterator CurChar;
 
 			for ( CurChar = begin(); CurChar != end(); ++CurChar )
 				RenderedStr << (*CurChar);
@@ -391,7 +394,7 @@ namespace AnsiGL
 			if ( _String.empty() )
 				return LineCount;
 
-			typename String< tCharType >::iterator CurChar;
+			iterator CurChar;
 
 			for ( CurChar = begin(); CurChar != end(); ++CurChar )
 			{
@@ -669,12 +672,17 @@ namespace AnsiGL
 
 		astring &operator<<( const char *right )
 		{
-			return ((*this) += right );
+			return ((*this) += right);
 		}
 
 		astring &operator<<( const ustring &right )
 		{
-			return ((*this) += right );
+			return ((*this) += right);
+		}
+
+		astring &operator<<( const astring &right )
+		{
+			return ((*this) += right);
 		}
 
 		bool operator==( const astring &right ) const;
