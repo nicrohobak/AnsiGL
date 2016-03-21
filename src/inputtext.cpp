@@ -71,10 +71,10 @@ namespace AnsiGL
 			++ExtraLineSpacing;
 
 		// Put the input at the bottom of the window, on top of the border
-		_Input->MoveTo( Point2D(1, _Layout->Height() - _Input->Height() - ExtraLineSpacing) );
+		_Input->MoveTo( Point2D(0, _Layout->Height() - _Input->Height() - ExtraLineSpacing) );
 
 		// And move our cursor to where it's needed
-		_Cursor->MoveTo( Point2D((_Input->Length() % _Input->Width()) + 1, _Layout->Height() - 1) );
+		_Cursor->MoveTo( Point2D(_Input->LastLineLength(), _Layout->Height() - 1) );
 	}
 
 	bool InputText::CapturingColor() const

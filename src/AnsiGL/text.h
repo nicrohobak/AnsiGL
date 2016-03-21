@@ -33,7 +33,8 @@ namespace AnsiGL
 			TransparentSpaces( false ),
 			_Text( "" ),
 			_Alignment( TxtAlign_Default ),
-			_ColorDepth( ColorDepth_Default )
+			_ColorDepth( ColorDepth_Default ),
+			_LastLineLength( 0 )
 		{
 			this->Resize( Area2D(1, 1) );
 			this->Format();
@@ -48,7 +49,8 @@ namespace AnsiGL
 			TransparentSpaces( transparentSpaces ),
 			_Text( "" ),
 			_Alignment( alignment ),
-			_ColorDepth( colorDepth )
+			_ColorDepth( colorDepth ),
+			_LastLineLength( 0 )
 		{
 			this->Width( width );
 			this->Format();
@@ -64,7 +66,8 @@ namespace AnsiGL
 			TransparentSpaces( transparentSpaces ),
 			_Text( text ),
 			_Alignment( alignment ),
-			_ColorDepth( colorDepth )
+			_ColorDepth( colorDepth ),
+			_LastLineLength( 0 )
 		{
 			if ( width == 0 )
 				this->Width( text.length() );
@@ -84,7 +87,8 @@ namespace AnsiGL
 			TransparentSpaces( transparentSpaces ),
 			_Text( astring(text) ),
 			_Alignment( alignment ),
-			_ColorDepth( colorDepth )
+			_ColorDepth( colorDepth ),
+			_LastLineLength( 0 )
 		{
 			if ( width == 0 )
 				this->Width( text.length() );
@@ -104,7 +108,8 @@ namespace AnsiGL
 			TransparentSpaces( transparentSpaces ),
 			_Text( astring(text) ),
 			_Alignment( alignment ),
-			_ColorDepth( colorDepth )
+			_ColorDepth( colorDepth ),
+			_LastLineLength( 0 )
 		{
 			if ( width == 0 )
 				this->Width( text.length() );
@@ -159,6 +164,7 @@ namespace AnsiGL
 		}
 
 		virtual void Format();
+		tSizeType LastLineLength() const;			// Returns the length of the last line in the formatted text
 
 		const astring &Value() const;
 		const astring &FormattedValue() const;
@@ -216,6 +222,8 @@ namespace AnsiGL
 
 		ENUM_TxtAlign	_Alignment;
 		ENUM_ColorDepth	_ColorDepth;
+
+		tSizeType		_LastLineLength;
 
 	protected:
 		template <typename tDataType>

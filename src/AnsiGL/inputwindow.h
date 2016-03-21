@@ -26,7 +26,7 @@ namespace AnsiGL
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );
-			_Layout->AddContent( _Input, Point3D(0, _Layout->Height() - 1, 5) );
+			_Layout->AddContent( _Input, Point3D(1, _Layout->Height() - 1, 5) );
 			_Layout->AddContent( _Prompt, Point3D(0, _Layout->Height() - 1, 5) );
 		}
 
@@ -42,7 +42,7 @@ namespace AnsiGL
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );
-			_Layout->AddContent( _Input, Point3D(0, _Layout->Height() - 1, 5) );
+			_Layout->AddContent( _Input, Point3D(1, _Layout->Height() - 1, 5) );
 			_Layout->AddContent( _Prompt, Point3D(0, _Layout->Height() - 1, 5) );
 		}
 

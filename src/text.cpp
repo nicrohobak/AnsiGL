@@ -13,21 +13,34 @@ namespace AnsiGL
 	void Text::Format()
 	{
 		_FormattedText = _Text.Format( _Size.Width(), _Alignment );
+		_LastLineLength = 0;
+
+		tSizeType NumLines = 1;
+
+		// Check for newlines, and count our last line's length
+		for ( auto CurChar = _FormattedText.begin(), CurChar_end = _FormattedText.end(); CurChar != CurChar_end; ++CurChar )
+		{
+			if ( (*CurChar) == '\n' )
+			{
+				++NumLines;
+				_LastLineLength = 0;
+				continue;
+			}
+
+			++_LastLineLength;
+
+			if ( _LastLineLength == _Size.Width() )
+				_LastLineLength = 0;
+		}
 
 		// If AutoHeight is on, adjust our height based on the number of newlines we have
 		if ( AutoHeight )
-		{
-			astring::const_iterator CurChar;
-			tSizeType NumLines = 1;
-
-			for ( CurChar = _FormattedText.begin(); CurChar != _FormattedText.end(); ++CurChar )
-			{
-				if ( (*CurChar) == '\n' )
-					++NumLines;
-			}
-
 			Content::Height( NumLines );
-		}
+	}
+
+	tSizeType Text::LastLineLength() const
+	{
+		return _LastLineLength;
 	}
 
 	const astring &Text::Value() const
