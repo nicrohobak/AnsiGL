@@ -18,6 +18,11 @@ namespace AnsiGL
 	public:
 		ANSIGL_POINTERS( Text )
 
+		typedef astring::iterator				iterator;
+		typedef astring::const_iterator			const_iterator;
+		typedef astring::reverse_iterator		reverse_iterator;
+		typedef astring::const_reverse_iterator	const_reverse_iterator;
+
 	public:
 		bool			AutoHeight;					// Automatically adjusts the height based on the formatted text
 		bool			TransparentSpaces;
@@ -31,7 +36,7 @@ namespace AnsiGL
 			_ColorDepth( ColorDepth_Default )
 		{
 			this->Resize( Area2D(1, 1) );
-			this->format();
+			this->Format();
 		}
 
 		Text( tSizeType width,						// A width of 0 is unlimited
@@ -46,7 +51,7 @@ namespace AnsiGL
 			_ColorDepth( colorDepth )
 		{
 			this->Width( width );
-			this->format();
+			this->Format();
 		}
 
 		Text( const astring &text,
@@ -66,7 +71,7 @@ namespace AnsiGL
 			else
 				this->Width( width );
 
-			this->format();
+			this->Format();
 		}
 
 		Text( const ustring &text,
@@ -86,7 +91,7 @@ namespace AnsiGL
 			else
 				this->Width( width );
 
-			this->format();
+			this->Format();
 		}
 
 		Text( const std::string &text,
@@ -106,12 +111,54 @@ namespace AnsiGL
 			else
 				this->Width( width );
 
-			this->format();
+			this->Format();
 		}
 
 		virtual ~Text()
 		{
 		}
+
+		iterator begin()
+		{
+			return _Text.begin();
+		}
+
+		const_iterator begin() const
+		{
+			return _Text.begin();
+		}
+
+		reverse_iterator rbegin()
+		{
+			return _Text.rbegin();
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return _Text.rbegin();
+		}
+
+		iterator end()
+		{
+			return _Text.end();
+		}
+
+		const_iterator end() const
+		{
+			return _Text.end();
+		}
+
+		reverse_iterator rend()
+		{
+			return _Text.rend();
+		}
+
+		const_reverse_iterator rend() const
+		{
+			return _Text.rend();
+		}
+
+		virtual void Format();
 
 		const astring &Value() const;
 		const astring &FormattedValue() const;
@@ -179,8 +226,6 @@ namespace AnsiGL
 			this->Append( Buffer.str() );
 			return (*this);
 		}
-
-		virtual void format();
 	};
 }
 

@@ -10,6 +10,26 @@
 
 namespace AnsiGL
 {
+	void Text::Format()
+	{
+		_FormattedText = _Text.Format( _Size.Width(), _Alignment );
+
+		// If AutoHeight is on, adjust our height based on the number of newlines we have
+		if ( AutoHeight )
+		{
+			astring::const_iterator CurChar;
+			tSizeType NumLines = 1;
+
+			for ( CurChar = _FormattedText.begin(); CurChar != _FormattedText.end(); ++CurChar )
+			{
+				if ( (*CurChar) == '\n' )
+					++NumLines;
+			}
+
+			Content::Height( NumLines );
+		}
+	}
+
 	const astring &Text::Value() const
 	{
 		return _Text;
@@ -23,43 +43,43 @@ namespace AnsiGL
 	void Text::Value( const astring &text )
 	{
 		_Text = text;
-		this->format();
+		this->Format();
 	}
 
 	void Text::Value( const ustring &text )
 	{
 		_Text = astring( text );
-		this->format();
+		this->Format();
 	}
 
 	void Text::Value( const std::string &text )
 	{
 		_Text = astring( text );
-		this->format();
+		this->Format();
 	}
 
 	void Text::Append( const astring &text )
 	{
 		_Text.append( text );
-		this->format();
+		this->Format();
 	}
 
 	void Text::Append( const ustring &text )
 	{
 		_Text.append( astring(text) );
-		this->format();
+		this->Format();
 	}
 
 	void Text::Append( const std::string &text )
 	{
 		_Text.append( astring(text) );
-		this->format();
+		this->Format();
 	}
 
 	void Text::Append( const achar &ch )
 	{
 		_Text.push_back( ch );
-		this->format();
+		this->Format();
 	}
 
 	bool Text::empty() const
@@ -78,7 +98,7 @@ namespace AnsiGL
 			return;
 
 		_Text.pop_back();
-		this->format();
+		this->Format();
 	}
 
 	void Text::Clear()
@@ -98,7 +118,7 @@ namespace AnsiGL
 	void Text::Align( ENUM_TxtAlign align )
 	{
 		_Alignment = align;
-		this->format();
+		this->Format();
 	}
 
 	tSizeType Text::Length() const
@@ -114,7 +134,7 @@ namespace AnsiGL
 	void Text::Width( tSizeType width )
 	{
 		Content::Width( width );
-		this->format();
+		this->Format();
 	}
 
 	const tSizeType Text::Height() const
@@ -130,7 +150,7 @@ namespace AnsiGL
 	void Text::Resize( const Area2D &size )
 	{
 		Content::Resize( size );
-		this->format();
+		this->Format();
 	}
 
 	std::string Text::str()
@@ -239,26 +259,6 @@ namespace AnsiGL
 	{
 		this->Append( right );
 		return *this;
-	}
-
-	void Text::format()
-	{
-		_FormattedText = _Text.Format( _Size.Width(), _Alignment );
-
-		// If AutoHeight is on, adjust our height based on the number of newlines we have
-		if ( AutoHeight )
-		{
-			astring::const_iterator CurChar;
-			tSizeType NumLines = 1;
-
-			for ( CurChar = _FormattedText.begin(); CurChar != _FormattedText.end(); ++CurChar )
-			{
-				if ( (*CurChar) == '\n' )
-					++NumLines;
-			}
-
-			Content::Height( NumLines );
-		}
 	}
 }
 

@@ -21,8 +21,10 @@ namespace AnsiGL
 	public:
 		InputWindow():
 			_Enabled( true ),
+			_CaptureColor( false ),
+			_CaptureColorList( false ),
 			_Input( std::make_shared< Text >("") ),
-			_Cursor( std::make_shared< Text >("^:_") ),			// Blinky cursor...
+			_Cursor( std::make_shared< Text >("^:_") ),		// Blinky cursor...
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );
@@ -40,8 +42,10 @@ namespace AnsiGL
 					 const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
 			TextWindow( windowTitle, windowSize, maxLines, alignment, newAtBottom, viewportPos, transparentSpaces ),
 			_Enabled( true ),
+			_CaptureColor( false ),
+			_CaptureColorList( false ),
 			_Input( std::make_shared< Text >("") ),
-			_Cursor( std::make_shared< Text >("^:_") ),			// Blinky cursor...
+			_Cursor( std::make_shared< Text >("^:_") ),		// Blinky cursor...
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );
@@ -58,6 +62,9 @@ namespace AnsiGL
 		virtual bool Enabled() const;
 		virtual void Enabled( bool enabled );
 
+		bool CapturingColor() const;						// Returns 'true' if we're currently capturing a color sequence
+		void CancelColorCapture();							// Cancels the current, in-progress color sequence
+
 		virtual void Clear();
 		virtual void ClearContents();
 		virtual void ClearInput();
@@ -68,14 +75,21 @@ namespace AnsiGL
 		virtual void InputLine( const astring &line );		// Appends a line to the input
 
 	protected:
-		bool		_Enabled;
+		bool			_Enabled;
 
-		Text::Ptr	_Input;
-		Text::Ptr	_Cursor;
-		Text::Ptr	_Prompt;
+		bool			_CaptureColor;
+		bool			_CaptureColorList;
+		std::string		_ColorBuffer;
+		achar			_CurColor;
+		unsigned int	_RemoveChars;
+
+		Text::Ptr		_Input;
+		Text::Ptr		_Cursor;
+		Text::Ptr		_Prompt;
 
 	protected:
 		virtual void updateWindow();
+		void setCursorColor();
 	};
 }
 

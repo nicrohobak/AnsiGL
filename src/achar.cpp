@@ -321,6 +321,14 @@ namespace AnsiGL
 			CurANSIState.Bell = false;		// Clear the bell each time so it isn't painted more than we actually want
 		}
 
+		// If we're just a color sequence with no glyph, make our glyph a space
+		if ( ConvertedStr.empty() )
+		{
+			CurAChar = CurANSIState;
+			CurAChar.Glyph( ' ' );
+			ConvertedStr.push_back( CurAChar );
+		}
+
 		return ConvertedStr;
 	}
 

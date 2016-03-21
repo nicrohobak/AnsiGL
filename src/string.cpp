@@ -238,6 +238,18 @@ namespace AnsiGL
 		return (*this);
 	}
 
+	astring &astring::operator+=( const uchar &right )
+	{
+		push_back( achar(right) );
+		return (*this);
+	}
+
+	astring &astring::operator+=( const achar &right )
+	{
+		push_back( achar(right) );
+		return (*this);
+	}
+
 	astring &astring::operator+=( const astring &right )
 	{
 		if ( right.empty() )

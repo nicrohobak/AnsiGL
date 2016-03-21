@@ -644,6 +644,8 @@ namespace AnsiGL
 		astring &operator=( const ustring &right );
 		astring &operator+=( const ustring &right );
 
+		astring &operator+=( const uchar &right );
+		astring &operator+=( const achar &right );
 		astring &operator+=( const astring &right );
 
 		astring &operator<<( void *val )
@@ -707,6 +709,16 @@ namespace AnsiGL
 		}
 
 		astring &operator<<( const char *right )
+		{
+			return ((*this) += right);
+		}
+
+		astring &operator<<( const uchar &right )
+		{
+			return ((*this) += right);
+		}
+
+		astring &operator<<( const achar &right )
 		{
 			return ((*this) += right);
 		}
