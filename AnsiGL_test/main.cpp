@@ -24,7 +24,7 @@ int main()
 	// The AnsiGL way to ncurses::initscr()
 	// Handles ncurses initialization for us, and handles cleanup upon deconstruction
 	//
-	AnsiGL::ncurses::Ptr ncurses = std::make_shared< AnsiGL::ncurses >();;
+	AnsiGL::ncurses::Ptr ncurses = std::make_shared< AnsiGL::ncurses >();
 
 
 	// Prepare viewport parameters for a context...

@@ -10,8 +10,6 @@
 #include "AnsiGL/inputwindow.h"
 
 
-#include <iostream>
-
 namespace AnsiGL
 {
 	bool InputWindow::Enabled() const
