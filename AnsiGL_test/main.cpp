@@ -186,54 +186,54 @@ int main()
 		{
 			case 't':
 			case 'T':
-			{
-				std::uniform_int_distribution<> NumLines(1, 5);
-
-				switch ( NumLines(gen) )
 				{
-				case 1:
-					TestTextWindow->AddLine( AnsiGL::astring("My ^Gg^Wo^Yd^C!^D  It's full of ^Ystars^W!") );
-					TestTextWindow->Align( AnsiGL::TxtAlign_Left );
-					break;
+					std::uniform_int_distribution<> NumLines(1, 5);
 
-				case 2:
-					TestTextWindow->AddLine( AnsiGL::astring("How'd all those ^Bf^Cis^Bh^D get up here?") );
-					TestTextWindow->Align( AnsiGL::TxtAlign_Center );
-					break;
+					switch ( NumLines(gen) )
+					{
+						case 1:
+							TestTextWindow->AddLine( AnsiGL::astring("My ^Gg^Wo^Yd^C!^D  It's full of ^Ystars^W!") );
+							TestTextWindow->Align( AnsiGL::TxtAlign_Left );
+							break;
 
-				case 3:
-					TestTextWindow->AddLine( AnsiGL::astring("I'm a very female ^rd^Rr^ya^Yg^Ro^rn.") );
-					TestTextWindow->Align( AnsiGL::TxtAlign_Right );
-					break;
+						case 2:
+							TestTextWindow->AddLine( AnsiGL::astring("How'd all those ^Bf^Cis^Bh^D get up here?") );
+							TestTextWindow->Align( AnsiGL::TxtAlign_Center );
+							break;
 
-				case 4:
-					TestTextWindow->AddLine( AnsiGL::astring("I've got a ^Wpeaceful^D, ^ceasy^D feeling.") );
-					break;
+						case 3:
+							TestTextWindow->AddLine( AnsiGL::astring("I'm a very female ^rd^Rr^ya^Yg^Ro^rn.") );
+							TestTextWindow->Align( AnsiGL::TxtAlign_Right );
+							break;
 
-				case 5:
-				default:
-					TestTextWindow->AddLine( AnsiGL::astring("^KPuff's sayings may be (C) CircleMUD, but I honestly couldn't say for sure...") );
+						case 4:
+							TestTextWindow->AddLine( AnsiGL::astring("I've got a ^Wpeaceful^D, ^ceasy^D feeling.") );
+							break;
+
+						case 5:
+						default:
+							TestTextWindow->AddLine( AnsiGL::astring("^KPuff's sayings may be (C) CircleMUD, but I honestly couldn't say for sure...") );
+							break;
+					}
+
+					if ( ++CurLineCount > 10 )
+						TestTextWindow->WordWrap( true );
+
+					std::stringstream CounterLine;
+					CounterLine << "Line Count: " << CurLineCount;
+					LineCounter->Value( CounterLine.str() );
 					break;
 				}
 
-				if ( ++CurLineCount > 10 )
-					TestTextWindow->WordWrap( true );
-
-				std::stringstream CounterLine;
-				CounterLine << "Line Count: " << CurLineCount;
-				LineCounter->Value( CounterLine.str() );
-				break;
-			}
-
 			case 'c':
 			case 'C':
-			{
-				CurLineCount = 0;
-				TestTextWindow->Clear();
-				TestTextWindow->WordWrap( false );
-				LineCounter->Value( "Line Count: 0" );
-				break;
-			}
+				{
+					CurLineCount = 0;
+					TestTextWindow->Clear();
+					TestTextWindow->WordWrap( false );
+					LineCounter->Value( "Line Count: 0" );
+					break;
+				}
 
 			case KEY_UP:
 			case 'w':
@@ -316,20 +316,20 @@ int main()
 				break;
 
 			case '\n':
-			{
-				if ( TestTextWindow->Enabled() )
 				{
-					AnsiGL::astring TxtMsg( "Input) " );
-					TxtMsg << TestTextWindow->CurInput().Value();
-					TestTextWindow->AddLine( TxtMsg );
-					TestTextWindow->ClearInput();
+					if ( TestTextWindow->Enabled() )
+					{
+						AnsiGL::astring TxtMsg( "Input) " );
+						TxtMsg << TestTextWindow->CurInput().Value();
+						TestTextWindow->AddLine( TxtMsg );
+						TestTextWindow->ClearInput();
 
-					std::stringstream CounterLine;
-					CounterLine << "Line Count: " << ++CurLineCount;
-					LineCounter->Value( CounterLine.str() );
+						std::stringstream CounterLine;
+						CounterLine << "Line Count: " << ++CurLineCount;
+						LineCounter->Value( CounterLine.str() );
+					}
+					break;
 				}
-				break;
-			}
 
 			default:
 				TestTextWindow->InputChar( ch );
@@ -373,6 +373,6 @@ int main()
 
 
 // vim: tabstop=4 shiftwidth=4
-// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --indent-switches --pad-oper
 
 

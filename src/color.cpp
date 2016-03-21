@@ -402,27 +402,27 @@ namespace AnsiGL
 			(*CurColor)->Inverted = !(*CurColor)->Inverted;
 	}
 
-/*
-    std::string ColorPalette::Render()
-    {
-		std::stringstream RenderedStr("");
+	/*
+	    std::string ColorPalette::Render()
+	    {
+			std::stringstream RenderedStr("");
 
-		ColorPalette::iterator CurColor;
+			ColorPalette::iterator CurColor;
 
-		RenderedStr << "\033[" << ANSI_Default;		// ANSI Code Begin and reset all ANSI attributes
+			RenderedStr << "\033[" << ANSI_Default;		// ANSI Code Begin and reset all ANSI attributes
 
-		for ( CurColor = begin(); CurColor != end(); ++CurColor )
-		    RenderedStr << ';' << CurColor->Render();
+			for ( CurColor = begin(); CurColor != end(); ++CurColor )
+			    RenderedStr << ';' << CurColor->Render();
 
-		RetStr << 'm';		// ANSI Code End
+			RetStr << 'm';		// ANSI Code End
 
-		return RenderedStr.str();
-    }
-*/
+			return RenderedStr.str();
+	    }
+	*/
 }
 
 
 // vim: tabstop=4 shiftwidth=4
-// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --indent-switches --pad-oper
 
 

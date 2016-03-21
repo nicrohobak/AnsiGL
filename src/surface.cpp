@@ -335,48 +335,48 @@ namespace AnsiGL
 			{
 				switch ( CurChar->Glyph()[0] )
 				{
-				case '\n':
-					CurPos.IncY();
-					break;
+					case '\n':
+						CurPos.IncY();
+						break;
 
-				case '\r':
-					CurPos.X( pos.X() );
-					break;
+					case '\r':
+						CurPos.X( pos.X() );
+						break;
 
-				case '\t':
-					{
-						int CurColumn = CurPos.X() - pos.X();
-						int NumSpaces = 0;
-						Space.Color = CurColor;
-
-						if ( CurColumn < TabSize )
-							NumSpaces = TabSize - CurColumn;
-						else
-							NumSpaces = TabSize - (CurColumn % TabSize);
-
-						for ( int i = 0; i < NumSpaces; ++i )
+					case '\t':
 						{
-							DrawChar( Space, CurPos, transparentSpaces );
-							CurPos.IncX();
+							int CurColumn = CurPos.X() - pos.X();
+							int NumSpaces = 0;
+							Space.Color = CurColor;
+
+							if ( CurColumn < TabSize )
+								NumSpaces = TabSize - CurColumn;
+							else
+								NumSpaces = TabSize - (CurColumn % TabSize);
+
+							for ( int i = 0; i < NumSpaces; ++i )
+							{
+								DrawChar( Space, CurPos, transparentSpaces );
+								CurPos.IncX();
+							}
+
+							break;
 						}
 
-						break;
-					}
+					case ' ':
+						{
+							Space.Color = CurColor;
+							DrawChar( Space, CurPos, transparentSpaces );
+							CurPos.IncX();
+							break;
+						}
 
-				case ' ':
-					{
-						Space.Color = CurColor;
-						DrawChar( Space, CurPos, transparentSpaces );
-						CurPos.IncX();
-						break;
-					}
-
-				default:
-					{
-						DrawChar( *CurChar, CurPos );
-						CurPos.IncX();
-						break;
-					}
+					default:
+						{
+							DrawChar( *CurChar, CurPos );
+							CurPos.IncX();
+							break;
+						}
 				}
 			}
 			else // Unicode character
@@ -410,38 +410,38 @@ namespace AnsiGL
 			{
 				switch ( CurChar->Glyph()[0] )
 				{
-				case '\n':
-					CurPos.IncX();
-					break;
+					case '\n':
+						CurPos.IncX();
+						break;
 
-				case '\r':
-					CurPos.Y( pos.Y() );
-					break;
+					case '\r':
+						CurPos.Y( pos.Y() );
+						break;
 
-				case '\t':
-					{
-						int CurRow = CurPos.Y() - pos.Y();
-						int NumSpaces = 0;
-						int VTabSize = TabSize / 2;
-
-						if ( CurRow < VTabSize )
-							NumSpaces = VTabSize - CurRow;
-						else
-							NumSpaces = VTabSize - (CurRow % VTabSize);
-
-						for ( int i = 0; i < NumSpaces; ++i )
+					case '\t':
 						{
-							DrawChar( Space, CurPos, transparentSpaces );
-							CurPos.IncY();
+							int CurRow = CurPos.Y() - pos.Y();
+							int NumSpaces = 0;
+							int VTabSize = TabSize / 2;
+
+							if ( CurRow < VTabSize )
+								NumSpaces = VTabSize - CurRow;
+							else
+								NumSpaces = VTabSize - (CurRow % VTabSize);
+
+							for ( int i = 0; i < NumSpaces; ++i )
+							{
+								DrawChar( Space, CurPos, transparentSpaces );
+								CurPos.IncY();
+							}
+
+							break;
 						}
 
+					default:
+						DrawChar( *CurChar, CurPos, transparentSpaces );
+						CurPos.IncY();
 						break;
-					}
-
-				default:
-					DrawChar( *CurChar, CurPos, transparentSpaces );
-					CurPos.IncY();
-					break;
 				}
 			}
 			else // Unicode character
@@ -582,6 +582,6 @@ namespace AnsiGL
 
 
 // vim: tabstop=4 shiftwidth=4
-// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --indent-switches --pad-oper
 
 

@@ -126,37 +126,37 @@ namespace AnsiGL
 					break;
 
 				case COLOR_LIST_END_CHAR:
-				{
-					_ColorBuffer.push_back( Glyph );
-
-					achar ColorCh( _ColorBuffer );
-					_CurColor.Color = ColorCh.Color;
-					setCursorColor();
-
-					CancelColorCapture();
-					break;
-				}
-
-				default:
-				{
-					_ColorBuffer.push_back( Glyph );
-
-					if ( _CaptureColorList )
 					{
-						// Update our UI, and make note that we should remove this character later
-						*_Input << Glyph;
-						++_RemoveChars;
-						this->updateWindow();
+						_ColorBuffer.push_back( Glyph );
+
+						achar ColorCh( _ColorBuffer );
+						_CurColor.Color = ColorCh.Color;
+						setCursorColor();
+
+						CancelColorCapture();
 						break;
 					}
 
-					achar ColorCh( _ColorBuffer );
-					_CurColor.Color = ColorCh.Color;
-					setCursorColor();
+				default:
+					{
+						_ColorBuffer.push_back( Glyph );
 
-					CancelColorCapture();
-					break;
-				}
+						if ( _CaptureColorList )
+						{
+							// Update our UI, and make note that we should remove this character later
+							*_Input << Glyph;
+							++_RemoveChars;
+							this->updateWindow();
+							break;
+						}
+
+						achar ColorCh( _ColorBuffer );
+						_CurColor.Color = ColorCh.Color;
+						setCursorColor();
+
+						CancelColorCapture();
+						break;
+					}
 			}
 
 			return;
@@ -187,7 +187,7 @@ namespace AnsiGL
 				*_Input << NewCh;
 				break;
 		}
-	
+
 		this->updateWindow();
 	}
 
@@ -226,6 +226,6 @@ namespace AnsiGL
 
 
 // vim: tabstop=4 shiftwidth=4
-// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --indent-switches --pad-oper
 
 

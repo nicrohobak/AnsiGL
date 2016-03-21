@@ -37,46 +37,46 @@ namespace AnsiGL
 
 			switch ( i )
 			{
-			// 8-bit not supported here...not enough info at this scope
-			case ANSI_FG_256Color:
-			case ANSI_BG_256Color:
-				break;
+				// 8-bit not supported here...not enough info at this scope
+				case ANSI_FG_256Color:
+				case ANSI_BG_256Color:
+					break;
 
-			case ANSI_BoldOn:
-			case ANSI_BoldOff:
-			case ANSI_FaintOn:
-			case ANSI_NormalIntensity:
-				{
-					// These particular codes don't really do anything in this one mode
-					if ( !background && desiredDepth != ColorDepth_6Bit )
+				case ANSI_BoldOn:
+				case ANSI_BoldOff:
+				case ANSI_FaintOn:
+				case ANSI_NormalIntensity:
+					{
+						// These particular codes don't really do anything in this one mode
+						if ( !background && desiredDepth != ColorDepth_6Bit )
+						{
+							if ( !FirstAttribute )
+								RenderedStr << ANSI_CODE_SEPARATOR;
+							else
+								FirstAttribute = false;
+
+							RenderedStr << i;
+						}
+
+						break;
+					}
+
+				default:
 					{
 						if ( !FirstAttribute )
 							RenderedStr << ANSI_CODE_SEPARATOR;
 						else
 							FirstAttribute = false;
 
-						RenderedStr << i;
+						if ( background && (i >= ANSI_FG_Start && i <= ANSI_FG_End) )
+							RenderedStr << (i + ANSI_BG_OFFSET);
+						else if ( !background && (i >= ANSI_BG_Start && i <= ANSI_BG_End) )
+							RenderedStr << (i - ANSI_BG_OFFSET);
+						else
+							RenderedStr << i;
+
+						break;
 					}
-
-					break;
-				}
-
-			default:
-				{
-					if ( !FirstAttribute )
-						RenderedStr << ANSI_CODE_SEPARATOR;
-					else
-						FirstAttribute = false;
-
-					if ( background && (i >= ANSI_FG_Start && i <= ANSI_FG_End) )
-						RenderedStr << (i + ANSI_BG_OFFSET);
-					else if ( !background && (i >= ANSI_BG_Start && i <= ANSI_BG_End) )
-						RenderedStr << (i - ANSI_BG_OFFSET);
-					else
-						RenderedStr << i;
-
-					break;
-				}
 			}
 		}
 
@@ -117,72 +117,72 @@ namespace AnsiGL
 
 		switch ( color )
 		{
-		case ANSISysColor_BoldBlack:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_Black:
-			_ANSI.Add( ANSI_FG_Black );
-			_Index = 0;
-			break;
+			case ANSISysColor_BoldBlack:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_Black:
+				_ANSI.Add( ANSI_FG_Black );
+				_Index = 0;
+				break;
 
-		case ANSISysColor_BoldRed:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_Red:
-			_ANSI.Add( ANSI_FG_Red );
-			_Index = 1;
-			break;
+			case ANSISysColor_BoldRed:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_Red:
+				_ANSI.Add( ANSI_FG_Red );
+				_Index = 1;
+				break;
 
-		case ANSISysColor_BoldGreen:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_Green:
-			_ANSI.Add( ANSI_FG_Green );
-			_Index = 2;
-			break;
+			case ANSISysColor_BoldGreen:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_Green:
+				_ANSI.Add( ANSI_FG_Green );
+				_Index = 2;
+				break;
 
-		case ANSISysColor_BoldYellow:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_Yellow:
-			_ANSI.Add( ANSI_FG_Yellow );
-			_Index = 3;
-			break;
+			case ANSISysColor_BoldYellow:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_Yellow:
+				_ANSI.Add( ANSI_FG_Yellow );
+				_Index = 3;
+				break;
 
-		case ANSISysColor_BoldBlue:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_Blue:
-			_ANSI.Add( ANSI_FG_Blue );
-			_Index = 4;
-			break;
+			case ANSISysColor_BoldBlue:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_Blue:
+				_ANSI.Add( ANSI_FG_Blue );
+				_Index = 4;
+				break;
 
-		case ANSISysColor_BoldMagenta:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_Magenta:
-			_ANSI.Add( ANSI_FG_Magenta );
-			_Index = 5;
-			break;
+			case ANSISysColor_BoldMagenta:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_Magenta:
+				_ANSI.Add( ANSI_FG_Magenta );
+				_Index = 5;
+				break;
 
-		case ANSISysColor_BoldCyan:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_Cyan:
-			_ANSI.Add( ANSI_FG_Cyan );
-			_Index = 6;
-			break;
+			case ANSISysColor_BoldCyan:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_Cyan:
+				_ANSI.Add( ANSI_FG_Cyan );
+				_Index = 6;
+				break;
 
-		case ANSISysColor_BoldWhite:
-			Bold = true;				// Make note that we're bold so we can set our index, then...
-			_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
-		case ANSISysColor_White:
-			_ANSI.Add( ANSI_FG_White );
-			_Index = 7;
-			break;
+			case ANSISysColor_BoldWhite:
+				Bold = true;				// Make note that we're bold so we can set our index, then...
+				_ANSI.Add( ANSI_BoldOn );	// Intentional fall-through to set the color
+			case ANSISysColor_White:
+				_ANSI.Add( ANSI_FG_White );
+				_Index = 7;
+				break;
 
-		default:
-			break;
+			default:
+				break;
 		}
 
 		// Bold characters are simply 8 above their non-bold counterparts in 256 color mode
@@ -579,6 +579,6 @@ namespace AnsiGL
 
 
 // vim: tabstop=4 shiftwidth=4
-// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --indent-switches --pad-oper
 
 

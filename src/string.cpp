@@ -406,81 +406,81 @@ namespace AnsiGL
 				switch ( CheckChar )
 				{
 					case ' ':
-					{
-						// Check to see if a space will fit on the line too, if not do the newline process, otherwise add the space
-						if ( CurLineLength + 1 > lineWidth )
 						{
-							CurLine.addNewline( lineWidth, align, newlineOnly );
-							FormattedStr.append( CurLine );
-							CurLine.clear();
-							CurLineLength = 0;
-						}
-						else
-						{
-							CurLine.append( " " );
-							++CurLineLength;
-						}
+							// Check to see if a space will fit on the line too, if not do the newline process, otherwise add the space
+							if ( CurLineLength + 1 > lineWidth )
+							{
+								CurLine.addNewline( lineWidth, align, newlineOnly );
+								FormattedStr.append( CurLine );
+								CurLine.clear();
+								CurLineLength = 0;
+							}
+							else
+							{
+								CurLine.append( " " );
+								++CurLineLength;
+							}
 
-						break;
-					}
+							break;
+						}
 
 					case '\t':
-					{
-						// Fill up a temp string with tabSize spaces
-						std::string TabStr( tabSize, ' ' );
-
-						// Check to see if the tab will fit, if not do the newline process, otherwise add the tab
-						if ( CurLineLength + tabSize > lineWidth )
 						{
+							// Fill up a temp string with tabSize spaces
+							std::string TabStr( tabSize, ' ' );
+
+							// Check to see if the tab will fit, if not do the newline process, otherwise add the tab
+							if ( CurLineLength + tabSize > lineWidth )
+							{
+								CurLine.addNewline( lineWidth, align, newlineOnly );
+								FormattedStr.append( CurLine );
+								CurLine.clear();
+								CurLineLength = 0;
+							}
+							else
+							{
+								CurLine.append( TabStr );
+								CurLineLength += tabSize;
+							}
+
+							break;
+						}
+
+					case '\n':
+						{
+							// Check to see if the next character is '\r', if so, skip over it
+							const_iterator NextChar = CurChar;
+
+							if ( NextChar == end() )
+								break;
+
+							if ( ++NextChar != end() && NextChar->Glyph().c_str()[0] == '\r' )
+								++CurChar;
+
 							CurLine.addNewline( lineWidth, align, newlineOnly );
 							FormattedStr.append( CurLine );
 							CurLine.clear();
 							CurLineLength = 0;
-						}
-						else
-						{
-							CurLine.append( TabStr );
-							CurLineLength += tabSize;
-						}
-
-						break;
-					}
-
-					case '\n':
-					{
-						// Check to see if the next character is '\r', if so, skip over it
-						const_iterator NextChar = CurChar;
-
-						if ( NextChar == end() )
 							break;
-
-						if ( ++NextChar != end() && NextChar->Glyph().c_str()[0] == '\r' )
-							++CurChar;
-
-						CurLine.addNewline( lineWidth, align, newlineOnly );
-						FormattedStr.append( CurLine );
-						CurLine.clear();
-						CurLineLength = 0;
-						break;
-					}
+						}
 
 					case '\r':
-					{
-						// Check to see if the next character is '\n', if so, skip over it
-						const_iterator NextChar = CurChar;
+						{
+							// Check to see if the next character is '\n', if so, skip over it
+							const_iterator NextChar = CurChar;
 
-						if ( NextChar == end() )
+							if ( NextChar == end() )
+								break;
+
+							if ( ++NextChar != end() && NextChar->Glyph().c_str()[0] == '\n' )
+								++CurChar;
+
+							CurLine.addNewline( lineWidth, align, newlineOnly );
+							FormattedStr.append( CurLine );
+							CurLine.clear();
+							CurLineLength = 0;
 							break;
-
-						if ( ++NextChar != end() && NextChar->Glyph().c_str()[0] == '\n' )
-							++CurChar;
-
-						CurLine.addNewline( lineWidth, align, newlineOnly );
-						FormattedStr.append( CurLine );
-						CurLine.clear();
-						CurLineLength = 0;
-						break;
-					}
+						}
 
 					default:
 						break;
@@ -615,28 +615,28 @@ namespace AnsiGL
 
 		switch ( align )
 		{
-		default:
-		case TxtAlign_Left:
-			// Things normally fall into this alignment...nothing to do here
-			break;
-
-		case TxtAlign_Center:
-			{
-				// Take half of the remainder of the line width
-				for ( unsigned int i = 0; i < (ExtraSpace >> 1); ++i ) // shift instead of divide by 2
-					PaddedSpace.append( " " );
-
+			default:
+			case TxtAlign_Left:
+				// Things normally fall into this alignment...nothing to do here
 				break;
-			}
 
-		case TxtAlign_Right:
-			{
-				// Take the remainder of the line width
-				for ( unsigned int i = 0; i < ExtraSpace; ++i )
-					PaddedSpace.append( " " );
+			case TxtAlign_Center:
+				{
+					// Take half of the remainder of the line width
+					for ( unsigned int i = 0; i < (ExtraSpace >> 1); ++i ) // shift instead of divide by 2
+						PaddedSpace.append( " " );
 
-				break;
-			}
+					break;
+				}
+
+			case TxtAlign_Right:
+				{
+					// Take the remainder of the line width
+					for ( unsigned int i = 0; i < ExtraSpace; ++i )
+						PaddedSpace.append( " " );
+
+					break;
+				}
 		}
 
 		// Now that we have the appropriate amount of padded space, prepend it
@@ -692,6 +692,6 @@ namespace AnsiGL
 
 
 // vim: tabstop=4 shiftwidth=4
-// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --pad-oper
+// astyle: --indent=tab=4 --style=ansi --indent-namespaces --indent-cases --indent-switches --pad-oper
 
 
