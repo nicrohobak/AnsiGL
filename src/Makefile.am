@@ -13,6 +13,7 @@ libAnsiGL_la_SOURCES =  achar.cpp		\
 			content.cpp		\
 			context.cpp		\
 			image.cpp		\
+			inputtext.cpp		\
 			inputwindow.cpp		\
 			pixel.cpp		\
 			point.cpp		\
@@ -40,6 +41,7 @@ library_include_HEADERS =	AnsiGL/achar.h		\
 				AnsiGL/context.h	\
 				AnsiGL/defines.h	\
 				AnsiGL/image.h		\
+				AnsiGL/inputtext.h	\
 				AnsiGL/inputwindow.h	\
 				AnsiGL/pixel.h		\
 				AnsiGL/point.h		\

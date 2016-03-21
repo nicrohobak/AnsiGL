@@ -6,6 +6,7 @@
 #include <AnsiGL/clone.h>
 #include <AnsiGL/context.h>
 #include <AnsiGL/image.h>
+#include <AnsiGL/inputtext.h>
 #include <AnsiGL/inputwindow.h>
 #include <AnsiGL/surface.h>
 #include <AnsiGL/text.h>
@@ -168,6 +169,9 @@ int main()
 	MyContext->AddContent( LineCounter, AnsiGL::Point3D(5, 23, 0) );
 
 
+	AnsiGL::InputText::Ptr TestInput = std::make_shared< AnsiGL::InputText >();
+	MyContext->AddContent( TestInput, AnsiGL::Point3D(40, 10, 0) );
+
 	int ch = 0;
 	unsigned int CurLineCount = 0;
 
@@ -313,6 +317,7 @@ int main()
 
 			case KEY_BACKSPACE:
 				TestTextWindow->InputChar( (char)127 );
+				TestInput->InputChar( (char)127 );
 				break;
 
 			case '\n':
@@ -328,11 +333,16 @@ int main()
 						CounterLine << "Line Count: " << ++CurLineCount;
 						LineCounter->Value( CounterLine.str() );
 					}
+
+					if ( TestInput->Enabled() )
+						TestInput->Clear();
+
 					break;
 				}
 
 			default:
 				TestTextWindow->InputChar( ch );
+				TestInput->InputChar( ch );
 				break;
 		}
 

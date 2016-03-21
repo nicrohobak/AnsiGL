@@ -8,6 +8,7 @@
  */
 
 
+#include "inputtext.h"
 #include "textwindow.h"
 
 
@@ -21,17 +22,12 @@ namespace AnsiGL
 	public:
 		InputWindow():
 			_Enabled( true ),
-			_CaptureColor( false ),
-			_CaptureColorList( false ),
-			_Input( std::make_shared< Text >("") ),
-			_Cursor( std::make_shared< Text >("^:_") ),		// Blinky cursor...
+			_Input( std::make_shared< InputText >(_Layout->Width() - 2) ),
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );
-			_Layout->AddContent( _Input, Point3D(0, 0, 5) );
-			_Layout->AddContent( _Cursor, Point3D(0, _Layout->Height() - 1, 5) );
+			_Layout->AddContent( _Input, Point3D(0, _Layout->Height() - 1, 5) );
 			_Layout->AddContent( _Prompt, Point3D(0, _Layout->Height() - 1, 5) );
-			this->updateWindow();
 		}
 
 		InputWindow( const astring &windowTitle,
@@ -42,17 +38,12 @@ namespace AnsiGL
 					 const Point3D &viewportPos = Point3D(), bool transparentSpaces = false ):
 			TextWindow( windowTitle, windowSize, maxLines, alignment, newAtBottom, viewportPos, transparentSpaces ),
 			_Enabled( true ),
-			_CaptureColor( false ),
-			_CaptureColorList( false ),
-			_Input( std::make_shared< Text >("") ),
-			_Cursor( std::make_shared< Text >("^:_") ),		// Blinky cursor...
+			_Input( std::make_shared< InputText >(_Layout->Width() - 2) ),
 			_Prompt( std::make_shared< Text >(">") )
 		{
 			_Input->Width( _Layout->Width() - 2 );
-			_Layout->AddContent( _Input, Point3D(0, 0, 5) );
-			_Layout->AddContent( _Cursor, Point3D(0, _Layout->Height() - 1, 5) );
+			_Layout->AddContent( _Input, Point3D(0, _Layout->Height() - 1, 5) );
 			_Layout->AddContent( _Prompt, Point3D(0, _Layout->Height() - 1, 5) );
-			this->updateWindow();
 		}
 
 		virtual ~InputWindow()
@@ -69,7 +60,7 @@ namespace AnsiGL
 		virtual void ClearContents();
 		virtual void ClearInput();
 
-		virtual const Text &CurInput() const;
+		virtual const InputText &CurInput() const;
 
 		virtual void InputChar( const achar &ch );			// Adds a character to the input
 		virtual void InputLine( const astring &line );		// Appends a line to the input
@@ -77,19 +68,8 @@ namespace AnsiGL
 	protected:
 		bool			_Enabled;
 
-		bool			_CaptureColor;
-		bool			_CaptureColorList;
-		std::string		_ColorBuffer;
-		achar			_CurColor;
-		unsigned int	_RemoveChars;
-
-		Text::Ptr		_Input;
-		Text::Ptr		_Cursor;
+		InputText::Ptr	_Input;
 		Text::Ptr		_Prompt;
-
-	protected:
-		virtual void updateWindow();
-		void setCursorColor();
 	};
 }
 
