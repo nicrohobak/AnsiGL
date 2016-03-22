@@ -1,21 +1,22 @@
 ==============================================================================
-| Class: InputWindow							     |
+| Class: InputText							     |
 ==============================================================================
 
 ==== Overview ====
 
-    A TextWindow with an InputText bar for user input.
+    A Text object that can accept and display user input and a cursor.
 
 
 ==== Relationships ====
 
     Inheritance:
         Parents:
-            TextWindow
+            Content
         Children:
             None
     Related:
-        InputText
+	Context
+        Text
 
 
 ==== Member Variables ====
@@ -29,17 +30,32 @@ Name			Details
 -------------------------------
 Enabled()		Enables/disables the input functions
 
-Clear()			Clears everything
-ClearContents()		Clears the contents
-ClearInput()		Clears the input
+Format()		Prepares the InputText for rendering
+
+Value()			Gets the text
+FormattedValue()	Gets the contents, formatted as directed
+
+empty()			Returns 'true' if empty
+
+Clear()			Clears the contents
+
+Alignment
+---------
+Align()			Gets/sets the alignment
+
+Size
+----
+Width()			Gets/sets the width
+Height()		Gets/sets the height
+Resize()		Sets the size
+Length()		The length of the string
 
 Input
 -----
-CurInput()		Gets the current input
 InputChar()		Handles a single character of user input
 InputLine()		Handles a line of user input
 
-
 ==============================================================================
+
 
 

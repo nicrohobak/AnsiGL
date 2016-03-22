@@ -42,7 +42,7 @@
 			  larger logical surface size, with optional borders
 		    TextWindow -- A window that has special handling to
 				  handle text content (like a log window)
-			InputWindow -- A TextWindow that has a text input bar
+			InputWindow -- A TextWindow that has an InputText bar
 				       at the bottom
 	    Camera --  A separate viewport for a context, contained within an
 		       object that itself is placeable within a context (a
@@ -52,8 +52,8 @@
 		     same content, without creating a full copy.
             Image -- An "image" (ANSI/FANSI art, or whatever might constitute 
 		     an image in text); essentially a Content-based Surface
-                Animation -- One of those fancy "moving pictures"...
             Text -- The basic text class
+		InputText -- Text that manages user input and a cursor
 
 
 ==============================================================================
