@@ -11,6 +11,8 @@
 #include "AnsiGL/string.h"
 
 
+#include <iostream>
+
 namespace AnsiGL
 {
 	ustring::ustring()
@@ -363,20 +365,19 @@ namespace AnsiGL
 
 	astring astring::Format( unsigned int lineWidth, ENUM_TxtAlign align, const ustring wrapAfter, unsigned int tabSize, bool newlineOnly ) const
 	{
-		const_iterator CurChar;
 		astring FormattedStr, CurLine, CurWord;
 		unsigned int CurLineLength = 0;
 		char CheckChar = 0;
 
-		CurChar = begin();
+		auto CurChar = begin(), CurChar_end = end();
 
-		while ( CurChar != end() )
+		while ( CurChar != CurChar_end )
 		{
 			// If the glyph is empty, treat it as a space character
 			if ( CurChar->Glyph().empty() )
 				CheckChar = ' ';
 			else
-				CheckChar = CurChar->Glyph().c_str()[0];	// Take the first character, since spaces we care about are ASCII and > 128
+				CheckChar = CurChar->Glyph().c_str()[0];	// Take the first character, since spaces we care about are ASCII and < 128
 
 			// Check for whitespace
 			if ( isspace(CheckChar) )
@@ -417,7 +418,12 @@ namespace AnsiGL
 							}
 							else
 							{
-								CurLine.append( " " );
+								achar NewSpace( " " );
+	
+								if ( !CurLine.empty() )
+									NewSpace.Color = (CurLine.rbegin())->Color;
+
+								CurLine.push_back( NewSpace );
 								++CurLineLength;
 							}
 
@@ -426,9 +432,6 @@ namespace AnsiGL
 
 					case '\t':
 						{
-							// Fill up a temp string with tabSize spaces
-							std::string TabStr( tabSize, ' ' );
-
 							// Check to see if the tab will fit, if not do the newline process, otherwise add the tab
 							if ( CurLineLength + tabSize > lineWidth )
 							{
@@ -439,6 +442,19 @@ namespace AnsiGL
 							}
 							else
 							{
+								// Fill up a temp string with tabSize spaces
+								astring TabStr( std::string(tabSize, ' ') );
+
+								// Then grab the color we should be
+								achar PrevColor;
+
+								if ( !CurLine.empty() )
+									PrevColor.Color = (CurLine.rbegin())->Color;
+
+								// And assign the color
+								for ( auto c = TabStr.begin(), c_end = TabStr.end(); c != c_end; ++c )
+									c->Color = PrevColor.Color;
+
 								CurLine.append( TabStr );
 								CurLineLength += tabSize;
 							}
@@ -488,14 +504,14 @@ namespace AnsiGL
 			}
 			else
 			{
-				astring::const_iterator CurWordChar;
 				bool FoundWrapChar = false;
 
 				// Reset CheckChar here, so we can reuse it for our word
 				CheckChar = 0;
 
 				// Grab a word
-				for ( CurWordChar = CurChar; CurWordChar != end(); ++CurWordChar )
+				auto CurWordChar = CurChar;
+				for ( ; CurWordChar != CurChar_end; ++CurWordChar )
 				{
 					if ( CurWordChar->Glyph().empty() )
 						CheckChar = ' ';
@@ -547,7 +563,7 @@ namespace AnsiGL
 					astring TempWord;
 					unsigned int NumChars = 0;
 
-					for ( iterator TempChar = CurWord.begin(); TempChar != CurWord.end(); ++TempChar, ++NumChars )
+					for ( auto TempChar = CurWord.begin(), TempChar_end = CurWord.end(); TempChar != TempChar_end; ++TempChar, ++NumChars )
 					{
 						if ( NumChars >= lineWidth )
 						{
@@ -608,7 +624,8 @@ namespace AnsiGL
 		astring PaddedSpace;
 		unsigned int ExtraSpace = 0;
 
-		RemoveTrailingSpace();
+		if ( align != TxtAlign_Left )
+			RemoveTrailingSpace();
 
 		if ( lineWidth > length() )
 			ExtraSpace = lineWidth - length();
