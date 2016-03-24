@@ -536,6 +536,8 @@ namespace AnsiGL
 		ustring &operator=( const std::string &right );
 		ustring &operator+=( const std::string &right );
 
+		ustring &operator+=( const ustring &right );
+
 		ustring &operator=( const astring &right );
 		ustring &operator+=( const astring &right );
 
@@ -596,12 +598,22 @@ namespace AnsiGL
 
 		ustring &operator<<( const char *right )
 		{
-			return ((*this) += right );
+			return ((*this) += right);
+		}
+
+		ustring &operator<<( const std::string &right )
+		{
+			return ((*this) += right);
+		}
+
+		ustring &operator<<( const ustring &right )
+		{
+			return ((*this) += right);
 		}
 
 		ustring &operator<<( const astring &right )
 		{
-			return ((*this) += right );
+			return ((*this) += right);
 		}
 
 		bool operator==( const astring &right ) const;
@@ -719,6 +731,11 @@ namespace AnsiGL
 		}
 
 		astring &operator<<( const achar &right )
+		{
+			return ((*this) += right);
+		}
+
+		astring &operator<<( const std::string &right )
 		{
 			return ((*this) += right);
 		}

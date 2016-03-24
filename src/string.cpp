@@ -100,6 +100,15 @@ namespace AnsiGL
 		return (*this);
 	}
 
+	ustring &ustring::operator+=( const ustring &right )
+	{
+		if ( right.empty() )
+			return (*this);
+
+		append( right );
+		return (*this);
+	}
+
 	ustring &ustring::operator=( const astring &right )
 	{
 		clear();
