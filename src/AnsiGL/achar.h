@@ -17,15 +17,15 @@
 namespace AnsiGL
 {
 	//
-	// Color Codes
+	// Default Color Codes
 	//
 	// Color codes are easily hand-generated via a typeable escape sequence.
 	// astring assignments (etc.) from std::strings are parsed for color
 	//   codes.
 	//
-	// Color escape char: ^
-	// Color list start char: {
-	// Color list end char: }
+	// Color escape char:		^
+	// Color list start char:	{
+	// Color list end char:		}
 	//
 	// In a std::string, simply type the escape character, then the code.  Or, for
 	//   multiple codes in a single sequence: type the escape character, the
@@ -35,16 +35,16 @@ namespace AnsiGL
 	// Color Codes:
 	//
 	// 6-bit and 7-bit (no bold foreground for 6-bit):
-	// FG Colors:				BG Colors:
-	// k) Black		K) Bold Black		1) Black
+	// FG Colors:					BG Colors:
+	// k) Black		K) Bold Black	1) Black
 	// r) Red		R) Bold Red		2) Red
-	// y) Yellow	Y) Bold Yellow		3) Yellow
-	// g) Green		G) Bold Green		4) Green
-	// b) Blue		B) Bold Blue		5) Blue
-	// m) Magenta	M) Bold Magenta		6) Magenta
-	// c) Cyan		C) Bold Cyan		7) Cyan
-	// w) White		W) Bold White		8) White
-	// d) Default				0) Default
+	// y) Yellow	Y) Bold Yellow	3) Yellow
+	// g) Green		G) Bold Green	4) Green
+	// b) Blue		B) Bold Blue	5) Blue
+	// m) Magenta	M) Bold Magenta	6) Magenta
+	// c) Cyan		C) Bold Cyan	7) Cyan
+	// w) White		W) Bold White	8) White
+	// d) Default					0) Default
 	//
 	//
 	// TODO:
@@ -82,68 +82,81 @@ namespace AnsiGL
 	// ^&) Bell character (beep, '\007')
 	//
 	// Examples of multi-character codes:
-	//   ^{R1&}				- Bold Red on Black that beeps when
-	//					  printed on-screen
-	//   ^{/7g*}			- Italicized, Bold Green on Cyan
+	//   ^{R1&}						- Bold Red on Black that beeps when
+	//								  printed on-screen
+	//   ^{/7g*}					- Italicized, Bold Green on Cyan
 	//   ^{#500F#{dark blue,B}_}	- A very bright red foreground with
-	//					  a dark blue background, underlined
+	//								  a dark blue background, underlined
 	//
 	// All functions in the astring class that take a std::string will
 	//   convert color codes when creating a astring.
 	//
-	const char COLOR_ESCAPE_CHAR		= '^';
-	const char COLOR_LIST_START_CHAR	= '{';
-	const char COLOR_LIST_END_CHAR		= '}';
 
-	const char COLOR_RGB				= '#';
-	const char COLOR_GRAYSCALE			= '$';
+	enum tColorCodeIndex
+	{
+		ColorCode_FIRST,
 
-	const char COLOR_BELL				= '&';
+		ColorCode_Escape		= ColorCode_FIRST,
+		ColorCode_List_Start,
+		ColorCode_List_End,
 
-	const char COLOR_CLEAR_ALL			= 'D';
+		ColorCode_RGB,
+		ColorCode_Grayscale,
 
-	const char COLOR_BLACK				= 'k';
-	const char COLOR_RED				= 'r';
-	const char COLOR_GREEN				= 'g';
-	const char COLOR_YELLOW				= 'y';
-	const char COLOR_BLUE				= 'b';
-	const char COLOR_MAGENTA			= 'm';
-	const char COLOR_CYAN				= 'c';
-	const char COLOR_WHITE				= 'w';
-	const char COLOR_DEFAULT			= 'd';
+		ColorCode_Bell,
 
-	const char COLOR_BOLD_BLACK			= 'K';
-	const char COLOR_BOLD_RED			= 'R';
-	const char COLOR_BOLD_GREEN			= 'G';
-	const char COLOR_BOLD_YELLOW		= 'Y';
-	const char COLOR_BOLD_BLUE			= 'B';
-	const char COLOR_BOLD_MAGENTA		= 'M';
-	const char COLOR_BOLD_CYAN			= 'C';
-	const char COLOR_BOLD_WHITE			= 'W';
+		ColorCode_Clear_All,
 
-	const char COLOR_BG_BLACK			= '1';
-	const char COLOR_BG_RED				= '2';
-	const char COLOR_BG_GREEN			= '3';
-	const char COLOR_BG_YELLOW			= '4';
-	const char COLOR_BG_BLUE			= '5';
-	const char COLOR_BG_MAGENTA			= '6';
-	const char COLOR_BG_CYAN			= '7';
-	const char COLOR_BG_WHITE			= '8';
-	const char COLOR_BG_DEFAULT			= '0';
+		ColorCode_Black,
+		ColorCode_Red,
+		ColorCode_Green,
+		ColorCode_Yellow,
+		ColorCode_Blue,
+		ColorCode_Magenta,
+		ColorCode_Cyan,
+		ColorCode_White,
+		ColorCode_Default,
 
-	const char COLOR_BOLD_ON			= '*';
-	const char COLOR_BOLD_OFF			= '.';
-	const char COLOR_ITALICS_ON			= '/';
-	const char COLOR_ITALICS_OFF		= '\\';
-	const char COLOR_UNDERLINE_ON		= '_';
-	const char COLOR_UNDERLINE_OFF		= '-';
-	const char COLOR_CROSSEDOUT_ON		= '%';
-	const char COLOR_CROSSEDOUT_OFF		= '=';
-	const char COLOR_BLINK_ON			= ':';
-	const char COLOR_BLINK_OFF			= ';';
+		ColorCode_Bold_Black,
+		ColorCode_Bold_Red,
+		ColorCode_Bold_Green,
+		ColorCode_Bold_Yellow,
+		ColorCode_Bold_Blue,
+		ColorCode_Bold_Magenta,
+		ColorCode_Bold_Cyan,
+		ColorCode_Bold_White,
 
-	const char COLOR_INVERT_ON			= 'I';
-	const char COLOR_INVERT_OFF			= 'i';
+		ColorCode_BG_Black,
+		ColorCode_BG_Red,
+		ColorCode_BG_Green,
+		ColorCode_BG_Yellow,
+		ColorCode_BG_Blue,
+		ColorCode_BG_Magenta,
+		ColorCode_BG_Cyan,
+		ColorCode_BG_White,
+		ColorCode_BG_Default,
+
+		ColorCode_Bold_On,
+		ColorCode_Bold_Off,
+		ColorCode_Italics_On,
+		ColorCode_Italics_Off,
+		ColorCode_Underline_On,
+		ColorCode_Underline_Off,
+		ColorCode_CrossedOut_On,
+		ColorCode_CrossedOut_Off,
+		ColorCode_Blink_On,
+		ColorCode_Blink_Off,
+		ColorCode_Invert_On,
+		ColorCode_Invert_Off,
+
+		ColorCode_MAX,
+
+		ColorCode_DEFAULT = ColorCode_FIRST,
+	};
+
+	typedef char			tColorCode;
+	extern const tColorCode	*ActiveColorCodes;
+	extern const tColorCode	DefaultColorCodes[ ColorCode_MAX ];
 
 
 	//
@@ -164,49 +177,54 @@ namespace AnsiGL
 
 	public:
 		achar():
-			Bell(false)
+			Bell( false )
 		{
 		}
 
 		achar( const ColorDef &color ):
-			Color(color),
-			Bell(false)
+			Color( color ),
+			Bell( false )
 		{
 		}
 
 		achar( const ColorDef &color, bool bell ):
-			Color(color),
-			Bell(bell)
+			Color( color ),
+			Bell( bell )
 		{
 		}
 
-		achar( const ustring &glyphWithColor ):				// This will convert the ustring for color, and take the first character from the resulting gstring as the achar
-			Bell(false)
+		// This will convert the ustring for color, and take the first character from the resulting gstring as the achar
+		achar( const ustring &glyphWithColor, const achar &prevColor = achar(), const tColorCode *colorCodes = DefaultColorCodes ):
+			Bell( false )
 		{
-			(*this) = glyphWithColor;
+			this->assign( glyphWithColor, prevColor, colorCodes );
+		}
+
+		// This will convert the std::string for color, and take the first character from the resulting gstring as the achar
+		achar( const std::string &glyphWithColor, const achar &prevColor = achar(), const tColorCode *colorCodes = DefaultColorCodes ):
+			Bell( false )
+		{
+			this->assign( glyphWithColor, prevColor, colorCodes );
 		}
 
 		achar( const uchar &glyph ):
-			Bell(false)
+			Bell( false )
 		{
 			(*this) = glyph;
 		}
 
-		achar( const std::string &glyphWithColor ):			// This will convert the std::string for color, and take the first character from the resulting gstring as the achar
-			Bell(false)
+		achar( const char ch ):
+			Bell( false )
 		{
-			(*this) = glyphWithColor;
+			(*this) = uchar(ch);
 		}
 
-		achar( const char ch )
-		{
-			(*this) = ch;
-		}
+		void assign( const ustring &right, const achar &prevColor = achar(),  const tColorCode *colorCodes = DefaultColorCodes );
+		void assign( const std::string &right, const achar &prevColor = achar(),  const tColorCode *colorCodes = DefaultColorCodes );
 
 		achar &operator=( const ustring &right );			// Overloaded = for unicode std::strings, so we can convert on the fly via = as well
 		achar &operator=( const uchar &right );				// Overloaded = for unicode characters too
 		achar &operator=( const std::string &right );		// Overloaded = for std::strings, so we can convert on the fly via = as well
-		achar &operator=( const char &right );
 
 		achar &operator<<( const ustring &right )
 		{
@@ -223,9 +241,14 @@ namespace AnsiGL
 			return ((*this) = right);
 		}
 
-		achar &operator<<( const char &right )
+		achar &operator<<( const char *right )
 		{
 			return ((*this) = right);
+		}
+
+		achar &operator<<( const char right )
+		{
+			return ((*this) = achar(right));
 		}
 
 		bool operator==( const achar &right ) const;
@@ -259,8 +282,13 @@ namespace AnsiGL
 
 		virtual void Clear();
 
-		virtual std::string RenderAnsi( ENUM_ColorDepth desiredDepth = ColorDepth_Default ) const;	// Renders the complete ANSI code required for this character (and a bell character too, if needed)
-		virtual std::string Render( ENUM_ColorDepth desiredDepth = ColorDepth_Default, bool enableAnsi = true, bool enableBell = true ) const;	// Renders the character as a properly formed ANSI-encoded std::string, complete with an ANSI terminator
+		// Renders the complete ANSI code required for this character (and a bell character too, if needed)
+		virtual std::string RenderAnsi( ENUM_ColorDepth desiredDepth = ColorDepth_Default ) const;
+
+		// Renders the character as a properly formed ANSI-encoded std::string, complete with an ANSI terminator
+		virtual std::string Render( ENUM_ColorDepth desiredDepth = ColorDepth_Default,
+									bool enableAnsi = true,
+									bool enableBell = true ) const;
 
 		friend class Surface;							// For fast access
 
@@ -277,7 +305,12 @@ namespace AnsiGL
 	//
 	// Global Functions
 	//
-	astring ConvertColorCodes( const ustring &str, const achar &initialANSIState = achar() );	// Converts a ustring with color codes into a astring, using initialState to pass the previous ANSI state (if desired)
+	// Converts a ustring with color codes into a astring, using initialState to pass the previous ANSI state (if desired)
+	astring ConvertColorCodes( const ustring &str,
+							   const tColorCode *colorCodes = NULL );
+	astring ConvertColorCodes( const ustring &str,
+							   const achar &initialANSIState,
+							   const tColorCode *colorCodes = NULL );
 
 	std::ostream &operator<<( std::ostream &left, const achar &right );
 }

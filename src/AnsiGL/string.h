@@ -643,9 +643,22 @@ namespace AnsiGL
 		ANSIGL_POINTERS( astring )
 
 	public:
-		astring();
-		astring( const ustring &str );
-		astring( const std::string &str );
+		astring()
+		{
+		}
+
+		astring( const ustring &str, const tColorCode *colorCodes = NULL )
+		{
+			this->assign( str, colorCodes );
+		}
+
+		astring( const std::string &str, const tColorCode *colorCodes = NULL )
+		{
+			this->assign( str, colorCodes );
+		}
+
+		void assign( const ustring &str, const tColorCode *colorCodes = NULL );
+		void assign( const std::string &str, const tColorCode *colorCodes = NULL );
 
 		bool compare( const ustring &right ) const;
 		bool compare( const std::string &right ) const;

@@ -187,18 +187,20 @@ namespace AnsiGL
 	}
 
 
-	astring::astring()
+	void astring::assign( const ustring &str, const tColorCode *colorCodes )
 	{
+		if ( str.empty() )
+		{
+			clear();
+			return;
+		}
+
+		(*this) = ConvertColorCodes( str, colorCodes );
 	}
 
-	astring::astring( const ustring &str )
+	void astring::assign( const std::string &str, const tColorCode *colorCodes )
 	{
-		(*this) = str;
-	}
-
-	astring::astring( const std::string &str )
-	{
-		(*this) = str;
+		(*this) = ConvertColorCodes( ustring(str), colorCodes );
 	}
 
 	bool astring::compare( const std::string &right ) const
@@ -208,7 +210,7 @@ namespace AnsiGL
 
 	astring &astring::operator=( const std::string &right )
 	{
-		(*this) = ConvertColorCodes( ustring(right) );
+		this->assign( right, ActiveColorCodes );
 		return (*this);
 	}
 
@@ -228,10 +230,7 @@ namespace AnsiGL
 
 	astring &astring::operator=( const ustring &right )
 	{
-		if ( right.empty() )
-			return (*this);
-
-		(*this) = ConvertColorCodes( right );
+		this->assign( right, ActiveColorCodes );
 		return (*this);
 	}
 

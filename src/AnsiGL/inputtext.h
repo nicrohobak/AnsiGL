@@ -28,14 +28,15 @@ namespace AnsiGL
 			_Enabled( true ),
 			_CaptureColor( false ),
 			_CaptureColorList( false ),
-			_RemoveChars( 0 )
+			_RemoveChars( 0 ),
+			_ColorCodes( ActiveColorCodes )
 		{
 			_Layout->AddContent( _Input, Point2D(0, 0) );
 			_Layout->AddContent( _Cursor, Point2D(0, 0) );
 			this->Format();
 		}
 
-		InputText( tSizeType width,						// A width of 0 is unlimited
+		InputText( tSizeType width,							// A width of 0 is unlimited
 			  ENUM_TxtAlign alignment		= TxtAlign_Default,
 			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
 			  bool transparentSpaces		= false,
@@ -46,7 +47,8 @@ namespace AnsiGL
 			_Enabled( true ),
 			_CaptureColor( false ),
 			_CaptureColorList( false ),
-			_RemoveChars( 0 )
+			_RemoveChars( 0 ),
+			_ColorCodes( ActiveColorCodes )
 		{
 			_Layout->AddContent( _Input, Point2D(0, 0) );
 			_Layout->AddContent( _Cursor, Point2D(0, 0) );
@@ -54,7 +56,7 @@ namespace AnsiGL
 		}
 
 		InputText( const astring &text,
-			  tSizeType width				= 0,	// A width of 0 is unlimited
+			  tSizeType width				= 0,			// A width of 0 is unlimited
 			  ENUM_TxtAlign alignment		= TxtAlign_Default,
 			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
 			  bool transparentSpaces		= false,
@@ -65,7 +67,8 @@ namespace AnsiGL
 			_Enabled( true ),
 			_CaptureColor( false ),
 			_CaptureColorList( false ),
-			_RemoveChars( 0 )
+			_RemoveChars( 0 ),
+			_ColorCodes( ActiveColorCodes )
 		{
 			_Layout->AddContent( _Input, Point2D(0, 0) );
 			_Layout->AddContent( _Cursor, Point2D(0, 0) );
@@ -73,7 +76,7 @@ namespace AnsiGL
 		}
 
 		InputText( const ustring &text,
-			  tSizeType width				= 0,		// A width of 0 is unlimited
+			  tSizeType width				= 0,			// A width of 0 is unlimited
 			  ENUM_TxtAlign alignment		= TxtAlign_Default,
 			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
 			  bool transparentSpaces		= false,
@@ -84,7 +87,8 @@ namespace AnsiGL
 			_Enabled( true ),
 			_CaptureColor( false ),
 			_CaptureColorList( false ),
-			_RemoveChars( 0 )
+			_RemoveChars( 0 ),
+			_ColorCodes( ActiveColorCodes )
 		{
 			_Layout->AddContent( _Input, Point2D(0, 0) );
 			_Layout->AddContent( _Cursor, Point2D(0, 0) );
@@ -92,7 +96,7 @@ namespace AnsiGL
 		}
 
 		InputText( const std::string &text,
-			  tSizeType width				= 0,	// A width of 0 is unlimited
+			  tSizeType width				= 0,			// A width of 0 is unlimited
 			  ENUM_TxtAlign alignment		= TxtAlign_Default,
 			  ENUM_ColorDepth colorDepth	= ColorDepth_Default,
 			  bool transparentSpaces		= false,
@@ -103,7 +107,8 @@ namespace AnsiGL
 			_Enabled( true ),
 			_CaptureColor( false ),
 			_CaptureColorList( false ),
-			_RemoveChars( 0 )
+			_RemoveChars( 0 ),
+			_ColorCodes( ActiveColorCodes )
 		{
 			_Layout->AddContent( _Input, Point2D(0, 0) );
 			_Layout->AddContent( _Cursor, Point2D(0, 0) );
@@ -124,7 +129,7 @@ namespace AnsiGL
 		ENUM_TxtAlign Align() const;
 		void Align( ENUM_TxtAlign align );
 
-		virtual tSizeType Length() const;			// Length of the string, rather than the width of the window
+		virtual tSizeType Length() const;					// Length of the string, rather than the width of the window
 
 		virtual bool Enabled() const;
 		virtual void Enabled( bool enabled );
@@ -133,6 +138,13 @@ namespace AnsiGL
 		void CancelColorCapture();							// Cancels the current, in-progress color sequence
 
 		virtual void Clear();
+
+		const tColorCode *ColorCodes() const
+		{
+			return _ColorCodes;
+		}
+
+		virtual void SetColorCodes( const tColorCode *colorCodes = NULL );
 
 		virtual void InputChar( const achar &ch );			// Adds a character to the input
 		virtual void InputLine( const astring &line );		// Appends a line to the input
@@ -146,18 +158,20 @@ namespace AnsiGL
 		virtual void RenderToSurface( Surface::Ptr dest, const Point2D &pos = Point2D() ) const;
 
 	protected:
-		Context::Ptr	_Layout;
+		Context::Ptr		_Layout;
 
-		Text::Ptr		_Input;
-		Text::Ptr		_Cursor;
+		Text::Ptr			_Input;
+		Text::Ptr			_Cursor;
 
-		bool			_Enabled;
+		bool				_Enabled;
 
-		bool			_CaptureColor;
-		bool			_CaptureColorList;
-		std::string		_ColorBuffer;
-		achar			_CurColor;
-		unsigned int	_RemoveChars;
+		bool				_CaptureColor;
+		bool				_CaptureColorList;
+		std::string			_ColorBuffer;
+		achar				_CurColor;
+		unsigned int		_RemoveChars;
+
+		const tColorCode *	_ColorCodes;					// So we can swap out sets and still have them processed properly
 
 	protected:
 		void setCursorColor();

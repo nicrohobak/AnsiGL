@@ -12,16 +12,100 @@
 #include "AnsiGL/string.h"
 
 
+#include <iostream>
+
+
 namespace AnsiGL
 {
 	//
+	// Global Variables
+	//
+	const tColorCode *ActiveColorCodes = DefaultColorCodes;
+
+	const tColorCode DefaultColorCodes[ ColorCode_MAX ] =
+	{
+		'^',		// ColorCode_Escape
+		'{',		// ColorCode_List_Start
+		'}',		// ColorCode_List_End
+
+		'#',		// ColorCode_RGB
+		'$',		// ColorCode_Grayscale
+
+		'&',		// ColorCode_Bell
+
+		'D',		// ColorCode_Clear_All
+
+		'k',		// ColorCode_Black
+		'r',		// ColorCode_Red
+		'g',		// ColorCode_Green
+		'y',		// ColorCode_Yellow
+		'b',		// ColorCode_Blue
+		'm',		// ColorCode_Magenta
+		'c',		// ColorCode_Cyan
+		'w',		// ColorCode_White
+		'd',		// ColorCode_Default
+
+		'K',		// ColorCode_Bold_Black
+		'R',		// ColorCode_Bold_Red
+		'G',		// ColorCode_Bold_Green
+		'Y',		// ColorCode_Bold_Yellow
+		'B',		// ColorCode_Bold_Blue
+		'M',		// ColorCode_Bold_Magenta
+		'C',		// ColorCode_Bold_Cyan
+		'W',		// ColorCode_Bold_White
+
+		'1',		// ColorCode_BG_Black
+		'2',		// ColorCode_BG_Red
+		'3',		// ColorCode_BG_Green
+		'4',		// ColorCode_BG_Yellow
+		'5',		// ColorCode_BG_Blue
+		'6',		// ColorCode_BG_Magenta
+		'7',		// ColorCode_BG_Cyan
+		'8',		// ColorCode_BG_White
+		'0',		// ColorCode_BG_Default
+
+		'*',		// ColorCode_Bold_On
+		'.',		// ColorCode_Bold_Off
+		'/',		// ColorCode_Italics_On
+		'\\',		// ColorCode_Italics_Off
+		'_',		// ColorCode_Underline_On
+		'-',		// ColorCode_Underline_Off
+		'%',		// ColorCode_CrossedOut_On
+		'=',		// ColorCode_CrossedOut_Off
+		':',		// ColorCode_Blink_On
+		';',		// ColorCode_Blink_Off
+		'I',		// ColorCode_Invert_On
+		'i'			// ColorCode_Invert_Off
+	};
+
+
+	//
 	// Global Functions
 	//
-	astring ConvertColorCodes( const ustring &str, const achar &initialANSIState )
+	astring ConvertColorCodes( const ustring &str,
+							   const tColorCode *colorCodes )
 	{
+		return ConvertColorCodes( str, achar(), colorCodes );
+	}
+
+	astring ConvertColorCodes( const ustring &str,
+							   const achar &initialANSIState,
+							   const tColorCode *colorCodes )
+	{
+		const tColorCode *CurColorCodes = NULL;
 		astring ConvertedStr;
 
 		if ( str.empty() )
+			return ConvertedStr;
+
+		// If codes are provided, use those...otherwise try the active set
+		if ( colorCodes )
+			CurColorCodes = colorCodes;
+		else
+			CurColorCodes = ActiveColorCodes;
+
+		// If we still don't have any codes, we're forced to abandon ship
+		if ( !CurColorCodes )
 			return ConvertedStr;
 
 		achar CurAChar, CurANSIState(initialANSIState);
@@ -32,7 +116,7 @@ namespace AnsiGL
 			char CheckChar = !(CurChar->Glyph().empty()) ? (CurChar->Glyph()[0]) : ('\0');
 
 			// Check to see if we have a color sequence starting...if so...
-			if ( CheckChar == COLOR_ESCAPE_CHAR )
+			if ( CheckChar == CurColorCodes[ColorCode_Escape] )
 			{
 				bool BreakLoop = true;	// Default is true...the list start character sets false if we need more than just one pass
 				bool ListSequence = false;
@@ -48,261 +132,247 @@ namespace AnsiGL
 					// Update our CheckChar
 					CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
 
-					switch ( CheckChar )
+					// Had to sacrifice the switch for the sake of flexibility...
+					if ( CheckChar == CurColorCodes[ColorCode_Escape] )
 					{
-						case COLOR_ESCAPE_CHAR:
-							{
-								if ( !ListSequence )
-								{
-									CurAChar = CurANSIState;
-									CurAChar.Glyph( COLOR_ESCAPE_CHAR );
-									ConvertedStr.push_back( CurAChar );
-									CurAChar.Clear();
-								}
+						if ( !ListSequence )
+						{
+							CurAChar = CurANSIState;
+							CurAChar.Glyph( CurColorCodes[ColorCode_Escape] );
+							ConvertedStr.push_back( CurAChar );
+							CurAChar.Clear();
+						}
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_List_Start] )
+					{
+						ListSequence = true;
+						BreakLoop = false;
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_List_End] )
+					{
+						if ( ListSequence )
+							BreakLoop = true;
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Bell] )
+					{
+						CurANSIState.Bell = true;
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_RGB]
+						   || CheckChar == CurColorCodes[ColorCode_Grayscale] )
+					{
+						bool IsRGB = CheckChar == CurColorCodes[ColorCode_RGB];
+
+						// Check for foreground/background
+						bool Background = false;
+
+						std::string Digits("");
+
+						// Read digits until the first non-digit, storing them in Digits
+						for ( ++CurChar; CurChar != str.end(); ++CurChar )
+						{
+							CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
+
+							if ( !isdigit( CheckChar ) )
 								break;
-							}
-						case COLOR_LIST_START_CHAR:
-							ListSequence = true;
-							BreakLoop = false;
-							break;
-						case COLOR_LIST_END_CHAR:
-							if ( ListSequence )
-								BreakLoop = true;
+
+							Digits.push_back( CheckChar );
+						}
+
+						if ( CurChar == str.end() )
 							break;
 
-						case COLOR_BELL:
-							CurANSIState.Bell = true;
-							break;
+						CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
 
-						case COLOR_RGB:
-						case COLOR_GRAYSCALE:
-							{
-								bool IsRGB = CheckChar == COLOR_RGB;
-
-								// Check for foreground/background
-								bool Background = false;
-
-								std::string Digits("");
-
-								// Read digits until the first non-digit, storing them in Digits
-								for ( ++CurChar; CurChar != str.end(); ++CurChar )
-								{
-									CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
-
-									if ( !isdigit( CheckChar ) )
-										break;
-
-									Digits.push_back( CheckChar );
-								}
-
-								if ( CurChar == str.end() )
-									break;
-
-								CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
-
-								// If the first non-digit is F or B, mark this color as such, and if it is neither, assume it to be F
-								switch ( toupper(CheckChar) )
-								{
-									case 'B':
-										Background = true;
-									case 'F':
-										break;
-
-									default:
-										--CurChar;
-										break;
-								}
-
-								// Decypher the color digits here
-								if ( IsRGB )
-								{
-									// Make sure we have enough digits
-									if ( Digits.length() < 3 )
-										break;
-
-									std::string::const_iterator CurDigit = Digits.begin();
-									std::string Temp;
-
-									// Read 3 digits, 0-5
-									Temp.push_back( *CurDigit );
-									unsigned char R = atoi( Temp.c_str() );
-									Temp.clear();
-									Temp.push_back( *(CurDigit + 1) );
-									unsigned char G = atoi( Temp.c_str() );
-									Temp.clear();
-									Temp.push_back( *(CurDigit + 2) );
-									unsigned char B = atoi( Temp.c_str() );
-
-									if ( R > 5 )
-										R = 5;
-									if ( G > 5 )
-										G = 5;
-									if ( B > 5 )
-										B = 5;
-
-									if ( Background )
-										CurANSIState.Color.BG.Set( R, G, B );
-									else
-										CurANSIState.Color.FG.Set( R, G, B );
-								}
-								else
-								{
-									unsigned char Grayscale = atoi( Digits.c_str() );
-
-									if ( Grayscale > 23 )
-										Grayscale = 23;
-
-									if ( Background )
-										CurANSIState.Color.BG.Set( Grayscale );
-									else
-										CurANSIState.Color.FG.Set( Grayscale );
-								}
-
+						// If the first non-digit is F or B, mark this color as such, and if it is neither, assume it to be F
+						switch ( toupper(CheckChar) )
+						{
+							case 'B':
+								Background = true;
+							case 'F':
 								break;
-							}
 
-						case COLOR_CLEAR_ALL:
-							{
-								ANSIColorPalette::Ptr FGPalette = CurANSIState.Color.FG.Palette();
-								ANSIColorPalette::Ptr BGPalette = CurANSIState.Color.BG.Palette();
-								CurANSIState.Clear();
-								CurANSIState.Color.FG.Palette( FGPalette );
-								CurANSIState.Color.BG.Palette( BGPalette );
+							default:
+								--CurChar;
 								break;
-							}
+						}
 
-						case COLOR_BLACK:
-							CurANSIState.Color.FG.Set( ANSISysColor_Black );
-							break;
-						case COLOR_RED:
-							CurANSIState.Color.FG.Set( ANSISysColor_Red );
-							break;
-						case COLOR_GREEN:
-							CurANSIState.Color.FG.Set( ANSISysColor_Green );
-							break;
-						case COLOR_YELLOW:
-							CurANSIState.Color.FG.Set( ANSISysColor_Yellow );
-							break;
-						case COLOR_BLUE:
-							CurANSIState.Color.FG.Set( ANSISysColor_Blue );
-							break;
-						case COLOR_MAGENTA:
-							CurANSIState.Color.FG.Set( ANSISysColor_Magenta );
-							break;
-						case COLOR_CYAN:
-							CurANSIState.Color.FG.Set( ANSISysColor_Cyan );
-							break;
-						case COLOR_WHITE:
-							CurANSIState.Color.FG.Set( ANSISysColor_White );
-							break;
-						case COLOR_DEFAULT:
-							CurANSIState.Color.FG.Set( ANSISysColor_Default );
-							break;
+						// Decypher the color digits here
+						if ( IsRGB )
+						{
+							// Make sure we have enough digits
+							if ( Digits.length() < 3 )
+								break;
 
-						case COLOR_BOLD_BLACK:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldBlack );
-							break;
-						case COLOR_BOLD_RED:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldRed );
-							break;
-						case COLOR_BOLD_GREEN:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldGreen );
-							break;
-						case COLOR_BOLD_YELLOW:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldYellow );
-							break;
-						case COLOR_BOLD_BLUE:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldBlue );
-							break;
-						case COLOR_BOLD_MAGENTA:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldMagenta );
-							break;
-						case COLOR_BOLD_CYAN:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldCyan );
-							break;
-						case COLOR_BOLD_WHITE:
-							CurANSIState.Color.FG.Set( ANSISysColor_BoldWhite );
-							break;
+							std::string::const_iterator CurDigit = Digits.begin();
+							std::string Temp;
 
-						case COLOR_BG_BLACK:
-							CurANSIState.Color.BG.Set( ANSISysColor_Black );
-							break;
-						case COLOR_BG_RED:
-							CurANSIState.Color.BG.Set( ANSISysColor_Red );
-							break;
-						case COLOR_BG_GREEN:
-							CurANSIState.Color.BG.Set( ANSISysColor_Green );
-							break;
-						case COLOR_BG_YELLOW:
-							CurANSIState.Color.BG.Set( ANSISysColor_Yellow );
-							break;
-						case COLOR_BG_BLUE:
-							CurANSIState.Color.BG.Set( ANSISysColor_Blue );
-							break;
-						case COLOR_BG_MAGENTA:
-							CurANSIState.Color.BG.Set( ANSISysColor_Magenta );
-							break;
-						case COLOR_BG_CYAN:
-							CurANSIState.Color.BG.Set( ANSISysColor_Cyan );
-							break;
-						case COLOR_BG_WHITE:
-							CurANSIState.Color.BG.Set( ANSISysColor_White );
-							break;
-						case COLOR_BG_DEFAULT:
-							CurANSIState.Color.BG.Set( ANSISysColor_BGDefault );
-							break;
+							// Read 3 digits, 0-5
+							Temp.push_back( *CurDigit );
+							unsigned char R = atoi( Temp.c_str() );
+							Temp.clear();
+							Temp.push_back( *(CurDigit + 1) );
+							unsigned char G = atoi( Temp.c_str() );
+							Temp.clear();
+							Temp.push_back( *(CurDigit + 2) );
+							unsigned char B = atoi( Temp.c_str() );
 
-						case COLOR_BOLD_ON:
-							CurANSIState.RemoveAttribute( ANSI_BoldOff );
-							CurANSIState.AddAttribute( ANSI_BoldOn );
-							break;
-						case COLOR_BOLD_OFF:
-							CurANSIState.RemoveAttribute( ANSI_BoldOn );
-							CurANSIState.AddAttribute( ANSI_BoldOff );
-							break;
-						case COLOR_ITALICS_ON:
-							CurANSIState.RemoveAttribute( ANSI_ItalicsOff );
-							CurANSIState.AddAttribute( ANSI_ItalicsOn );
-							break;
-						case COLOR_ITALICS_OFF:
-							CurANSIState.RemoveAttribute( ANSI_ItalicsOn );
-							CurANSIState.AddAttribute( ANSI_ItalicsOff );
-							break;
-						case COLOR_UNDERLINE_ON:
-							CurANSIState.RemoveAttribute( ANSI_UnderlineOff );
-							CurANSIState.AddAttribute( ANSI_UnderlineOn );
-							break;
-						case COLOR_UNDERLINE_OFF:
-							CurANSIState.RemoveAttribute( ANSI_UnderlineOn );
-							CurANSIState.AddAttribute( ANSI_UnderlineOff );
-							break;
-						case COLOR_CROSSEDOUT_ON:
-							CurANSIState.RemoveAttribute( ANSI_CrossedOutOff );
-							CurANSIState.AddAttribute( ANSI_CrossedOut );
-							break;
-						case COLOR_CROSSEDOUT_OFF:
-							CurANSIState.RemoveAttribute( ANSI_CrossedOut );
-							CurANSIState.AddAttribute( ANSI_CrossedOutOff );
-							break;
-						case COLOR_BLINK_ON:
-							CurANSIState.RemoveAttribute( ANSI_BlinkOff );
-							CurANSIState.AddAttribute( ANSI_BlinkSlow );	// Usually the only one implemented anyway...
-							break;
-						case COLOR_BLINK_OFF:
-							CurANSIState.RemoveAttribute( ANSI_BlinkSlow );
-							CurANSIState.AddAttribute( ANSI_BlinkOff );
-							break;
-						case COLOR_INVERT_ON:
-							CurANSIState.RemoveAttribute( ANSI_InverseOff );
-							CurANSIState.AddAttribute( ANSI_InverseOn );
-							break;
-						case COLOR_INVERT_OFF:
-							CurANSIState.RemoveAttribute( ANSI_InverseOn );
-							CurANSIState.AddAttribute( ANSI_InverseOff );
-							break;
+							if ( R > 5 )
+								R = 5;
+							if ( G > 5 )
+								G = 5;
+							if ( B > 5 )
+								B = 5;
 
-						default:
-							break;
+							if ( Background )
+								CurANSIState.Color.BG.Set( R, G, B );
+							else
+								CurANSIState.Color.FG.Set( R, G, B );
+						}
+						else
+						{
+							unsigned char Grayscale = atoi( Digits.c_str() );
+
+							if ( Grayscale > 23 )
+								Grayscale = 23;
+
+							if ( Background )
+								CurANSIState.Color.BG.Set( Grayscale );
+							else
+								CurANSIState.Color.FG.Set( Grayscale );
+						}
+
+						break;
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Clear_All] )
+					{
+						ANSIColorPalette::Ptr FGPalette = CurANSIState.Color.FG.Palette();
+						ANSIColorPalette::Ptr BGPalette = CurANSIState.Color.BG.Palette();
+						CurANSIState.Clear();
+						CurANSIState.Color.FG.Palette( FGPalette );
+						CurANSIState.Color.BG.Palette( BGPalette );
+						break;
+					}
+					//
+					// Normal colors
+					//
+					else if ( CheckChar == CurColorCodes[ColorCode_Black] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Black );
+					else if ( CheckChar == CurColorCodes[ColorCode_Red] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Red );
+					else if ( CheckChar == CurColorCodes[ColorCode_Green] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Green );
+					else if ( CheckChar == CurColorCodes[ColorCode_Yellow] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Yellow );
+					else if ( CheckChar == CurColorCodes[ColorCode_Blue] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Blue );
+					else if ( CheckChar == CurColorCodes[ColorCode_Magenta] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Magenta );
+					else if ( CheckChar == CurColorCodes[ColorCode_Cyan] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Cyan );
+					else if ( CheckChar == CurColorCodes[ColorCode_White] )
+						CurANSIState.Color.FG.Set( ANSISysColor_White);
+					else if ( CheckChar == CurColorCodes[ColorCode_Default] )
+						CurANSIState.Color.FG.Set( ANSISysColor_Default );
+					//
+					// Bold colors
+					//
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Black] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldBlack );
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Red] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldRed );
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Green] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldGreen );
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Yellow] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldYellow );
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Blue] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldBlue );
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Magenta] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldMagenta );
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Cyan] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldCyan );
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_White] )
+						CurANSIState.Color.FG.Set( ANSISysColor_BoldWhite);
+					//
+					// Background colors
+					//
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_Black] )
+						CurANSIState.Color.BG.Set( ANSISysColor_Black );
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_Red] )
+						CurANSIState.Color.BG.Set( ANSISysColor_Red );
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_Green] )
+						CurANSIState.Color.BG.Set( ANSISysColor_Green );
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_Yellow] )
+						CurANSIState.Color.BG.Set( ANSISysColor_Yellow );
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_Blue] )
+						CurANSIState.Color.BG.Set( ANSISysColor_Blue );
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_Magenta] )
+						CurANSIState.Color.BG.Set( ANSISysColor_Magenta );
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_Cyan] )
+						CurANSIState.Color.BG.Set( ANSISysColor_Cyan );
+					else if ( CheckChar == CurColorCodes[ColorCode_BG_White] )
+						CurANSIState.Color.BG.Set( ANSISysColor_White);
+					//
+					// Attributes
+					//
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_On] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BoldOff );
+						CurANSIState.AddAttribute( ANSI_BoldOn );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Bold_Off] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BoldOn );
+						CurANSIState.AddAttribute( ANSI_BoldOff );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Italics_On] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_ItalicsOff );
+						CurANSIState.AddAttribute( ANSI_ItalicsOn );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Italics_Off] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_ItalicsOn );
+						CurANSIState.AddAttribute( ANSI_ItalicsOff );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Underline_On] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_UnderlineOff );
+						CurANSIState.AddAttribute( ANSI_UnderlineOn );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Underline_Off] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_UnderlineOn );
+						CurANSIState.AddAttribute( ANSI_UnderlineOff );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_CrossedOut_On] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_CrossedOutOff );
+						CurANSIState.AddAttribute( ANSI_CrossedOut );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_CrossedOut_Off] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_CrossedOut );
+						CurANSIState.AddAttribute( ANSI_CrossedOutOff );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Blink_On] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BlinkOff );
+						CurANSIState.AddAttribute( ANSI_BlinkSlow );	// Usually the only one implemented anyway...
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Blink_Off] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BlinkSlow );
+						CurANSIState.AddAttribute( ANSI_BlinkOff );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Invert_On] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_InverseOff );
+						CurANSIState.AddAttribute( ANSI_InverseOn );
+					}
+					else if ( CheckChar == CurColorCodes[ColorCode_Invert_Off] )
+					{
+						CurANSIState.RemoveAttribute( ANSI_InverseOn );
+						CurANSIState.AddAttribute( ANSI_InverseOff );
 					}
 
 					if ( BreakLoop )	// Check here to guarantee one run-through at least
@@ -336,18 +406,39 @@ namespace AnsiGL
 	//
 	// achar
 	//
-	achar &achar::operator=( const ustring &right )
+	void achar::assign( const ustring &right,
+						const achar &prevColor,
+						const tColorCode *colorCodes )
 	{
 		Clear();
 
 		if ( right.empty() )
-			return (*this);
+			return;
 
-		astring Temp = ConvertColorCodes( right );
+		astring Temp = ConvertColorCodes( right, prevColor, colorCodes );
 
 		if ( !Temp.empty() )
 			(*this) = Temp[0];
+	}
 
+	void achar::assign( const std::string &right,
+						const achar &prevColor,
+						const tColorCode *colorCodes )
+	{
+		Clear();
+
+		if ( right.empty() )
+			return;
+
+		astring Temp = ConvertColorCodes( ustring(right), prevColor, colorCodes );
+
+		if ( !Temp.empty() )
+			(*this) = Temp[0];
+	}
+
+	achar &achar::operator=( const ustring &right )
+	{
+		this->assign( right );
 		return (*this);
 	}
 
@@ -366,26 +457,7 @@ namespace AnsiGL
 
 	achar &achar::operator=( const std::string &right )
 	{
-		Clear();
-
-		if ( right.empty() )
-			return (*this);
-
-		astring Temp = ConvertColorCodes( ustring(right) );
-
-		if ( !Temp.empty() )
-			(*this) = Temp[0];
-
-		return (*this);
-	}
-
-	achar &achar::operator=( const char &right )
-	{
-		Clear();
-
-		if ( right >= 0 && right < 128 )
-			Glyph( right );
-
+		this->assign( right );
 		return (*this);
 	}
 

@@ -106,6 +106,14 @@ namespace AnsiGL
 		this->Format();
 	}
 
+	void InputText::SetColorCodes( const tColorCode *colorCodes )
+	{
+		if ( colorCodes )
+			_ColorCodes = colorCodes;
+		else
+			_ColorCodes = ActiveColorCodes;
+	}
+
 	void InputText::InputChar( const achar &ch )
 	{
 		if ( !_Enabled )
@@ -118,101 +126,93 @@ namespace AnsiGL
 		// Special buffering for color sequences
 		if ( _CaptureColor )
 		{
-			switch ( Glyph )
+			// Sacrificing the switch for flexibility
+			if ( Glyph == 8
+			  || Glyph == 127 )
 			{
-				case 8:
-				case 127:
-					_Input->pop_back();
-					_ColorBuffer.pop_back();
-					--_RemoveChars;
+				_Input->pop_back();
+				_ColorBuffer.pop_back();
+				--_RemoveChars;
 
-					if ( _ColorBuffer.empty() )
-					{
-						_CaptureColor = false;
-						_CaptureColorList = false;
-						_RemoveChars = 0;
-					}
+				if ( _ColorBuffer.empty() )
+				{
+					_CaptureColor = false;
+					_CaptureColorList = false;
+					_RemoveChars = 0;
+				}
 
-					this->Format();
-					break;
+				this->Format();
+			}
+			// If we try to terminate the color too early, just cancel the color altogether
+			else if ( Glyph == '\n' )
+			{
+				CancelColorCapture();
+			}
+			else if ( _ColorCodes && Glyph == _ColorCodes[ColorCode_List_Start] )
+			{
+				_ColorBuffer.push_back( Glyph );
+				_CaptureColorList = true;
 
-				// If we try to terminate the color too early, just cancel the color altogether
-				case '\n':
-					CancelColorCapture();
-					break;
+				// Update our UI, and make note that we should remove this character later
+				*_Input << Glyph;
+				++_RemoveChars;
+				this->Format();
+			}
+			else if ( _ColorCodes && Glyph == _ColorCodes[ColorCode_List_End] )
+			{
+				_ColorBuffer.push_back( Glyph );
 
-				case COLOR_LIST_START_CHAR:
-					_ColorBuffer.push_back( Glyph );
-					_CaptureColorList = true;
+				achar ColorCh( _ColorBuffer );
+				_CurColor.Color = ColorCh.Color;
+				setCursorColor();
 
+				CancelColorCapture();
+			}
+			else
+			{
+				_ColorBuffer.push_back( Glyph );
+
+				if ( _CaptureColorList )
+				{
 					// Update our UI, and make note that we should remove this character later
 					*_Input << Glyph;
 					++_RemoveChars;
 					this->Format();
-					break;
+				}
 
-				case COLOR_LIST_END_CHAR:
-					{
-						_ColorBuffer.push_back( Glyph );
+				achar ColorCh( _ColorBuffer, _CurColor, _ColorCodes );
+				_CurColor.Color = ColorCh.Color;
+				setCursorColor();
 
-						achar ColorCh( _ColorBuffer );
-						_CurColor.Color = ColorCh.Color;
-						setCursorColor();
-
-						CancelColorCapture();
-						break;
-					}
-
-				default:
-					{
-						_ColorBuffer.push_back( Glyph );
-
-						if ( _CaptureColorList )
-						{
-							// Update our UI, and make note that we should remove this character later
-							*_Input << Glyph;
-							++_RemoveChars;
-							this->Format();
-							break;
-						}
-
-						achar ColorCh( _ColorBuffer );
-						_CurColor.Color = ColorCh.Color;
-						setCursorColor();
-
-						CancelColorCapture();
-						break;
-					}
+				CancelColorCapture();
 			}
 
 			return;
 		}
 
-		switch ( Glyph )
+		// Sacrificing the switch for flexibility
+		// Skip if it's NULL
+		if ( Glyph == 0 )
 		{
-			// Skip if it's NULL
-			case 0:
-				return;
-
-			// Backspace / delete
-			case 8:
-			case 127:
-				_Input->pop_back();
-				break;
-
-			// Color code handling
-			case COLOR_ESCAPE_CHAR:
-				_ColorBuffer = "^";
-				NewCh.Color.Clear();
-				*_Input << NewCh;
-				++_RemoveChars;
-				_CaptureColor = true;
-				break;
-
-			default:
-				*_Input << NewCh;
-				break;
+			return;
 		}
+		// Backspace / delete
+		else if ( Glyph == 8
+			   || Glyph == 127 )
+		{
+			_Input->pop_back();
+		}
+		// Color code handling
+		else if ( _ColorCodes && Glyph == _ColorCodes[ColorCode_Escape] )
+		{
+			_ColorBuffer.push_back( _ColorCodes[ColorCode_Escape] );
+			NewCh.Color.Clear();
+			*_Input << NewCh;
+			++_RemoveChars;
+			_CaptureColor = true;
+		}
+		else
+			*_Input << NewCh;
 
 		this->Format();
 	}

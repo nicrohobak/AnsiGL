@@ -39,6 +39,11 @@ namespace AnsiGL
 		_Input->CancelColorCapture();
 	}
 
+	void InputWindow::SetColorCodes( const tColorCode *colorCodes )
+	{
+		_Input->SetColorCodes( colorCodes );
+	}
+
 	void InputWindow::Clear()
 	{
 		this->ClearInput();

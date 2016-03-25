@@ -56,6 +56,8 @@ namespace AnsiGL
 		bool CapturingColor() const;						// Returns 'true' if we're currently capturing a color sequence
 		void CancelColorCapture();							// Cancels the current, in-progress color sequence
 
+		virtual void SetColorCodes( const tColorCode *colorCodes = NULL );
+
 		virtual void Clear();
 		virtual void ClearContents();
 		virtual void ClearInput();
