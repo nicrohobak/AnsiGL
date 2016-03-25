@@ -5,7 +5,6 @@
  */
 
 
-#include <iostream>
 #include <cmath>
 
 #include "AnsiGL/window.h"

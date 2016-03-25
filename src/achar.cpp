@@ -12,9 +12,6 @@
 #include "AnsiGL/string.h"
 
 
-#include <iostream>
-
-
 namespace AnsiGL
 {
 	//

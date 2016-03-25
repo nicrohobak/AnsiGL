@@ -6,8 +6,6 @@
 
 
 #include <cctype>
-#include <cstdio>
-#include <iostream>
 #include <map>
 #include <sstream>
 
