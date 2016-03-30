@@ -106,9 +106,9 @@ namespace AnsiGL
 			return ConvertedStr;
 
 		achar CurAChar, CurANSIState(initialANSIState);
-		ustring::const_iterator CurChar;
+		auto s_begin = str.begin(), s_end = str.end();
 
-		for ( CurChar = str.begin(); CurChar != str.end(); ++CurChar )
+		for ( auto CurChar = s_begin; CurChar != s_end; ++CurChar )
 		{
 			char CheckChar = !(CurChar->Glyph().empty()) ? (CurChar->Glyph()[0]) : ('\0');
 
@@ -118,12 +118,12 @@ namespace AnsiGL
 				bool BreakLoop = true;	// Default is true...the list start character sets false if we need more than just one pass
 				bool ListSequence = false;
 
-				while ( CurChar != str.end() )
+				while ( CurChar != s_end )
 				{
 					++CurChar;		// Advance to the next character
 
 					// Verify that we're okay to proceed
-					if ( CurChar == str.end() )
+					if ( CurChar == s_end )
 						break;
 
 					// Update our CheckChar
@@ -165,7 +165,7 @@ namespace AnsiGL
 						std::string Digits("");
 
 						// Read digits until the first non-digit, storing them in Digits
-						for ( ++CurChar; CurChar != str.end(); ++CurChar )
+						for ( ++CurChar; CurChar != s_end; ++CurChar )
 						{
 							CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
 
@@ -175,7 +175,7 @@ namespace AnsiGL
 							Digits.push_back( CheckChar );
 						}
 
-						if ( CurChar == str.end() )
+						if ( CurChar == s_end )
 							break;
 
 						CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
@@ -394,6 +394,299 @@ namespace AnsiGL
 			CurAChar = CurANSIState;
 			CurAChar.Glyph( ' ' );
 			ConvertedStr.push_back( CurAChar );
+		}
+
+		return ConvertedStr;
+	}
+
+	astring ConvertANSIColorCodes( const ustring &str )
+	{
+		return ConvertANSIColorCodes( str, achar() );
+	}
+
+	astring ConvertANSIColorCodes( const ustring &str,
+								   const achar &initialANSIState )
+	{
+		astring ConvertedStr;
+
+		if ( str.empty() )
+			return ConvertedStr;
+
+		achar CurAChar, CurANSIState(initialANSIState);
+		auto s_begin = str.begin(), s_end = str.end();
+
+		for ( auto CurChar = s_begin; CurChar != s_end; ++CurChar )
+		{
+			char CheckChar = !(CurChar->Glyph().empty()) ? (CurChar->Glyph()[0]) : ('\0');
+			bool IsBold = false;
+
+			// Check to see if we have a color sequence starting...if so...
+			// ASCII escape = '\033'
+			if ( CheckChar == '\033' )
+			{
+				auto SeqStart = CurChar;
+				IsBold = false;				// We have to keep track because of differences between ANSI codes and AnsiGL handling
+
+				if ( ++CurChar == s_end )
+					break;
+
+				CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
+
+				// Make sure it's a proper ANSI escape sequence
+				if ( CheckChar != '[' )
+				{
+					CurChar = SeqStart;
+					continue;
+				}
+
+				std::string Code("");
+				bool BreakLoop = false;
+
+				while ( !BreakLoop && CurChar != s_end )
+				{
+					Code.clear();
+
+					// Read digits until the next separator, storing them in Code
+					for ( ++CurChar; CurChar != s_end; ++CurChar )
+					{
+						CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
+
+						// Check for the code separator
+						if ( CheckChar == ANSI_CODE_SEPARATOR )
+						{
+							break;
+						}
+						// Check for the end of the sequence
+						else if ( CheckChar == ANSI_CODE_END || CheckChar == ']' ) // The closing bracket is optional, but should be handled
+						{
+							BreakLoop = true;
+
+							// Grab the trailing ']' if it exists
+							if ( CheckChar == 'm' )
+							{
+								if ( ++CurChar != s_end )
+									CheckChar = !((*CurChar).Glyph().empty()) ? ((*CurChar).Glyph()[0]) : ('\0');
+
+								// If that's not it, then leave it be
+								if ( CheckChar != ']' )
+									--CurChar;
+							}
+
+							break;
+						}
+						else
+							Code.push_back( CheckChar );
+					}
+
+					int AnsiCode = std::atoi( Code.c_str() );
+
+					//
+					// Start our code checking with some sanity checking
+					//
+					if ( AnsiCode >= ANSI_Max )
+					{
+						SeqStart = CurChar;
+						break;
+					}
+
+					//
+					// Attributes
+					//
+					else if ( AnsiCode == ANSI_Default )
+					{
+						CurANSIState.Clear();
+						IsBold = false;
+					}
+					else if ( AnsiCode == ANSI_BoldOn )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BoldOff );
+						CurANSIState.AddAttribute( ANSI_BoldOn );
+						IsBold = true;
+					}
+					else if ( AnsiCode == ANSI_ItalicsOn )
+					{
+						CurANSIState.RemoveAttribute( ANSI_ItalicsOff );
+						CurANSIState.AddAttribute( ANSI_ItalicsOn );
+					}
+					else if ( AnsiCode == ANSI_UnderlineOn )
+					{
+						CurANSIState.RemoveAttribute( ANSI_UnderlineOff );
+						CurANSIState.AddAttribute( ANSI_UnderlineOn );
+					}
+					else if ( AnsiCode == ANSI_BlinkSlow )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BlinkOff );
+						CurANSIState.AddAttribute( ANSI_BlinkSlow );
+					}
+					else if ( AnsiCode == ANSI_BlinkFast )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BlinkOff );
+						CurANSIState.AddAttribute( ANSI_BlinkFast );
+					}
+					else if ( AnsiCode == ANSI_InverseOn )
+					{
+						CurANSIState.RemoveAttribute( ANSI_InverseOff );
+						CurANSIState.AddAttribute( ANSI_InverseOn );
+					}
+					else if ( AnsiCode == ANSI_CrossedOut )
+					{
+						CurANSIState.RemoveAttribute( ANSI_CrossedOutOff );
+						CurANSIState.AddAttribute( ANSI_CrossedOut );
+					}
+					else if ( AnsiCode == ANSI_BoldOff || AnsiCode == ANSI_NormalIntensity )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BoldOn );
+						CurANSIState.AddAttribute( ANSI_BoldOff );
+						IsBold = false;
+					}
+					else if ( AnsiCode == ANSI_ItalicsOff )
+					{
+						CurANSIState.RemoveAttribute( ANSI_ItalicsOn );
+						CurANSIState.AddAttribute( ANSI_ItalicsOff );
+					}
+					else if ( AnsiCode == ANSI_UnderlineOff )
+					{
+						CurANSIState.RemoveAttribute( ANSI_UnderlineOn );
+						CurANSIState.AddAttribute( ANSI_UnderlineOff );
+					}
+					else if ( AnsiCode == ANSI_BlinkOff )
+					{
+						CurANSIState.RemoveAttribute( ANSI_BlinkSlow );
+						CurANSIState.RemoveAttribute( ANSI_BlinkFast );
+						CurANSIState.AddAttribute( ANSI_BlinkOff );
+					}
+					else if ( AnsiCode == ANSI_InverseOff )
+					{
+						CurANSIState.RemoveAttribute( ANSI_InverseOn );
+						CurANSIState.AddAttribute( ANSI_InverseOff );
+					}
+					else if ( AnsiCode == ANSI_CrossedOutOff )
+					{
+						CurANSIState.RemoveAttribute( ANSI_CrossedOut );
+						CurANSIState.AddAttribute( ANSI_CrossedOutOff );
+					}
+
+					//
+					// Foreground colors
+					//
+					else if ( AnsiCode == ANSI_FG_Black )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldBlack );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_Black );
+					}
+					else if ( AnsiCode == ANSI_FG_Red )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldRed );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_Red );
+					}
+					else if ( AnsiCode == ANSI_FG_Green )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldGreen );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_Green );
+					}
+					else if ( AnsiCode == ANSI_FG_Yellow )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldYellow );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_Yellow );
+					}
+					else if ( AnsiCode == ANSI_FG_Blue )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldBlue );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_Blue );
+					}
+					else if ( AnsiCode == ANSI_FG_Magenta )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldMagenta );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_Magenta );
+					}
+					else if ( AnsiCode == ANSI_FG_Cyan )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldCyan );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_Cyan );
+					}
+					else if ( AnsiCode == ANSI_FG_White )
+					{
+						if ( IsBold )
+						{
+							CurANSIState.RemoveAttribute( ANSI_BoldOn );		// The color covers it
+							CurANSIState.Color.FG.Set( ANSISysColor_BoldWhite );
+						}
+						else
+							CurANSIState.Color.FG.Set( ANSISysColor_White );
+					}
+					else if ( AnsiCode == ANSI_FG_Default )
+					{
+						CurANSIState.Color.FG.Set( ANSISysColor_Default );
+					}
+
+					//
+					// Background colors
+					//
+					else if ( AnsiCode == ANSI_BG_Black )
+						CurANSIState.Color.BG.Set( ANSISysColor_Black );
+					else if ( AnsiCode == ANSI_BG_Red )
+						CurANSIState.Color.BG.Set( ANSISysColor_Red );
+					else if ( AnsiCode == ANSI_BG_Green )
+						CurANSIState.Color.BG.Set( ANSISysColor_Green );
+					else if ( AnsiCode == ANSI_BG_Yellow )
+						CurANSIState.Color.BG.Set( ANSISysColor_Yellow );
+					else if ( AnsiCode == ANSI_BG_Blue )
+						CurANSIState.Color.BG.Set( ANSISysColor_Blue );
+					else if ( AnsiCode == ANSI_BG_Magenta )
+						CurANSIState.Color.BG.Set( ANSISysColor_Magenta );
+					else if ( AnsiCode == ANSI_BG_Cyan )
+						CurANSIState.Color.BG.Set( ANSISysColor_Cyan );
+					else if ( AnsiCode == ANSI_BG_White )
+						CurANSIState.Color.BG.Set( ANSISysColor_White );
+					else if ( AnsiCode == ANSI_BG_Default )
+						CurANSIState.Color.BG.Set( ANSISysColor_Default );
+				}
+
+				// Now that we've got that color code, just continue and press on like normal
+				continue;
+			}
+
+			CurAChar = CurANSIState;
+			CurAChar.Glyph( *CurChar );
+			ConvertedStr.push_back( CurAChar );
+			CurAChar.Clear();
+
+			CurANSIState.Bell = false;		// Clear the bell each time so it isn't painted more than we actually want
 		}
 
 		return ConvertedStr;

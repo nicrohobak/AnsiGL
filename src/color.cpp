@@ -88,11 +88,15 @@ namespace AnsiGL
 		return (*_Palette)[_Index]->Render( desiredDepth, background );
 	}
 
-	void ColorComponent::assignMasterPalette()
+	void ColorComponent::initMasterPalette()
 	{
 		if ( !ANSIColorPalette::Master )
 			ANSIColorPalette::InitMasterPalette();
+	}
 
+	void ColorComponent::assignMasterPalette()
+	{
+		initMasterPalette();
 		_Palette = ANSIColorPalette::Master;
 	}
 

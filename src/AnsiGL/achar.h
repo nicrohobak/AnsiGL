@@ -312,6 +312,11 @@ namespace AnsiGL
 							   const achar &initialANSIState,
 							   const tColorCode *colorCodes = NULL );
 
+	// Similar to ConvertColorCodes(), but handles the standard ANSI escape codes instead
+	astring ConvertANSIColorCodes( const ustring &str );
+	astring ConvertANSIColorCodes( const ustring &str,
+								   const achar &initialANSIState );
+
 	std::ostream &operator<<( std::ostream &left, const achar &right );
 }
 

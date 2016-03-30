@@ -136,9 +136,9 @@ namespace AnsiGL
 	{
 		ColorDepth_First = 0,
 
-		ColorDepth_6Bit = ColorDepth_First,		// 64 total color combinations, 8 foreground and 8 background
-		ColorDepth_7Bit,				// 128 total color combinations, 16 foreground and 8 background
-		ColorDepth_8Bit,				// 256 color combinations for each the foreground and background
+		ColorDepth_6Bit = ColorDepth_First,	// 64 total color combinations, 8 foreground and 8 background
+		ColorDepth_7Bit,					// 128 total color combinations, 16 foreground and 8 background
+		ColorDepth_8Bit,					// 256 color combinations for each the foreground and background
 
 		ColorDepth_Max,
 
@@ -252,19 +252,19 @@ namespace AnsiGL
 		ANSIGL_POINTERS( ANSIColorDef )
 
 	protected:
-		ANSICodeList		_ANSI;						// The actual ANSI codes associated with our color
-		unsigned char		_Index;					// The computed 0-255 index for 8Bit colors
+		ANSICodeList			_ANSI;					// The actual ANSI codes associated with our color
+		unsigned char			_Index;					// The computed 0-255 index for 8Bit colors
 
-		ENUM_ANSISystemColors	_SystemColor;					// The first 16 ANSI colors (well, the first 8, and then again bold)
+		ENUM_ANSISystemColors	_SystemColor;			// The first 16 ANSI colors (well, the first 8, and then again bold)
 
-		unsigned char		_R;						// Range 0-5	RxGxB 6x6x6
-		unsigned char		_G;						// Range 0-5    215 colors
-		unsigned char		_B;						// Range 0-5
+		unsigned char			_R;						// Range 0-5	RxGxB 6x6x6
+		unsigned char			_G;						// Range 0-5    215 colors
+		unsigned char			_B;						// Range 0-5
 
-		unsigned char		_Grayscale;					// Range 0-23	24 colors
+		unsigned char			_Grayscale;				// Range 0-23	24 colors
 
 	public:
-		std::string		Name;						// A human-readable "common name" for this color
+		std::string				Name;					// A human-readable "common name" for this color
 
 	public:
 		ANSIColorDef():

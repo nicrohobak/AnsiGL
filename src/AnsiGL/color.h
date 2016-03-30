@@ -33,14 +33,14 @@ namespace AnsiGL
 			_Palette(palette),
 			_Index(-1)
 		{
-			// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
+			initMasterPalette();
 		}
 
 		ColorComponent( ANSIColorPalette::Ptr palette, const ANSIColorDef &color ):
 			_Palette(palette),
 			_Index(-1)
 		{
-			// This is one of the only 2 constructors that do NOT initialize the ANSIColorPalette::Master!
+			initMasterPalette();
 
 			if ( _Palette )
 				_Index = _Palette->FindIndex( color );
@@ -95,14 +95,14 @@ namespace AnsiGL
 
 		void Clear()
 		{
-			_Palette.reset();
 			_Index = -1;
 		}
 
 		std::string Render( ENUM_ColorDepth desiredDepth, bool background = false ) const;	// If background is true, this color is rendered as a background color
 
 	protected:
-		void assignMasterPalette();				// Initializes AnsiGL's master color palette: ANSIColorPalette::Master, if necessary then points _Palette over to it
+		void initMasterPalette();				// Initializes AnsiGL's master color palette: ANSIColorPalette::Master
+		void assignMasterPalette();				// Initializes the master color palette, necessary then points _Palette over to it
 	};
 
 
