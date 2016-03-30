@@ -110,9 +110,6 @@ namespace AnsiGL
 
 	void TextWindow::AddLineAtTop( const astring &line )
 	{
-		if ( line.empty() )
-			return;
-
 		Text::Ptr NewLine;
 
 		if ( _WordWrap )
@@ -131,9 +128,6 @@ namespace AnsiGL
 
 	void TextWindow::AddLineAtBottom( const astring &line )
 	{
-		if ( line.empty() )
-			return;
-
 		Text::Ptr NewLine = std::make_shared< Text >( line, Window::_Contents->Width(), _Alignment, ColorDepth_Default );
 
 		_Text.push_back( NewLine );
