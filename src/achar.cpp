@@ -112,8 +112,8 @@ namespace AnsiGL
 		{
 			char CheckChar = !(CurChar->Glyph().empty()) ? (CurChar->Glyph()[0]) : ('\0');
 
-			// Check for ASCII control characters, etc.  Replace them with a ' ' (space) glyph.
-			if ( CheckChar <= 32 )
+			// Check for ASCII control characters, etc.  Replace them with a ' ' (space) glyph...but not ANSI escape codes
+			if ( CheckChar <= 32 && CheckChar != '\033' )
 				CheckChar = 32;
 
 			// Check to see if we have a color sequence starting...if so...
