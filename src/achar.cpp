@@ -112,6 +112,10 @@ namespace AnsiGL
 		{
 			char CheckChar = !(CurChar->Glyph().empty()) ? (CurChar->Glyph()[0]) : ('\0');
 
+			// Check for ASCII control characters, etc.  Replace them with a ' ' (space) glyph.
+			if ( CheckChar <= 32 )
+				CheckChar = 32;
+
 			// Check to see if we have a color sequence starting...if so...
 			if ( CheckChar == CurColorCodes[ColorCode_Escape] )
 			{
@@ -419,6 +423,10 @@ namespace AnsiGL
 		{
 			char CheckChar = !(CurChar->Glyph().empty()) ? (CurChar->Glyph()[0]) : ('\0');
 			bool IsBold = false;
+
+			// Check for ASCII control characters, etc.  Replace them with a ' ' (space) glyph.
+			if ( CheckChar <= 32 )
+				CheckChar = 32;
 
 			// Check to see if we have a color sequence starting...if so...
 			// ASCII escape = '\033'

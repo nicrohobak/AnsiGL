@@ -123,6 +123,10 @@ namespace AnsiGL
 		achar NewCh = ch;
 		NewCh.Color = _CurColor.Color;
 
+		// Skip unprintables (TODO: Fix me(?).  This probably breaks unicode.)
+		if ( Glyph < 32 || Glyph > 127 )
+			return;
+
 		// Special buffering for color sequences
 		if ( _CaptureColor )
 		{
@@ -191,14 +195,9 @@ namespace AnsiGL
 		}
 
 		// Sacrificing the switch for flexibility
-		// Skip if it's NULL
-		if ( Glyph == 0 )
-		{
-			return;
-		}
 		// Backspace / delete
-		else if ( Glyph == 8
-			   || Glyph == 127 )
+		if ( Glyph == 8
+		  || Glyph == 127 )
 		{
 			_Input->pop_back();
 		}
