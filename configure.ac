@@ -4,7 +4,7 @@
 AC_PREREQ([2.68])
 AC_INIT([ansigl], [0.1], [nicro.hobak@gmail.com])
 AM_INIT_AUTOMAKE([-Wall])
-LT_INIT([disable-shared])
+LT_INIT([])
 AC_CONFIG_SRCDIR([src/surface.cpp])
 AC_CONFIG_HEADERS([config.h])
 AC_CONFIG_MACRO_DIR([m4])
